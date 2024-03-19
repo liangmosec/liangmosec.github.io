@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-    <meta name="description" content="第一章 应急响应-webshell查杀12345靶机账号密码 root xjwebshell1.黑客webshell里面的flag flag&#123;xxxxx-xxxx-xxxx-xxxx-xxxx&#125;2.黑客使用的什么工具的shell github地址的md5 flag&#123;md5&#125;3.黑客隐藏shell的完整路径的md5 flag&#123;md5&#125; 注">
+    <meta name="description" content="简介123456by:https:&#x2F;&#x2F;xj.edisec.net&#x2F;challenges&#x2F;25靶机账号密码 root xjwebshell1.黑客webshell里面的flag flag&#123;xxxxx-xxxx-xxxx-xxxx-xxxx&#125;2.黑客使用的什么工具的shell github地址的md5 flag&#123;md5&#125;3.黑客隐藏shell的完整路径的md5">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第一章-应急响应-webshell查杀">
 <meta property="og:url" content="https://liangmosec.github.io/2024/03/19/%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/index.html">
 <meta property="og:site_name" content="Liangmo_sec">
-<meta property="og:description" content="第一章 应急响应-webshell查杀12345靶机账号密码 root xjwebshell1.黑客webshell里面的flag flag&#123;xxxxx-xxxx-xxxx-xxxx-xxxx&#125;2.黑客使用的什么工具的shell github地址的md5 flag&#123;md5&#125;3.黑客隐藏shell的完整路径的md5 flag&#123;md5&#125; 注">
+<meta property="og:description" content="简介123456by:https:&#x2F;&#x2F;xj.edisec.net&#x2F;challenges&#x2F;25靶机账号密码 root xjwebshell1.黑客webshell里面的flag flag&#123;xxxxx-xxxx-xxxx-xxxx-xxxx&#125;2.黑客使用的什么工具的shell github地址的md5 flag&#123;md5&#125;3.黑客隐藏shell的完整路径的md5">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-03-19T11:14:11.000Z">
-<meta property="article:modified_time" content="2024-03-19T11:20:11.563Z">
+<meta property="article:modified_time" content="2024-03-19T11:43:31.264Z">
 <meta property="article:author" content="liangmo">
 <meta name="twitter:card" content="summary">
     
@@ -83,6 +83,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" aria-label="Previous post" href="/2024/03/19/%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-Linux%E5%85%A5%E4%BE%B5%E6%8E%92%E6%9F%A5/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" aria-label="Next post" href="/2024/02/22/Hard-Socnet2/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -114,7 +116,7 @@
     
     
       <div id="toc">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80"><span class="toc-number">1.</span> <span class="toc-text">第一章 应急响应-webshell查杀</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%BB%91%E5%AE%A2webshell%E9%87%8C%E9%9D%A2%E7%9A%84flag"><span class="toc-number">1.1.</span> <span class="toc-text">1.黑客webshell里面的flag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%BB%91%E5%AE%A2%E4%BD%BF%E7%94%A8%E7%9A%84%E4%BB%80%E4%B9%88%E5%B7%A5%E5%85%B7%E7%9A%84shell"><span class="toc-number">1.2.</span> <span class="toc-text">2.黑客使用的什么工具的shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%BB%91%E5%AE%A2%E9%9A%90%E8%97%8Fshell%E7%9A%84%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E7%9A%84md5-flag-md5"><span class="toc-number">1.3.</span> <span class="toc-text">3.黑客隐藏shell的完整路径的md5 flag{md5}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%BB%91%E5%AE%A2%E5%85%8D%E6%9D%80%E9%A9%AC%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84"><span class="toc-number">1.4.</span> <span class="toc-text">4.黑客免杀马完整路径</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%BB%91%E5%AE%A2webshell%E9%87%8C%E9%9D%A2%E7%9A%84flag"><span class="toc-number">1.1.</span> <span class="toc-text">1.黑客webshell里面的flag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%BB%91%E5%AE%A2%E4%BD%BF%E7%94%A8%E7%9A%84%E4%BB%80%E4%B9%88%E5%B7%A5%E5%85%B7%E7%9A%84shell"><span class="toc-number">1.2.</span> <span class="toc-text">2.黑客使用的什么工具的shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%BB%91%E5%AE%A2%E9%9A%90%E8%97%8Fshell%E7%9A%84%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E7%9A%84md5-flag-md5"><span class="toc-number">1.3.</span> <span class="toc-text">3.黑客隐藏shell的完整路径的md5 flag{md5}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%BB%91%E5%AE%A2%E5%85%8D%E6%9D%80%E9%A9%AC%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84"><span class="toc-number">1.4.</span> <span class="toc-text">4.黑客免杀马完整路径</span></a></li></ol></li></ol>
       </div>
     
   </span>
@@ -159,7 +161,9 @@
   
 
   <div class="content e-content" itemprop="articleBody">
-    <h2 id="第一章-应急响应-webshell查杀"><a href="#第一章-应急响应-webshell查杀" class="headerlink" title="第一章 应急响应-webshell查杀"></a>第一章 应急响应-webshell查杀</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">靶机账号密码 root xjwebshell</span><br><span class="line">1.黑客webshell里面的flag flag&#123;xxxxx-xxxx-xxxx-xxxx-xxxx&#125;</span><br><span class="line">2.黑客使用的什么工具的shell github地址的md5 flag&#123;md5&#125;</span><br><span class="line">3.黑客隐藏shell的完整路径的md5 flag&#123;md5&#125; 注 : /xxx/xxx/xxx/xxx/xxx.xxx</span><br><span class="line">4.黑客免杀马完整路径 md5 flag&#123;md5&#125;</span><br></pre></td></tr></table></figure>
+    <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">by:https://xj.edisec.net/challenges/25</span><br><span class="line">靶机账号密码 root xjwebshell</span><br><span class="line">1.黑客webshell里面的flag flag&#123;xxxxx-xxxx-xxxx-xxxx-xxxx&#125;</span><br><span class="line">2.黑客使用的什么工具的shell github地址的md5 flag&#123;md5&#125;</span><br><span class="line">3.黑客隐藏shell的完整路径的md5 flag&#123;md5&#125; 注 : /xxx/xxx/xxx/xxx/xxx.xxx</span><br><span class="line">4.黑客免杀马完整路径 md5 flag&#123;md5&#125;</span><br></pre></td></tr></table></figure>
+
+
 
 <h3 id="1-黑客webshell里面的flag"><a href="#1-黑客webshell里面的flag" class="headerlink" title="1.黑客webshell里面的flag"></a>1.黑客webshell里面的flag</h3><p>查找webshell</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -nr &quot;eval&quot; .</span><br></pre></td></tr></table></figure>
@@ -171,13 +175,14 @@
 
 
 
-<h3 id="2-黑客使用的什么工具的shell"><a href="#2-黑客使用的什么工具的shell" class="headerlink" title="2.黑客使用的什么工具的shell"></a>2.黑客使用的什么工具的shell</h3><p>webshell分析</p>
-<p>拿去分析可知</p>
-<p>是哥斯拉</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/BeichenDream/Godzilla">BeichenDream&#x2F;Godzilla: 哥斯拉 (github.com)</a></p>
+<h3 id="2-黑客使用的什么工具的shell"><a href="#2-黑客使用的什么工具的shell" class="headerlink" title="2.黑客使用的什么工具的shell"></a>2.黑客使用的什么工具的shell</h3><p>webshell分析<br>拿去分析<br>可知是哥斯拉<br><a target="_blank" rel="noopener" href="https://github.com/BeichenDream/Godzilla">BeichenDream&#x2F;Godzilla: 哥斯拉 (github.com)</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo -n &quot;date&quot; |md5sum |cut -d &quot; &quot; -f1</span><br><span class="line">flag&#123;39392de3218c333f794befef07ac9257&#125;</span><br></pre></td></tr></table></figure>
 
+
+
 <h3 id="3-黑客隐藏shell的完整路径的md5-flag-md5"><a href="#3-黑客隐藏shell的完整路径的md5-flag-md5" class="headerlink" title="3.黑客隐藏shell的完整路径的md5 flag{md5}"></a>3.黑客隐藏shell的完整路径的md5 flag{md5}</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">同上</span><br><span class="line">/var/www/html/include/Db/.Mysqli.php</span><br><span class="line">flag&#123;aebac0e58cd6c5fad1695ee4d1ac1919&#125;</span><br></pre></td></tr></table></figure>
+
+
 
 <h3 id="4-黑客免杀马完整路径"><a href="#4-黑客免杀马完整路径" class="headerlink" title="4.黑客免杀马完整路径"></a>4.黑客免杀马完整路径</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html/wap/top.php</span><br><span class="line">查看日志</span><br><span class="line">/var/log/apache2/access.log   发现有RCE 跟进分析</span><br><span class="line">flag&#123;eeff2eabfd9b7a6d26fc1a53d3f7d1de&#125;</span><br></pre></td></tr></table></figure>
 
@@ -210,7 +215,7 @@
     
     
       <div id="toc-footer" style="display: none">
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80"><span class="toc-number">1.</span> <span class="toc-text">第一章 应急响应-webshell查杀</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%BB%91%E5%AE%A2webshell%E9%87%8C%E9%9D%A2%E7%9A%84flag"><span class="toc-number">1.1.</span> <span class="toc-text">1.黑客webshell里面的flag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%BB%91%E5%AE%A2%E4%BD%BF%E7%94%A8%E7%9A%84%E4%BB%80%E4%B9%88%E5%B7%A5%E5%85%B7%E7%9A%84shell"><span class="toc-number">1.2.</span> <span class="toc-text">2.黑客使用的什么工具的shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%BB%91%E5%AE%A2%E9%9A%90%E8%97%8Fshell%E7%9A%84%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E7%9A%84md5-flag-md5"><span class="toc-number">1.3.</span> <span class="toc-text">3.黑客隐藏shell的完整路径的md5 flag{md5}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%BB%91%E5%AE%A2%E5%85%8D%E6%9D%80%E9%A9%AC%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84"><span class="toc-number">1.4.</span> <span class="toc-text">4.黑客免杀马完整路径</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%BB%91%E5%AE%A2webshell%E9%87%8C%E9%9D%A2%E7%9A%84flag"><span class="toc-number">1.1.</span> <span class="toc-text">1.黑客webshell里面的flag</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%BB%91%E5%AE%A2%E4%BD%BF%E7%94%A8%E7%9A%84%E4%BB%80%E4%B9%88%E5%B7%A5%E5%85%B7%E7%9A%84shell"><span class="toc-number">1.2.</span> <span class="toc-text">2.黑客使用的什么工具的shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%BB%91%E5%AE%A2%E9%9A%90%E8%97%8Fshell%E7%9A%84%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E7%9A%84md5-flag-md5"><span class="toc-number">1.3.</span> <span class="toc-text">3.黑客隐藏shell的完整路径的md5 flag{md5}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%BB%91%E5%AE%A2%E5%85%8D%E6%9D%80%E9%A9%AC%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84"><span class="toc-number">1.4.</span> <span class="toc-text">4.黑客免杀马完整路径</span></a></li></ol></li></ol>
       </div>
     
 
