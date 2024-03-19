@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>第一章-应急响应-webshell查杀</title>
+      <link href="/2024/03/19/%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/"/>
+      <url>/2024/03/19/%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/</url>
+      
+        <content type="html"><![CDATA[<h2 id="第一章-应急响应-webshell查杀"><a href="#第一章-应急响应-webshell查杀" class="headerlink" title="第一章 应急响应-webshell查杀"></a>第一章 应急响应-webshell查杀</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">靶机账号密码 root xjwebshell</span><br><span class="line">1.黑客webshell里面的flag flag&#123;xxxxx-xxxx-xxxx-xxxx-xxxx&#125;</span><br><span class="line">2.黑客使用的什么工具的shell github地址的md5 flag&#123;md5&#125;</span><br><span class="line">3.黑客隐藏shell的完整路径的md5 flag&#123;md5&#125; 注 : /xxx/xxx/xxx/xxx/xxx.xxx</span><br><span class="line">4.黑客免杀马完整路径 md5 flag&#123;md5&#125;</span><br></pre></td></tr></table></figure><h3 id="1-黑客webshell里面的flag"><a href="#1-黑客webshell里面的flag" class="headerlink" title="1.黑客webshell里面的flag"></a>1.黑客webshell里面的flag</h3><p>查找webshell</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep -nr &quot;eval&quot; .</span><br></pre></td></tr></table></figure><p>然后发现  &#x2F;var&#x2F;www&#x2F;html&#x2F;include&#x2F;gz.php</p><p>还有一个隐藏的shell</p><p>&#x2F;var&#x2F;www&#x2F;html&#x2F;include&#x2F;Db&#x2F;.Mysqli.php</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;027ccd04-5065-48b6-a32d-77c704a5e26d&#125;</span><br></pre></td></tr></table></figure><h3 id="2-黑客使用的什么工具的shell"><a href="#2-黑客使用的什么工具的shell" class="headerlink" title="2.黑客使用的什么工具的shell"></a>2.黑客使用的什么工具的shell</h3><p>webshell分析</p><p>拿去分析可知</p><p>是哥斯拉</p><p><a href="https://github.com/BeichenDream/Godzilla">BeichenDream&#x2F;Godzilla: 哥斯拉 (github.com)</a></p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo -n &quot;date&quot; |md5sum |cut -d &quot; &quot; -f1</span><br><span class="line">flag&#123;39392de3218c333f794befef07ac9257&#125;</span><br></pre></td></tr></table></figure><h3 id="3-黑客隐藏shell的完整路径的md5-flag-md5"><a href="#3-黑客隐藏shell的完整路径的md5-flag-md5" class="headerlink" title="3.黑客隐藏shell的完整路径的md5 flag{md5}"></a>3.黑客隐藏shell的完整路径的md5 flag{md5}</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">同上</span><br><span class="line">/var/www/html/include/Db/.Mysqli.php</span><br><span class="line">flag&#123;aebac0e58cd6c5fad1695ee4d1ac1919&#125;</span><br></pre></td></tr></table></figure><h3 id="4-黑客免杀马完整路径"><a href="#4-黑客免杀马完整路径" class="headerlink" title="4.黑客免杀马完整路径"></a>4.黑客免杀马完整路径</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html/wap/top.php</span><br><span class="line">查看日志</span><br><span class="line">/var/log/apache2/access.log   发现有RCE 跟进分析</span><br><span class="line">flag&#123;eeff2eabfd9b7a6d26fc1a53d3f7d1de&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> Forensics </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hard_Socnet2</title>
       <link href="/2024/02/22/Hard-Socnet2/"/>
       <url>/2024/02/22/Hard-Socnet2/</url>
