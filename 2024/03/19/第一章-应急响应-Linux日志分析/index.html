@@ -25,7 +25,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240319212322450.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240319212520695.png">
 <meta property="article:published_time" content="2024-03-19T14:52:45.000Z">
-<meta property="article:modified_time" content="2024-03-20T00:46:08.003Z">
+<meta property="article:modified_time" content="2024-03-20T00:50:24.808Z">
 <meta property="article:author" content="liangmo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240319202248197.png">
@@ -233,14 +233,10 @@
 <p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240319212520695.png" alt="image-20240319212520695"></p>
 <hr>
 <h4 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h4><p><code>grep -a &quot;Failed password for root&quot; /var/log/auth.log.1</code><br>该部分使用 grep 命令在文件 &#x2F;var&#x2F;log&#x2F;auth.log.1 中查找包含字符串 “Failed password for root” 的行<br> -a 选项表示以二进制模式处理文件，通常用于处理非文本文件</p>
-<p><code>awk &#39;&#123;print $11&#125;&#39;</code></p>
-<p> 该部分使用 awk 命令从匹配到的行中提取出第11个字段，即IP地址<br>默认情况下，awk 以空格为字段分隔符，因此这里假设IP地址是在日志中的第11个字段</p>
+<p><code>awk &#39;&#123;print $11&#125;&#39;</code><br>该部分使用 awk 命令从匹配到的行中提取出第11个字段，即IP地址<br>默认情况下，awk 以空格为字段分隔符，因此这里假设IP地址是在日志中的第11个字段</p>
 <p><code>sort</code><br> 该部分使用 sort 命令对提取出的IP地址进行排序。这是为了让相同的IP地址相邻，以便后面的统计。</p>
-<p><code>uniq -c</code></p>
-<p>该部分使用<code>uniq -c</code>命令进行唯一性和计数，它会显示每个唯一的IP地址及其出现的次数</p>
-<p>-c 选项用于显示每行重复出现的次数。</p>
-<p><code>sort -nr</code></p>
-<p>该部分使用 sort -nr 命令对计数结果进行排序，其中 -n 表示按数字顺序排序，-r 表示逆序（从高到低）排序</p>
+<p><code>uniq -c</code><br>该部分使用<code>uniq -c</code>命令进行唯一性和计数，它会显示每个唯一的IP地址及其出现的次数<br>-c 选项用于显示每行重复出现的次数。</p>
+<p><code>sort -nr</code><br>该部分使用 sort -nr 命令对计数结果进行排序，其中 -n 表示按数字顺序排序，-r 表示逆序（从高到低）排序</p>
 
   </div>
 </article>
