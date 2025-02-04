@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="日志文件在Windows系统中，日志默认存放位置目录为：%SystemRoot%\System32\Winevt\Logs\ 常见的 .evtx 文件    文件名 描述    Application.evtx 记录应用程序相关的事件日志   System.evtx 记录系统级别的事件日志   Security.evtx 记录安全事件和审计日志   Setup.evtx 记录与系统安装和升级相关的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows主机日志分析办法与思路">
+<meta property="og:url" content="https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="日志文件在Windows系统中，日志默认存放位置目录为：%SystemRoot%\System32\Winevt\Logs\ 常见的 .evtx 文件    文件名 描述    Application.evtx 记录应用程序相关的事件日志   System.evtx 记录系统级别的事件日志   Security.evtx 记录安全事件和审计日志   Setup.evtx 记录与系统安装和升级相关的">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-18T07:40:09.000Z">
+<meta property="article:modified_time" content="2024-07-18T07:43:34.522Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Windows主机日志分析办法与思路</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&text=Windows主机日志分析办法与思路"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&title=Windows主机日志分析办法与思路"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&is_video=false&description=Windows主机日志分析办法与思路"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Windows主机日志分析办法与思路&body=Check out this article: https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&title=Windows主机日志分析办法与思路"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&title=Windows主机日志分析办法与思路"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&title=Windows主机日志分析办法与思路"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&title=Windows主机日志分析办法与思路"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&name=Windows主机日志分析办法与思路&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&t=Windows主机日志分析办法与思路"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">日志文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-%E4%BA%8B%E4%BB%B6%E6%97%A5%E5%BF%97"><span class="toc-number">2.</span> <span class="toc-text">Windows 事件日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%BA%8B%E4%BB%B6-ID%E8%AF%B4%E6%98%8E%E5%8F%8A%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF"><span class="toc-number">3.</span> <span class="toc-text">常见的事件 ID说明及详细信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95%E4%B8%8E%E6%B3%A8%E9%94%80"><span class="toc-number">3.1.</span> <span class="toc-text">账户登录与注销</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B4%A6%E6%88%B7%E7%AE%A1%E7%90%86"><span class="toc-number">3.2.</span> <span class="toc-text">账户管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5%E5%8F%98%E6%9B%B4"><span class="toc-number">3.3.</span> <span class="toc-text">安全策略变更</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.4.</span> <span class="toc-text">系统事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E6%9D%83%E4%BD%BF%E7%94%A8"><span class="toc-number">3.5.</span> <span class="toc-text">特权使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.6.</span> <span class="toc-text">防火墙事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE"><span class="toc-number">3.7.</span> <span class="toc-text">文件访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81"><span class="toc-number">3.8.</span> <span class="toc-text">服务状态</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Windows主机日志分析办法与思路
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-18T07:40:09.000Z" class="dt-published" itemprop="datePublished">2024-07-18</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/">应急响应</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="日志文件"><a href="#日志文件" class="headerlink" title="日志文件"></a>日志文件</h3><p>在Windows系统中，日志默认存放位置目录为：%SystemRoot%\System32\Winevt\Logs\</p>
+<p><strong>常见的 .evtx 文件</strong></p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Application.evtx</strong></td>
+<td>记录应用程序相关的事件日志</td>
+</tr>
+<tr>
+<td><strong>System.evtx</strong></td>
+<td>记录系统级别的事件日志</td>
+</tr>
+<tr>
+<td><strong>Security.evtx</strong></td>
+<td>记录安全事件和审计日志</td>
+</tr>
+<tr>
+<td><strong>Setup.evtx</strong></td>
+<td>记录与系统安装和升级相关的事件日志</td>
+</tr>
+<tr>
+<td><strong>ForwardedEvents.evtx</strong></td>
+<td>用于记录从其他系统转发的事件日志</td>
+</tr>
+</tbody></table>
+<p>一般我们主要查看的三类日志是：应用程序日志、安全日志、系统日志</p>
+<ul>
+<li><p>应用程序日志：包含由应用程序或系统程序记录的事件，主要记录程序运行方面的事件，默认存放路径：%SystemRoot%\System32\Winevt\Logs\Application.evtx</p>
+</li>
+<li><p>安全日志：记录系统的安全审计事件，包含各种类型的登录日志、对象访问日志、进程追踪日志、特权使用、帐号管理、策略变更、系统事件。这个日志一般是安全工程师重点关注对象。默认存放路径：%SystemRoot%\System32\Winevt\Logs\Security.evtx</p>
+</li>
+<li><p>系统日志：记录操作系统组件产生的事件，主要包括驱动程序、系统组件和应用软件的崩溃以及数据丢失错误等。默认存放路径：%SystemRoot%\System32\Winevt\Logs\System.evtx</p>
+</li>
+</ul>
+<h3 id="Windows-事件日志"><a href="#Windows-事件日志" class="headerlink" title="Windows 事件日志"></a>Windows 事件日志</h3><p>Windows 事件日志是记录系统事件的文件，涵盖了应用程序错误、系统错误和安全事件等。通过这些日志，我们可以追溯问题发生的原因，了解计算机的健康状况，以及排除故障</p>
+<blockquote>
+<p>比如系统崩溃时，Windows 就会创建一个日志来记录崩溃原因。</p>
+</blockquote>
+<p>事件日志通常包括以下这些信息：</p>
+<ul>
+<li><strong>日志名称</strong>：事件所属的类型</li>
+</ul>
+<ul>
+<li><strong>来源</strong>：产生事件的应用或组件</li>
+<li><strong>事件 ID</strong>：用于识别具体事件的编号</li>
+<li><strong>级别</strong>：事件的严重程度，比如「信息」、「警告」和「错误」等</li>
+<li><strong>用户</strong>：事件发生时的用户账户</li>
+<li><strong>操作代码</strong>：也叫 OpCode，记录触发事件时所执行的操作</li>
+<li><strong>记录时间</strong>：事件发生的具体时间</li>
+<li><strong>任务类别</strong>：提供事件更多细节的分类</li>
+<li><strong>关键字</strong>：用于分类事件的关键词，常见的有「经典」</li>
+<li><strong>计算机</strong>：记录事件的计算机名称</li>
+</ul>
+<h3 id="常见的事件-ID说明及详细信息"><a href="#常见的事件-ID说明及详细信息" class="headerlink" title="常见的事件 ID说明及详细信息"></a><strong>常见的事件 ID说明及详细信息</strong></h3><h4 id="账户登录与注销"><a href="#账户登录与注销" class="headerlink" title="账户登录与注销"></a><strong>账户登录与注销</strong></h4><table>
+<thead>
+<tr>
+<th>事件ID</th>
+<th>说明</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4624</td>
+<td>用户成功登录到系统</td>
+<td>登录类型、登录用户、登录来源、IP地址</td>
+</tr>
+<tr>
+<td>4625</td>
+<td>用户尝试登录系统但失败</td>
+<td>失败原因、登录类型、失败的用户名</td>
+</tr>
+<tr>
+<td>4634</td>
+<td>用户成功注销系统</td>
+<td>注销的用户名、注销类型</td>
+</tr>
+<tr>
+<td>4647</td>
+<td>用户主动注销会话</td>
+<td>注销的用户名</td>
+</tr>
+</tbody></table>
+<h4 id="账户管理"><a href="#账户管理" class="headerlink" title="账户管理"></a><strong>账户管理</strong></h4><table>
+<thead>
+<tr>
+<th>事件ID</th>
+<th>说明</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4720</td>
+<td>系统中创建了新用户账户</td>
+<td>新账户名、创建的账户名</td>
+</tr>
+<tr>
+<td>4722</td>
+<td>用户账户被启用</td>
+<td>启动的账户名</td>
+</tr>
+<tr>
+<td>4725</td>
+<td>用户账户被禁用</td>
+<td>禁用的账户名</td>
+</tr>
+<tr>
+<td>4726</td>
+<td>用户账户被删除</td>
+<td>删除的账户名、删除者的账户名</td>
+</tr>
+</tbody></table>
+<h4 id="安全策略变更"><a href="#安全策略变更" class="headerlink" title="安全策略变更"></a><strong>安全策略变更</strong></h4><table>
+<thead>
+<tr>
+<th>事件ID</th>
+<th>说明</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4670</td>
+<td>权限服务状态发生了变更</td>
+<td>对象名称、权限变更的细节</td>
+</tr>
+<tr>
+<td>4719</td>
+<td>系统的审计策略发生了更改</td>
+<td>更改的策略、变更者的账户名</td>
+</tr>
+</tbody></table>
+<h4 id="系统事件"><a href="#系统事件" class="headerlink" title="系统事件"></a><strong>系统事件</strong></h4><table>
+<thead>
+<tr>
+<th>事件ID</th>
+<th>说明</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>6005</td>
+<td>Windows 事件日志服务启动</td>
+<td>无</td>
+</tr>
+<tr>
+<td>6006</td>
+<td>Windows 事件日志服务停止</td>
+<td>无</td>
+</tr>
+<tr>
+<td>6008</td>
+<td>系统未预期地关闭</td>
+<td>关机时间、原因等</td>
+</tr>
+</tbody></table>
+<h4 id="特权使用"><a href="#特权使用" class="headerlink" title="特权使用"></a><strong>特权使用</strong></h4><table>
+<thead>
+<tr>
+<th>事件ID</th>
+<th>说明</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4672</td>
+<td>分配给用户或组的特权服务</td>
+<td>特权类型、用户账户名</td>
+</tr>
+<tr>
+<td>4673</td>
+<td>请求执行特权服务</td>
+<td>请求的服务类型、用户账户名</td>
+</tr>
+</tbody></table>
+<h4 id="防火墙事件"><a href="#防火墙事件" class="headerlink" title="防火墙事件"></a><strong>防火墙事件</strong></h4><table>
+<thead>
+<tr>
+<th>事件ID</th>
+<th>说明</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4946</td>
+<td>新的防火墙规则被添加</td>
+<td>规则名称、添加者的账户名</td>
+</tr>
+<tr>
+<td>4947</td>
+<td>防火墙规则被修改</td>
+<td>规则名称、修改的细节</td>
+</tr>
+</tbody></table>
+<h4 id="文件访问"><a href="#文件访问" class="headerlink" title="文件访问"></a><strong>文件访问</strong></h4><table>
+<thead>
+<tr>
+<th>事件ID</th>
+<th>说明</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4663</td>
+<td>用户尝试访问受保护的文件或对象</td>
+<td>对象名称、访问的类型、用户账户名</td>
+</tr>
+</tbody></table>
+<h4 id="服务状态"><a href="#服务状态" class="headerlink" title="服务状态"></a><strong>服务状态</strong></h4><table>
+<thead>
+<tr>
+<th>事件ID</th>
+<th>说明</th>
+<th>详细信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7036</td>
+<td>服务已更改状态（如启动或停止）</td>
+<td>服务名称、新状态</td>
+</tr>
+</tbody></table>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">日志文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows-%E4%BA%8B%E4%BB%B6%E6%97%A5%E5%BF%97"><span class="toc-number">2.</span> <span class="toc-text">Windows 事件日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E4%BA%8B%E4%BB%B6-ID%E8%AF%B4%E6%98%8E%E5%8F%8A%E8%AF%A6%E7%BB%86%E4%BF%A1%E6%81%AF"><span class="toc-number">3.</span> <span class="toc-text">常见的事件 ID说明及详细信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B4%A6%E6%88%B7%E7%99%BB%E5%BD%95%E4%B8%8E%E6%B3%A8%E9%94%80"><span class="toc-number">3.1.</span> <span class="toc-text">账户登录与注销</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B4%A6%E6%88%B7%E7%AE%A1%E7%90%86"><span class="toc-number">3.2.</span> <span class="toc-text">账户管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E7%AD%96%E7%95%A5%E5%8F%98%E6%9B%B4"><span class="toc-number">3.3.</span> <span class="toc-text">安全策略变更</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.4.</span> <span class="toc-text">系统事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E6%9D%83%E4%BD%BF%E7%94%A8"><span class="toc-number">3.5.</span> <span class="toc-text">特权使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E4%BA%8B%E4%BB%B6"><span class="toc-number">3.6.</span> <span class="toc-text">防火墙事件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE"><span class="toc-number">3.7.</span> <span class="toc-text">文件访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81"><span class="toc-number">3.8.</span> <span class="toc-text">服务状态</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&text=Windows主机日志分析办法与思路"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&title=Windows主机日志分析办法与思路"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&is_video=false&description=Windows主机日志分析办法与思路"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Windows主机日志分析办法与思路&body=Check out this article: https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&title=Windows主机日志分析办法与思路"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&title=Windows主机日志分析办法与思路"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&title=Windows主机日志分析办法与思路"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&title=Windows主机日志分析办法与思路"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&name=Windows主机日志分析办法与思路&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/&t=Windows主机日志分析办法与思路"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

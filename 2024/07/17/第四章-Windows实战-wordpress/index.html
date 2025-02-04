@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="简介12345678by:https:&#x2F;&#x2F;xj.edisec.net&#x2F;challenges&#x2F;54administrator xj@1234561.请提交攻击者攻击成功的第一时间，格式：flag&#123;YY:MM:DD hh:mm:ss&#125;2.请提交攻击者的浏览器版本 flag&#123;Firgfox&#x2F;2200&#125;3.请提交攻击者目录扫描所使用的工具名称4.找到攻击者写入的恶意">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第四章_Windows实战-wordpress">
+<meta property="og:url" content="https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="简介12345678by:https:&#x2F;&#x2F;xj.edisec.net&#x2F;challenges&#x2F;54administrator xj@1234561.请提交攻击者攻击成功的第一时间，格式：flag&#123;YY:MM:DD hh:mm:ss&#125;2.请提交攻击者的浏览器版本 flag&#123;Firgfox&#x2F;2200&#125;3.请提交攻击者目录扫描所使用的工具名称4.找到攻击者写入的恶意">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717205325966.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717211729043.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717210745653.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717210434635.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717212122746.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717212429914.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717213057355.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717212958461.png">
+<meta property="article:published_time" content="2024-07-17T13:45:42.000Z">
+<meta property="article:modified_time" content="2024-07-17T14:01:32.796Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717205325966.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>第四章_Windows实战-wordpress</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-windows%E5%AE%9E%E6%88%98-%E5%90%91%E6%97%A5%E8%91%B5/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&text=第四章_Windows实战-wordpress"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&title=第四章_Windows实战-wordpress"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&is_video=false&description=第四章_Windows实战-wordpress"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=第四章_Windows实战-wordpress&body=Check out this article: https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&title=第四章_Windows实战-wordpress"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&title=第四章_Windows实战-wordpress"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&title=第四章_Windows实战-wordpress"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&title=第四章_Windows实战-wordpress"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&name=第四章_Windows实战-wordpress&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&t=第四章_Windows实战-wordpress"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AF%B7%E6%8F%90%E4%BA%A4%E6%94%BB%E5%87%BB%E8%80%85%E6%94%BB%E5%87%BB%E6%88%90%E5%8A%9F%E7%9A%84%E7%AC%AC%E4%B8%80%E6%97%B6%E9%97%B4%EF%BC%8C%E6%A0%BC%E5%BC%8F%EF%BC%9Aflag-YY-MM-DD-hh-mm-ss"><span class="toc-number">1.1.</span> <span class="toc-text">1.请提交攻击者攻击成功的第一时间，格式：flag{YY:MM:DD hh:mm:ss}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%AF%B7%E6%8F%90%E4%BA%A4%E6%94%BB%E5%87%BB%E8%80%85%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%89%88%E6%9C%AC-flag-Firgfox-2200"><span class="toc-number">1.2.</span> <span class="toc-text">2.请提交攻击者的浏览器版本 flag{Firgfox&#x2F;2200}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%AF%B7%E6%8F%90%E4%BA%A4%E6%94%BB%E5%87%BB%E8%80%85%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7%E5%90%8D%E7%A7%B0"><span class="toc-number">1.3.</span> <span class="toc-text">3.请提交攻击者目录扫描所使用的工具名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%89%BE%E5%88%B0%E6%94%BB%E5%87%BB%E8%80%85%E5%86%99%E5%85%A5%E7%9A%84%E6%81%B6%E6%84%8F%E5%90%8E%E9%97%A8%E6%96%87%E4%BB%B6%EF%BC%8C%E6%8F%90%E4%BA%A4%E6%96%87%E4%BB%B6%E5%90%8D%EF%BC%88%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">4.找到攻击者写入的恶意后门文件，提交文件名（完整路径）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%89%BE%E5%88%B0%E6%94%BB%E5%87%BB%E8%80%85%E9%9A%90%E8%97%8F%E5%9C%A8%E6%AD%A3%E5%B8%B8web%E5%BA%94%E7%94%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%EF%BC%8C%E6%8F%90%E4%BA%A4%E8%AF%A5%E6%96%87%E4%BB%B6%E5%90%8D%EF%BC%88%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">5.找到攻击者隐藏在正常web应用代码中的恶意代码，提交该文件名（完整路径）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%AF%B7%E6%8C%87%E5%87%BA%E5%8F%AF%E7%96%91%E8%BF%9B%E7%A8%8B%E9%87%87%E7%94%A8%E7%9A%84%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E5%90%AF%E5%8A%A8%E7%9A%84%E8%84%9A%E6%9C%AC%E7%9A%84%E5%90%8D%E5%AD%97-flag-1-exe"><span class="toc-number">1.6.</span> <span class="toc-text">6.请指出可疑进程采用的自动启动的方式，启动的脚本的名字 flag{1.exe}</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        第四章_Windows实战-wordpress
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-17T13:45:42.000Z" class="dt-published" itemprop="datePublished">2024-07-17</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/">应急响应</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">by:https://xj.edisec.net/challenges/54</span><br><span class="line">administrator xj@123456</span><br><span class="line">1.请提交攻击者攻击成功的第一时间，格式：flag&#123;YY:MM:DD hh:mm:ss&#125;</span><br><span class="line">2.请提交攻击者的浏览器版本 flag&#123;Firgfox/2200&#125;</span><br><span class="line">3.请提交攻击者目录扫描所使用的工具名称</span><br><span class="line">4.找到攻击者写入的恶意后门文件，提交文件名（完整路径）</span><br><span class="line">5.找到攻击者隐藏在正常web应用代码中的恶意代码，提交该文件名（完整路径）</span><br><span class="line">6.请指出可疑进程采用的自动启动的方式，启动的脚本的名字 flag&#123;1.exe&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>日志在nginx目录下</p>
+</blockquote>
+<h3 id="1-请提交攻击者攻击成功的第一时间，格式：flag-YY-MM-DD-hh-mm-ss"><a href="#1-请提交攻击者攻击成功的第一时间，格式：flag-YY-MM-DD-hh-mm-ss" class="headerlink" title="1.请提交攻击者攻击成功的第一时间，格式：flag{YY:MM:DD hh:mm:ss}"></a>1.请提交攻击者攻击成功的第一时间，格式：flag{YY:MM:DD hh:mm:ss}</h3><blockquote>
+<p>该日志文件很短  只有3435行</p>
+<p>不过 熟练一下awk在日志分析的利用</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk &#x27;&#123;print $1&#125;&#x27; access.log|sort|uniq -c|sort -r</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717205325966.png" alt="image-20240717205325966"> 可知道 192.168.141.55访问了3410次 主要去查看 有关 192.168.141.55 这个ip的访问内容 <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717211729043.png" alt="image-20240717211729043"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">状态码为302</span><br><span class="line">爆破用户名密码 成功登进后台</span><br><span class="line">/manage/login.php =&gt; /manage/welcome.php</span><br><span class="line">flag&#123;2023:04:29 22:45:23&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-请提交攻击者的浏览器版本-flag-Firgfox-2200"><a href="#2-请提交攻击者的浏览器版本-flag-Firgfox-2200" class="headerlink" title="2.请提交攻击者的浏览器版本 flag{Firgfox&#x2F;2200}"></a>2.请提交攻击者的浏览器版本 flag{Firgfox&#x2F;2200}</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717210745653.png" alt="image-20240717210745653"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;Firefox/110.0&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-请提交攻击者目录扫描所使用的工具名称"><a href="#3-请提交攻击者目录扫描所使用的工具名称" class="headerlink" title="3.请提交攻击者目录扫描所使用的工具名称"></a>3.请提交攻击者目录扫描所使用的工具名称</h3><p>查看日志记录中UA头  发现  大量的Fuzz Faster U Fool <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717210434635.png" alt="image-20240717210434635"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">可知道 攻击者从一开始 就一直Fuzz Faster U Fool v1.5.0扫</span><br><span class="line">flag&#123;Fuzz Faster U Fool&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-找到攻击者写入的恶意后门文件，提交文件名（完整路径）"><a href="#4-找到攻击者写入的恶意后门文件，提交文件名（完整路径）" class="headerlink" title="4.找到攻击者写入的恶意后门文件，提交文件名（完整路径）"></a>4.找到攻击者写入的恶意后门文件，提交文件名（完整路径）</h3><p>使用D盾进行扫描 <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717212122746.png" alt="image-20240717212122746"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;C:\phpstudy_pro\WWW\.x.php&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-找到攻击者隐藏在正常web应用代码中的恶意代码，提交该文件名（完整路径）"><a href="#5-找到攻击者隐藏在正常web应用代码中的恶意代码，提交该文件名（完整路径）" class="headerlink" title="5.找到攻击者隐藏在正常web应用代码中的恶意代码，提交该文件名（完整路径）"></a>5.找到攻击者隐藏在正常web应用代码中的恶意代码，提交该文件名（完整路径）</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717212429914.png" alt="image-20240717212429914"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;C:\phpstudy_pro\WWW\usr\themes\default\post.php&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-请指出可疑进程采用的自动启动的方式，启动的脚本的名字-flag-1-exe"><a href="#6-请指出可疑进程采用的自动启动的方式，启动的脚本的名字-flag-1-exe" class="headerlink" title="6.请指出可疑进程采用的自动启动的方式，启动的脚本的名字 flag{1.exe}"></a>6.请指出可疑进程采用的自动启动的方式，启动的脚本的名字 flag{1.exe}</h3><p>x.bat指向C:\Windows\360.exe <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717213057355.png" alt="image-20240717213057355"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240717212958461.png" alt="image-20240717212958461"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;x.bat&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AF%B7%E6%8F%90%E4%BA%A4%E6%94%BB%E5%87%BB%E8%80%85%E6%94%BB%E5%87%BB%E6%88%90%E5%8A%9F%E7%9A%84%E7%AC%AC%E4%B8%80%E6%97%B6%E9%97%B4%EF%BC%8C%E6%A0%BC%E5%BC%8F%EF%BC%9Aflag-YY-MM-DD-hh-mm-ss"><span class="toc-number">1.1.</span> <span class="toc-text">1.请提交攻击者攻击成功的第一时间，格式：flag{YY:MM:DD hh:mm:ss}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%AF%B7%E6%8F%90%E4%BA%A4%E6%94%BB%E5%87%BB%E8%80%85%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%89%88%E6%9C%AC-flag-Firgfox-2200"><span class="toc-number">1.2.</span> <span class="toc-text">2.请提交攻击者的浏览器版本 flag{Firgfox&#x2F;2200}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%AF%B7%E6%8F%90%E4%BA%A4%E6%94%BB%E5%87%BB%E8%80%85%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84%E5%B7%A5%E5%85%B7%E5%90%8D%E7%A7%B0"><span class="toc-number">1.3.</span> <span class="toc-text">3.请提交攻击者目录扫描所使用的工具名称</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%89%BE%E5%88%B0%E6%94%BB%E5%87%BB%E8%80%85%E5%86%99%E5%85%A5%E7%9A%84%E6%81%B6%E6%84%8F%E5%90%8E%E9%97%A8%E6%96%87%E4%BB%B6%EF%BC%8C%E6%8F%90%E4%BA%A4%E6%96%87%E4%BB%B6%E5%90%8D%EF%BC%88%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">4.找到攻击者写入的恶意后门文件，提交文件名（完整路径）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%89%BE%E5%88%B0%E6%94%BB%E5%87%BB%E8%80%85%E9%9A%90%E8%97%8F%E5%9C%A8%E6%AD%A3%E5%B8%B8web%E5%BA%94%E7%94%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E7%9A%84%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%EF%BC%8C%E6%8F%90%E4%BA%A4%E8%AF%A5%E6%96%87%E4%BB%B6%E5%90%8D%EF%BC%88%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">5.找到攻击者隐藏在正常web应用代码中的恶意代码，提交该文件名（完整路径）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%AF%B7%E6%8C%87%E5%87%BA%E5%8F%AF%E7%96%91%E8%BF%9B%E7%A8%8B%E9%87%87%E7%94%A8%E7%9A%84%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E5%90%AF%E5%8A%A8%E7%9A%84%E8%84%9A%E6%9C%AC%E7%9A%84%E5%90%8D%E5%AD%97-flag-1-exe"><span class="toc-number">1.6.</span> <span class="toc-text">6.请指出可疑进程采用的自动启动的方式，启动的脚本的名字 flag{1.exe}</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&text=第四章_Windows实战-wordpress"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&title=第四章_Windows实战-wordpress"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&is_video=false&description=第四章_Windows实战-wordpress"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=第四章_Windows实战-wordpress&body=Check out this article: https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&title=第四章_Windows实战-wordpress"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&title=第四章_Windows实战-wordpress"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&title=第四章_Windows实战-wordpress"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&title=第四章_Windows实战-wordpress"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&name=第四章_Windows实战-wordpress&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/07/17/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-wordpress/&t=第四章_Windows实战-wordpress"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

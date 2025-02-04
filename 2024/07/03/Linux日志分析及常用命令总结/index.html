@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="日志文件在Linux系统下，日志默认存放位置目录为：&#x2F;var&#x2F;log&#x2F;系统日志配置文件：&#x2F;etc&#x2F;rsyslog.conf 相关文件关系如下表：    日志文件 文件说明    &#x2F;var&#x2F;log&#x2F;cron 记录了系统定时任务相关的日志   &#x2F;var&#x2F;log&#x2F;cups 记录打印信息的日志">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux日志分析及常用命令总结">
+<meta property="og:url" content="https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="日志文件在Linux系统下，日志默认存放位置目录为：&#x2F;var&#x2F;log&#x2F;系统日志配置文件：&#x2F;etc&#x2F;rsyslog.conf 相关文件关系如下表：    日志文件 文件说明    &#x2F;var&#x2F;log&#x2F;cron 记录了系统定时任务相关的日志   &#x2F;var&#x2F;log&#x2F;cups 记录打印信息的日志">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-03T13:43:41.000Z">
+<meta property="article:modified_time" content="2024-07-16T08:27:17.490Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Linux日志分析及常用命令总结</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/07/04/%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90-apache%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/05/06/%E5%B8%95%E9%B2%81%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&text=Linux日志分析及常用命令总结"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&title=Linux日志分析及常用命令总结"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&is_video=false&description=Linux日志分析及常用命令总结"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux日志分析及常用命令总结&body=Check out this article: https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&title=Linux日志分析及常用命令总结"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&title=Linux日志分析及常用命令总结"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&title=Linux日志分析及常用命令总结"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&title=Linux日志分析及常用命令总结"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&name=Linux日志分析及常用命令总结&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&t=Linux日志分析及常用命令总结"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">日志文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grep%E3%80%81awk%E3%80%81sort%E3%80%81uniq%E7%AD%89%E5%91%BD%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">grep、awk、sort、uniq等命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#grep"><span class="toc-number">2.1.</span> <span class="toc-text">grep</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk"><span class="toc-number">2.2.</span> <span class="toc-text">awk</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#awk%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="toc-number">2.2.1.</span> <span class="toc-text">awk处理数据的方式：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sort"><span class="toc-number">2.3.</span> <span class="toc-text">sort</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uniq"><span class="toc-number">2.4.</span> <span class="toc-text">uniq</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Linux日志分析及常用命令总结
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-03T13:43:41.000Z" class="dt-published" itemprop="datePublished">2024-07-03</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/">应急响应</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h3 id="日志文件"><a href="#日志文件" class="headerlink" title="日志文件"></a>日志文件</h3><p>在Linux系统下，日志默认存放位置目录为：&#x2F;var&#x2F;log&#x2F;<br>系统日志配置文件：&#x2F;etc&#x2F;rsyslog.conf</p>
+<p>相关文件关系如下表：</p>
+<table>
+<thead>
+<tr>
+<th>日志文件</th>
+<th>文件说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x2F;var&#x2F;log&#x2F;cron</td>
+<td>记录了系统定时任务相关的日志</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;cups</td>
+<td>记录打印信息的日志</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;dmesg</td>
+<td>记录了系统在开机时内检的信息，也可以使用dmesg命令直接查看内核自检信息</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;maillog</td>
+<td>记录邮件信息</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;message</td>
+<td>记录系统重要信息的日志。这个日志文件中会记录Linux系统的绝大多数重要信息，如果系统出现问题时，首先要检查的就应该是这个日志文件</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;btmp</td>
+<td>记录错误登录日志，这个文件是二进制文件，不能直接vim查看，而要使用lastb命令查看</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;lastlog</td>
+<td>记录系统中所有用户最后一次登陆时间的日志，这个文件是二进制文件，不能直接vim，而要使用lastlog命令查看</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;wtmp</td>
+<td>永久记录所有用户的登录、注销信息，同时记录系统的启动、重启、关机事件。同样这个文件也是一个二进制文件，不能直接vim，而需要使用last命令来查看</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;run&#x2F;utmp</td>
+<td>记录当前已经登录的用户信息，这个文件会随着用户的登录和注销不断变化，只记录当前登录用户的信息。同样这个文件不能直接vim，而要使用w，who，users等命令来查询</td>
+</tr>
+<tr>
+<td>&#x2F;var&#x2F;log&#x2F;secure</td>
+<td>记录验证和授权方面的信息，只要涉及账号和密码的程序都会记录，比如SSH登录，su切换用户，sudo授权，甚至添加用户和修改用户密码都会记录在这个日志文件中</td>
+</tr>
+</tbody></table>
+<p>比较重要的几个日志：<br>登录失败日志：&#x2F;var&#x2F;log&#x2F;btmp,对应命令：lastb<br>最后一次登录：&#x2F;var&#x2F;log&#x2F;lastlog,对应命令：lastlog<br>登录成功记录：&#x2F;var&#x2F;log&#x2F;wtmp,对应命令：last<br>登录日志记录：&#x2F;var&#x2F;log&#x2F;secure<br>目前登录用户信息：&#x2F;var&#x2F;run&#x2F;utmp,对应命令：w、who、users</p>
+<h3 id="grep、awk、sort、uniq等命令"><a href="#grep、awk、sort、uniq等命令" class="headerlink" title="grep、awk、sort、uniq等命令"></a>grep、awk、sort、uniq等命令</h3><h4 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">grep参数：</span><br><span class="line">-a 不要忽略二进制数据。</span><br><span class="line">-i：在搜索的时候忽略大小写</span><br><span class="line">-n：显示结果所在行号</span><br><span class="line">-c：统计匹配到的行数，注意，是匹配到的总行数，不是匹配到的次数</span><br><span class="line">-o：只显示符合条件的字符串，但是不整行显示，每个符合条件的字符串单独显示一行</span><br><span class="line">-v：输出不带关键字的行（反向查询，反向匹配）</span><br><span class="line">-w：匹配整个单词，如果是字符串中包含这个单词，则不作匹配</span><br><span class="line">-Ax：在输出的时候包含结果所在行之后的指定行数，这里指之后的x行，A：after</span><br><span class="line">-Bx：在输出的时候包含结果所在行之前的指定行数，这里指之前的x行，B：before</span><br><span class="line">-Cx：在输出的时候包含结果所在行之前和之后的指定行数，这里指之前和之后的x行，C：context</span><br><span class="line">-e：实现多个选项的匹配，逻辑or关系</span><br><span class="line">-q：静默模式，不输出任何信息，当我们只关心有没有匹配到，却不关心匹配到什么内容时，我们可以使用此命令，然后，使用”echo $?”查看是否匹配到，0表示匹配到，1表示没有匹配到。</span><br><span class="line">-P：表示使用兼容perl的正则引擎。</span><br><span class="line">-E：使用扩展正则表达式，而不是基本正则表达式，在使用”-E”选项时，相当于使用egrep</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk是一种编程语言，用于linux下对文本和数据进行处理。数据可以来自标准输入、一个或多个文件，或其他命令的输出。</span><br></pre></td></tr></table></figure>
+
+<p><strong>更多作为脚本来使用。</strong></p>
+<h5 id="awk处理数据的方式："><a href="#awk处理数据的方式：" class="headerlink" title="awk处理数据的方式："></a>awk处理数据的方式：</h5><p>逐行扫描文件，寻找匹配的特定模式的行，并在这些行上进行你想要的操作。如果没有指定动作，则把匹配的行显示到标准输出（屏幕）。如果没有指定模式，则所有被操作所指定的行都被处理。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-f</td>
+<td>从脚本文件中读取awk命令</td>
+<td>常用</td>
+</tr>
+<tr>
+<td>-F</td>
+<td>指定输入文件折分隔符，fs是一个字符串或者是一个正则表达式，如-F: （–field-separator）</td>
+<td>常用</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>赋值一个用户定义变量</td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="sort"><a href="#sort" class="headerlink" title="sort"></a>sort</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可针对文本文件的内容，以行为单位来排序</span><br></pre></td></tr></table></figure>
+
+<p><code>sort [-bcdfimMnr][-o&lt;输出文件&gt;][-t&lt;分隔字符&gt;][+&lt;起始栏位&gt;-&lt;结束栏位&gt;][--help][--verison][文件][-k field1[,field2]]</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">参数说明</span><br><span class="line">-b 忽略每行前面开始出的空格字符。</span><br><span class="line">-c 检查文件是否已经按照顺序排序。</span><br><span class="line">-d 排序时，处理英文字母、数字及空格字符外，忽略其他的字符。</span><br><span class="line">-f 排序时，将小写字母视为大写字母。</span><br><span class="line">-i 排序时，除了040至176之间的ASCII字符外，忽略其他的字符。</span><br><span class="line">-m 将几个排序好的文件进行合并。</span><br><span class="line">-M 将前面3个字母依照月份的缩写进行排序。</span><br><span class="line">-n 依照数值的大小排序。</span><br><span class="line">-u 意味着是唯一的(unique)，输出的结果是去完重了的。</span><br><span class="line">-o&lt;输出文件&gt; 将排序后的结果存入指定的文件。</span><br><span class="line">-r 以相反的顺序来排序。</span><br><span class="line">-t&lt;分隔字符&gt; 指定排序时所用的栏位分隔字符。</span><br><span class="line">·+&lt;起始栏位&gt;-&lt;结束栏位&gt; 以指定的栏位来排序，范围由起始栏位到结束栏位的前一栏位。</span><br><span class="line">--help 显示帮助。</span><br><span class="line">--version 显示版本信息。</span><br><span class="line">[-k field1[,field2]] 按指定的列进行排序</span><br></pre></td></tr></table></figure>
+
+<h4 id="uniq"><a href="#uniq" class="headerlink" title="uniq"></a>uniq</h4><p>使用说明：</p>
+<p>这个命令读取输入文件，并比较相邻的行。在正常情况下，第二个及以后更多个重复行将被删去，行比较是根据所用字符集的排序序列进行的。该命令加工后的结果写到输出文件中。输入文件和输出文件必须不同。如果输入文件用“- ”表示，则从标准输入读取</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-c 显示输出中，在每行行首加上本行在文件中出现的次数。它可取代- u和- d选项。</span><br><span class="line">-d 只显示重复行。</span><br><span class="line">-u 只显示文件中不重复的各行。</span><br><span class="line">-n 前n个字段与每个字段前的空白一起被忽略。一个字段是一个非空格、非制表符的字符串，彼此由制表符和空格隔开(字段从0开始编号)。</span><br><span class="line">+n 前n个字符被忽略，之前的字符被跳过(字符从0开始编号)。</span><br><span class="line">-fn 与- n相同，这里n是字段数。</span><br><span class="line">-sn 与+n相同，这里n是字符数。</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-number">1.</span> <span class="toc-text">日志文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#grep%E3%80%81awk%E3%80%81sort%E3%80%81uniq%E7%AD%89%E5%91%BD%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">grep、awk、sort、uniq等命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#grep"><span class="toc-number">2.1.</span> <span class="toc-text">grep</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk"><span class="toc-number">2.2.</span> <span class="toc-text">awk</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#awk%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="toc-number">2.2.1.</span> <span class="toc-text">awk处理数据的方式：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sort"><span class="toc-number">2.3.</span> <span class="toc-text">sort</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#uniq"><span class="toc-number">2.4.</span> <span class="toc-text">uniq</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&text=Linux日志分析及常用命令总结"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&title=Linux日志分析及常用命令总结"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&is_video=false&description=Linux日志分析及常用命令总结"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Linux日志分析及常用命令总结&body=Check out this article: https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&title=Linux日志分析及常用命令总结"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&title=Linux日志分析及常用命令总结"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&title=Linux日志分析及常用命令总结"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&title=Linux日志分析及常用命令总结"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&name=Linux日志分析及常用命令总结&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/07/03/Linux%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8F%8A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/&t=Linux日志分析及常用命令总结"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

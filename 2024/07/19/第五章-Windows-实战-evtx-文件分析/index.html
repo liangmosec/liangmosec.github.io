@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="简介123456by:https:&#x2F;&#x2F;xj.edisec.net&#x2F;challenges&#x2F;711.将黑客成功登录系统所使用的IP地址作为Flag值提交；2.黑客成功登录系统后修改了登录用户的用户名，将修改后的用户名作为Flag值提交；3.黑客成功登录系统后成功访问了一个关键位置的文件，将该文件名称（文件名称不包含后缀）作为Flag值提交；4.黑客成功登录系统后重启过几次数据库服务，将最后一次重启数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第五章-Windows-实战-evtx-文件分析">
+<meta property="og:url" content="https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="简介123456by:https:&#x2F;&#x2F;xj.edisec.net&#x2F;challenges&#x2F;711.将黑客成功登录系统所使用的IP地址作为Flag值提交；2.黑客成功登录系统后修改了登录用户的用户名，将修改后的用户名作为Flag值提交；3.黑客成功登录系统后成功访问了一个关键位置的文件，将该文件名称（文件名称不包含后缀）作为Flag值提交；4.黑客成功登录系统后重启过几次数据库服务，将最后一次重启数据">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718190856507.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718192714972.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718233902100.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718234559961.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718235701961.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240719000408622.png">
+<meta property="article:published_time" content="2024-07-18T16:14:24.000Z">
+<meta property="article:modified_time" content="2024-07-19T00:31:26.739Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718190856507.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>第五章-Windows-实战-evtx-文件分析</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/07/20/%E7%AC%AC%E4%BA%94%E7%AB%A0-linux%E5%AE%9E%E6%88%98-%E6%8C%96%E7%9F%BF%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/07/18/Windows%E4%B8%BB%E6%9C%BA%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%8A%9E%E6%B3%95%E4%B8%8E%E6%80%9D%E8%B7%AF/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&text=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&title=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&is_video=false&description=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=第五章-Windows-实战-evtx-文件分析&body=Check out this article: https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&title=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&title=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&title=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&title=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&name=第五章-Windows-实战-evtx-文件分析&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&t=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B0%86%E9%BB%91%E5%AE%A2%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84IP%E5%9C%B0%E5%9D%80%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.1.</span> <span class="toc-text">1.将黑客成功登录系统所使用的IP地址作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%BB%91%E5%AE%A2%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E5%90%8E%E4%BF%AE%E6%94%B9%E4%BA%86%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%EF%BC%8C%E5%B0%86%E4%BF%AE%E6%94%B9%E5%90%8E%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.2.</span> <span class="toc-text">2.黑客成功登录系统后修改了登录用户的用户名，将修改后的用户名作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%BB%91%E5%AE%A2%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E5%90%8E%E6%88%90%E5%8A%9F%E8%AE%BF%E9%97%AE%E4%BA%86%E4%B8%80%E4%B8%AA%E5%85%B3%E9%94%AE%E4%BD%8D%E7%BD%AE%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B0%86%E8%AF%A5%E6%96%87%E4%BB%B6%E5%90%8D%E7%A7%B0%EF%BC%88%E6%96%87%E4%BB%B6%E5%90%8D%E7%A7%B0%E4%B8%8D%E5%8C%85%E5%90%AB%E5%90%8E%E7%BC%80%EF%BC%89%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.3.</span> <span class="toc-text">3.黑客成功登录系统后成功访问了一个关键位置的文件，将该文件名称（文件名称不包含后缀）作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%BB%91%E5%AE%A2%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E5%90%8E%E9%87%8D%E5%90%AF%E8%BF%87%E5%87%A0%E6%AC%A1%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%EF%BC%8C%E5%B0%86%E6%9C%80%E5%90%8E%E4%B8%80%E6%AC%A1%E9%87%8D%E5%90%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%90%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%BF%9B%E7%A8%8BID%E5%8F%B7%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.4.</span> <span class="toc-text">4.黑客成功登录系统后重启过几次数据库服务，将最后一次重启数据库服务后数据库服务的进程ID号作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%BB%91%E5%AE%A2%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E5%90%8E%E4%BF%AE%E6%94%B9%E4%BA%86%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E5%B9%B6%E5%AF%B9%E7%B3%BB%E7%BB%9F%E6%89%A7%E8%A1%8C%E4%BA%86%E5%A4%9A%E6%AC%A1%E9%87%8D%E5%90%AF%E6%93%8D%E4%BD%9C%EF%BC%8C%E5%B0%86%E9%BB%91%E5%AE%A2%E4%BD%BF%E7%94%A8%E4%BF%AE%E6%94%B9%E5%90%8E%E7%9A%84%E7%94%A8%E6%88%B7%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%AC%A1%E6%95%B0%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%E3%80%82"><span class="toc-number">1.5.</span> <span class="toc-text">5.黑客成功登录系统后修改了登录用户的用户名并对系统执行了多次重启操作，将黑客使用修改后的用户重启系统的次数作为Flag值提交。</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        第五章-Windows-实战-evtx-文件分析
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-18T16:14:24.000Z" class="dt-published" itemprop="datePublished">2024-07-19</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/">应急响应</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">by:https://xj.edisec.net/challenges/71</span><br><span class="line">1.将黑客成功登录系统所使用的IP地址作为Flag值提交；</span><br><span class="line">2.黑客成功登录系统后修改了登录用户的用户名，将修改后的用户名作为Flag值提交；</span><br><span class="line">3.黑客成功登录系统后成功访问了一个关键位置的文件，将该文件名称（文件名称不包含后缀）作为Flag值提交；</span><br><span class="line">4.黑客成功登录系统后重启过几次数据库服务，将最后一次重启数据库服务后数据库服务的进程ID号作为Flag值提交；</span><br><span class="line">5.黑客成功登录系统后修改了登录用户的用户名并对系统执行了多次重启操作，将黑客使用修改后的用户重启系统的次数作为Flag值提交。</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-将黑客成功登录系统所使用的IP地址作为Flag值提交；"><a href="#1-将黑客成功登录系统所使用的IP地址作为Flag值提交；" class="headerlink" title="1.将黑客成功登录系统所使用的IP地址作为Flag值提交；"></a>1.将黑客成功登录系统所使用的IP地址作为Flag值提交；</h3><p>查看安全日志(安全.evtx) <code>4624</code>筛选登录的日志<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718190856507.png" alt="image-20240718190856507"></p>
+<blockquote>
+<p>查看事件 发现如下IP</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">网络信息:</span><br><span class="line">	工作站名:	WIN-B1B1T3K57G9</span><br><span class="line">	源网络地址:	172.16.1.1</span><br><span class="line">	源端口:		60741</span><br><span class="line">网络信息:</span><br><span class="line">	工作站名:	WIN-B1B1T3K57G9</span><br><span class="line">	源网络地址:	127.0.0.1</span><br><span class="line">	源端口:		0</span><br><span class="line">网络信息:</span><br><span class="line">	工作站名:	WIN-B1B1T3K57G9</span><br><span class="line">	源网络地址:	192.168.36.133</span><br><span class="line">	源端口:		47076	</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;192.168.36.133&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-黑客成功登录系统后修改了登录用户的用户名，将修改后的用户名作为Flag值提交；"><a href="#2-黑客成功登录系统后修改了登录用户的用户名，将修改后的用户名作为Flag值提交；" class="headerlink" title="2.黑客成功登录系统后修改了登录用户的用户名，将修改后的用户名作为Flag值提交；"></a>2.黑客成功登录系统后修改了登录用户的用户名，将修改后的用户名作为Flag值提交；</h3><p>继续查看登录日志<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718192714972.png" alt="image-20240718192714972"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">新登录:</span><br><span class="line">	安全 ID:		S-1-5-21-17081676-1000286879-1443824681-500</span><br><span class="line">	帐户名:		Adnimistartro</span><br><span class="line">	帐户域:		WIN-B1B1T3K57G9</span><br><span class="line">	登录 ID:		0x1530B9</span><br><span class="line">	登录 GUID:		&#123;00000000-0000-0000-0000-000000000000&#125;</span><br><span class="line"></span><br><span class="line">进程信息:</span><br><span class="line">	进程 ID:		0x2878</span><br><span class="line">	进程名:		C:\Windows\System32\winlogon.exe</span><br><span class="line"></span><br><span class="line">网络信息:</span><br><span class="line">	工作站名:	WIN-B1B1T3K57G9</span><br><span class="line">	源网络地址:	192.168.36.133</span><br><span class="line">	源端口:		53971</span><br></pre></td></tr></table></figure>
+
+<p><code>4738</code>能够筛选更换用户名事件</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718233902100.png" alt="image-20240718233902100"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;Adnimistartro&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-黑客成功登录系统后成功访问了一个关键位置的文件，将该文件名称（文件名称不包含后缀）作为Flag值提交；"><a href="#3-黑客成功登录系统后成功访问了一个关键位置的文件，将该文件名称（文件名称不包含后缀）作为Flag值提交；" class="headerlink" title="3.黑客成功登录系统后成功访问了一个关键位置的文件，将该文件名称（文件名称不包含后缀）作为Flag值提交；"></a>3.黑客成功登录系统后成功访问了一个关键位置的文件，将该文件名称（文件名称不包含后缀）作为Flag值提交；</h3><p><code>4663</code>筛选成功访问的文件<br>根据时间确定 黑客登录系统后访问的那个关键位置文件，且多次查看<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718234559961.png" alt="image-20240718234559961"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">对象:</span><br><span class="line">	对象服务器:	Security</span><br><span class="line">	对象类型:	File</span><br><span class="line">	对象名:	C:\Windows\System32\SMI\Store\Machine\SCHEMA.DAT</span><br><span class="line">	句柄 ID:	0xce0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;SCHEMA&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-黑客成功登录系统后重启过几次数据库服务，将最后一次重启数据库服务后数据库服务的进程ID号作为Flag值提交；"><a href="#4-黑客成功登录系统后重启过几次数据库服务，将最后一次重启数据库服务后数据库服务的进程ID号作为Flag值提交；" class="headerlink" title="4.黑客成功登录系统后重启过几次数据库服务，将最后一次重启数据库服务后数据库服务的进程ID号作为Flag值提交；"></a>4.黑客成功登录系统后重启过几次数据库服务，将最后一次重启数据库服务后数据库服务的进程ID号作为Flag值提交；</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240718235701961.png" alt="image-20240718235701961"></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">Event</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://schemas.microsoft.com/win/2004/08/events/event&quot;</span>&gt;</span></span><br><span class="line">- <span class="tag">&lt;<span class="name">System</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Provider</span> <span class="attr">Name</span>=<span class="string">&quot;MySQL&quot;</span> /&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">EventID</span> <span class="attr">Qualifiers</span>=<span class="string">&quot;49152&quot;</span>&gt;</span>100<span class="tag">&lt;/<span class="name">EventID</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">Level</span>&gt;</span>4<span class="tag">&lt;/<span class="name">Level</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">Task</span>&gt;</span>0<span class="tag">&lt;/<span class="name">Task</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">Keywords</span>&gt;</span>0x80000000000000<span class="tag">&lt;/<span class="name">Keywords</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">TimeCreated</span> <span class="attr">SystemTime</span>=<span class="string">&quot;2020-10-08T07:53:09.0000000Z&quot;</span> /&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">EventRecordID</span>&gt;</span>313<span class="tag">&lt;/<span class="name">EventRecordID</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">Channel</span>&gt;</span>Application<span class="tag">&lt;/<span class="name">Channel</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">Computer</span>&gt;</span>WIN-B1B1T3K57G9<span class="tag">&lt;/<span class="name">Computer</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;<span class="name">Security</span> /&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">System</span>&gt;</span></span><br><span class="line">- <span class="tag">&lt;<span class="name">EventData</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Data</span>&gt;</span>.phpcustom_mysql (mysqld 5.5.62-log) starting as process 8820 ...<span class="tag">&lt;/<span class="name">Data</span>&gt;</span> </span><br><span class="line">  <span class="tag">&lt;/<span class="name">EventData</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">Event</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;8820&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-黑客成功登录系统后修改了登录用户的用户名并对系统执行了多次重启操作，将黑客使用修改后的用户重启系统的次数作为Flag值提交。"><a href="#5-黑客成功登录系统后修改了登录用户的用户名并对系统执行了多次重启操作，将黑客使用修改后的用户重启系统的次数作为Flag值提交。" class="headerlink" title="5.黑客成功登录系统后修改了登录用户的用户名并对系统执行了多次重启操作，将黑客使用修改后的用户重启系统的次数作为Flag值提交。"></a>5.黑客成功登录系统后修改了登录用户的用户名并对系统执行了多次重启操作，将黑客使用修改后的用户重启系统的次数作为Flag值提交。</h3><p><code>1074</code>筛选出查看计算机的开机、关机、重启的时间以及原因</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240719000408622.png" alt="image-20240719000408622">有5条重启记录,2条Adnimistartro、2条Administrator、1条SYSTEM<br>根据题意  黑客修改后的用户重启系统的次数为3次</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;3&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%B0%86%E9%BB%91%E5%AE%A2%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84IP%E5%9C%B0%E5%9D%80%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.1.</span> <span class="toc-text">1.将黑客成功登录系统所使用的IP地址作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%BB%91%E5%AE%A2%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E5%90%8E%E4%BF%AE%E6%94%B9%E4%BA%86%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%EF%BC%8C%E5%B0%86%E4%BF%AE%E6%94%B9%E5%90%8E%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.2.</span> <span class="toc-text">2.黑客成功登录系统后修改了登录用户的用户名，将修改后的用户名作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E9%BB%91%E5%AE%A2%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E5%90%8E%E6%88%90%E5%8A%9F%E8%AE%BF%E9%97%AE%E4%BA%86%E4%B8%80%E4%B8%AA%E5%85%B3%E9%94%AE%E4%BD%8D%E7%BD%AE%E7%9A%84%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B0%86%E8%AF%A5%E6%96%87%E4%BB%B6%E5%90%8D%E7%A7%B0%EF%BC%88%E6%96%87%E4%BB%B6%E5%90%8D%E7%A7%B0%E4%B8%8D%E5%8C%85%E5%90%AB%E5%90%8E%E7%BC%80%EF%BC%89%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.3.</span> <span class="toc-text">3.黑客成功登录系统后成功访问了一个关键位置的文件，将该文件名称（文件名称不包含后缀）作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%BB%91%E5%AE%A2%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E5%90%8E%E9%87%8D%E5%90%AF%E8%BF%87%E5%87%A0%E6%AC%A1%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%EF%BC%8C%E5%B0%86%E6%9C%80%E5%90%8E%E4%B8%80%E6%AC%A1%E9%87%8D%E5%90%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%90%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%BF%9B%E7%A8%8BID%E5%8F%B7%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.4.</span> <span class="toc-text">4.黑客成功登录系统后重启过几次数据库服务，将最后一次重启数据库服务后数据库服务的进程ID号作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E9%BB%91%E5%AE%A2%E6%88%90%E5%8A%9F%E7%99%BB%E5%BD%95%E7%B3%BB%E7%BB%9F%E5%90%8E%E4%BF%AE%E6%94%B9%E4%BA%86%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E5%B9%B6%E5%AF%B9%E7%B3%BB%E7%BB%9F%E6%89%A7%E8%A1%8C%E4%BA%86%E5%A4%9A%E6%AC%A1%E9%87%8D%E5%90%AF%E6%93%8D%E4%BD%9C%EF%BC%8C%E5%B0%86%E9%BB%91%E5%AE%A2%E4%BD%BF%E7%94%A8%E4%BF%AE%E6%94%B9%E5%90%8E%E7%9A%84%E7%94%A8%E6%88%B7%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%AC%A1%E6%95%B0%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%E3%80%82"><span class="toc-number">1.5.</span> <span class="toc-text">5.黑客成功登录系统后修改了登录用户的用户名并对系统执行了多次重启操作，将黑客使用修改后的用户重启系统的次数作为Flag值提交。</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&text=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&title=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&is_video=false&description=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=第五章-Windows-实战-evtx-文件分析&body=Check out this article: https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&title=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&title=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&title=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&title=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&name=第五章-Windows-实战-evtx-文件分析&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/07/19/%E7%AC%AC%E4%BA%94%E7%AB%A0-Windows-%E5%AE%9E%E6%88%98-evtx-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90/&t=第五章-Windows-实战-evtx-文件分析"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

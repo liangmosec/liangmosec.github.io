@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="背景信息12345678小路是一名实习生，接替公司前任网管的工作，一天发现公司网络出口出现了异常的通信，现需要通过回溯出口流量对异常点位(防火墙)进行定位，并确定异常的设备。然后进行深度取证检查（需要获取root权限）。现在需要你从网络攻击数据包中找出漏洞攻击的会话，分析会话编写exp或数据包重放获取防火墙设备管理员权限，查找防火墙设备上安装的木马，然后分析木马外联地址和通信密钥以及木马启动项位置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="威胁检测与网络流量分析_zeroshell">
+<meta property="og:url" content="https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="背景信息12345678小路是一名实习生，接替公司前任网管的工作，一天发现公司网络出口出现了异常的通信，现需要通过回溯出口流量对异常点位(防火墙)进行定位，并确定异常的设备。然后进行深度取证检查（需要获取root权限）。现在需要你从网络攻击数据包中找出漏洞攻击的会话，分析会话编写exp或数据包重放获取防火墙设备管理员权限，查找防火墙设备上安装的木马，然后分析木马外联地址和通信密钥以及木马启动项位置">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217165610596.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217170338381.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217170415113.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217170823445.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217165827583.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217170634861.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217170138853.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217193326115.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217193427479.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217194652788.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217194849703.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217195633640.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217195913680.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217201258624.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217201512209.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217202004448.png">
+<meta property="article:published_time" content="2024-12-16T08:00:00.000Z">
+<meta property="article:modified_time" content="2024-12-17T12:25:03.392Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217165610596.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>威胁检测与网络流量分析_zeroshell</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/07/20/%E7%AC%AC%E4%BA%94%E7%AB%A0-linux%E5%AE%9E%E6%88%98-%E6%8C%96%E7%9F%BF%EF%BC%88%E4%B8%80%EF%BC%89/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&text=威胁检测与网络流量分析_zeroshell"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&title=威胁检测与网络流量分析_zeroshell"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&is_video=false&description=威胁检测与网络流量分析_zeroshell"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=威胁检测与网络流量分析_zeroshell&body=Check out this article: https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&title=威胁检测与网络流量分析_zeroshell"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&title=威胁检测与网络流量分析_zeroshell"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&title=威胁检测与网络流量分析_zeroshell"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&title=威胁检测与网络流量分析_zeroshell"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&name=威胁检测与网络流量分析_zeroshell&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&t=威胁检测与网络流量分析_zeroshell"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">背景信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2"><span class="toc-number">2.</span> <span class="toc-text">环境部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">3.</span> <span class="toc-text">题目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%8C%85%E4%B8%AD%E6%89%BE%E5%87%BA%E6%94%BB%E5%87%BB%E8%80%85%E5%88%A9%E7%94%A8%E6%BC%8F%E6%B4%9E%E5%BC%80%E5%B1%95%E6%94%BB%E5%87%BB%E7%9A%84%E4%BC%9A%E8%AF%9D%EF%BC%88%E6%94%BB%E5%87%BB%E8%80%85%E6%89%A7%E8%A1%8C%E4%BA%86%E4%B8%80%E6%9D%A1%E5%91%BD%E4%BB%A4%EF%BC%89%EF%BC%8C%E5%86%99%E5%87%BA%E8%AF%A5%E4%BC%9A%E8%AF%9D%E4%B8%AD%E8%AE%BE%E7%BD%AE%E7%9A%84flag-%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxxxxxxx"><span class="toc-number">3.1.</span> <span class="toc-text">1.从数据包中找出攻击者利用漏洞开展攻击的会话（攻击者执行了一条命令），写出该会话中设置的flag, 结果提交形式：flag{xxxxxxxxx}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%80%9A%E8%BF%87%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90%EF%BC%8C%E7%84%B6%E5%90%8E%E6%9F%A5%E6%89%BE%E8%AE%BE%E5%A4%87%E4%B8%8A%E7%9A%84flag%E6%96%87%E4%BB%B6%EF%BC%8C%E6%8F%90%E5%8F%96flag%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxxxxxxxx"><span class="toc-number">3.2.</span> <span class="toc-text">2.通过漏洞利用获取设备控制权限，然后查找设备上的flag文件，提取flag文件内容，结果提交形式：flag{xxxxxxxxxx}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%89%BE%E5%87%BA%E5%8F%97%E6%8E%A7%E6%9C%BA%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E5%A4%87%E4%B8%AD%E9%A9%BB%E7%95%99%E6%9C%A8%E9%A9%AC%E7%9A%84%E5%A4%96%E8%81%94%E5%9F%9F%E5%90%8D%E6%88%96IP%E5%9C%B0%E5%9D%80%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxx-%EF%BC%8C%E5%A6%82flag-www-abc-com-%E6%88%96-flag-16-122-33-44"><span class="toc-number">3.3.</span> <span class="toc-text">3.找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式：flag{xxxx}，如flag{www.abc.com} 或 flag{16.122.33.44}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%AF%B7%E5%86%99%E5%87%BA%E6%9C%A8%E9%A9%AC%E8%BF%9B%E7%A8%8B%E6%89%A7%E8%A1%8C%E7%9A%84%E6%9C%AC%E4%BD%93%E6%96%87%E4%BB%B6%E7%9A%84%E5%90%8D%E7%A7%B0%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxxx-%EF%BC%8C%E4%BB%85%E5%86%99%E6%96%87%E4%BB%B6%E5%90%8D%E4%B8%8D%E5%8A%A0%E8%B7%AF%E5%BE%84"><span class="toc-number">3.4.</span> <span class="toc-text">4.请写出木马进程执行的本体文件的名称，结果提交形式：flag{xxxxx}，仅写文件名不加路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%AF%B7%E6%8F%90%E5%8F%96%E9%A9%BB%E7%95%99%E7%9A%84%E6%9C%A8%E9%A9%AC%E6%9C%AC%E4%BD%93%E6%96%87%E4%BB%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%89%BE%E5%87%BA%E6%9C%A8%E9%A9%AC%E6%A0%B7%E6%9C%AC%E9%80%9A%E4%BF%A1%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8A%A0%E5%AF%86%E5%AF%86%E9%92%A5%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxx"><span class="toc-number">3.5.</span> <span class="toc-text">5.请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式：flag{xxxx}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%AF%B7%E5%86%99%E5%87%BA%E9%A9%BB%E7%95%99%E6%9C%A8%E9%A9%AC%E7%9A%84%E5%90%AF%E5%8A%A8%E9%A1%B9%EF%BC%8C%E6%B3%A8%E6%84%8F%E5%86%99%E5%87%BA%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E3%80%82%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxx-%EF%BC%8C%E5%A6%82flag-a-b-c"><span class="toc-number">3.6.</span> <span class="toc-text">6.请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式：flag{xxxx}，如flag{&#x2F;a&#x2F;b&#x2F;c}</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        威胁检测与网络流量分析_zeroshell
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-12-16T08:00:00.000Z" class="dt-published" itemprop="datePublished">2024-12-16</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/">应急响应</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="背景信息"><a href="#背景信息" class="headerlink" title="背景信息"></a>背景信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">小路是一名实习生，接替公司前任网管的工作，一天发现公司网络出口出现了异常的通信，现需要通过回溯出口流量对异常点位(防火墙)进行定位，并确定异常的设备。然后进行深度取证检查（需要获取root权限）。现在需要你从网络攻击数据包中找出漏洞攻击的会话，分析会话编写exp或数据包重放获取防火墙设备管理员权限，查找防火墙设备上安装的木马，然后分析木马外联地址和通信密钥以及木马启动项位置。</span><br><span class="line"></span><br><span class="line">文件名：2e9c01da1d333cb8840968689ed3bc57.7z</span><br><span class="line">文件大小：270.1m</span><br><span class="line">下载链接1：https://pan.baidu.com/s/1N58ui-5Ll4Zk7Ys4SUGFvw 提取码：GAME</span><br><span class="line">下载链接2：https://drive.google.com/file/d/19VKjCBaF_X2VvexHGwS__TRhnS39njVT/view</span><br><span class="line">解压密码：11b0526b-9cfb-4ac4-8a75-10ad9097b7ce</span><br><span class="line">来源：长城杯&amp;CISCN官网</span><br></pre></td></tr></table></figure>
+
+<h2 id="环境部署"><a href="#环境部署" class="headerlink" title="环境部署"></a>环境部署</h2><ol>
+<li>使用VMware(推荐VMware17)加载zeroshell虚拟机</li>
+<li>打开虚拟网络编辑器<br> <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217165610596.png" alt="image-20241217165610596"></li>
+<li>选择VMnet8 Net模式网卡，选择更改配置<br> <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217170338381.png" alt="image-20241217170338381"></li>
+<li>选择VMnet8 网络，修改子网IP为61.139.2.0，再点击应用和确定<br> <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217170415113.png" alt="image-20241217170415113"></li>
+<li>启动虚拟机，等虚拟机启动完成后，浏览器打开<a target="_blank" rel="noopener" href="http://61.139.2.100/">http://61.139.2.100</a> 即可访问zeroshell防火墙环境<br> <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217170823445.png" alt="image-20241217170823445"></li>
+</ol>
+<p>如启动虚拟机 遇以下报错</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217165827583.png" alt="image-20241217165827583"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217170634861.png" alt="image-20241217170634861"></p>
+<p>说明虚拟机版本与VMware版本不兼容 可以直接编辑配置文件（zeroshell.vmx)</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217170138853.png" alt="image-20241217170138853"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">修改低于20的数值 我在这里修改为了16 继续启动虚拟机即可正常启动</span><br></pre></td></tr></table></figure>
+
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><h3 id="1-从数据包中找出攻击者利用漏洞开展攻击的会话（攻击者执行了一条命令），写出该会话中设置的flag-结果提交形式：flag-xxxxxxxxx"><a href="#1-从数据包中找出攻击者利用漏洞开展攻击的会话（攻击者执行了一条命令），写出该会话中设置的flag-结果提交形式：flag-xxxxxxxxx" class="headerlink" title="1.从数据包中找出攻击者利用漏洞开展攻击的会话（攻击者执行了一条命令），写出该会话中设置的flag, 结果提交形式：flag{xxxxxxxxx}"></a>1.从数据包中找出攻击者利用漏洞开展攻击的会话（攻击者执行了一条命令），写出该会话中设置的flag, 结果提交形式：flag{xxxxxxxxx}</h3><blockquote>
+<p> <code>ip.addr == 61.139.2.100 &amp;&amp; http</code></p>
+<p>防火墙 IP 为 61.139.2.100 猜测攻击者入口为web HTTP</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217193326115.png" alt="image-20241217193326115"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217193427479.png" alt="image-20241217193427479"><br>flag存在于tcp流243 base64解码即可得出<br>flag{6C2E38DA-D8E4-8D84-4A4F-E2ABD07A1F3A}</p>
+<h3 id="2-通过漏洞利用获取设备控制权限，然后查找设备上的flag文件，提取flag文件内容，结果提交形式：flag-xxxxxxxxxx"><a href="#2-通过漏洞利用获取设备控制权限，然后查找设备上的flag文件，提取flag文件内容，结果提交形式：flag-xxxxxxxxxx" class="headerlink" title="2.通过漏洞利用获取设备控制权限，然后查找设备上的flag文件，提取flag文件内容，结果提交形式：flag{xxxxxxxxxx}"></a>2.通过漏洞利用获取设备控制权限，然后查找设备上的flag文件，提取flag文件内容，结果提交形式：flag{xxxxxxxxxx}</h3><blockquote>
+<p>由上题很明显看出攻击者执行了 ps -ef 防火墙存在RCE</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217194652788.png" alt="image-20241217194652788"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">find / -name &#x27;flag&#x27;</span><br><span class="line">存在</span><br><span class="line">/DB/_DB.001/flag</span><br><span class="line">/Database/flag</span><br><span class="line">cat /DB/_DB.001/flag</span><br><span class="line">flag&#123;c6045425-6e6e-41d0-be09-95682a4f65c4&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217194849703.png" alt="image-20241217194849703"></p>
+<h3 id="3-找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式：flag-xxxx-，如flag-www-abc-com-或-flag-16-122-33-44"><a href="#3-找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式：flag-xxxx-，如flag-www-abc-com-或-flag-16-122-33-44" class="headerlink" title="3.找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式：flag{xxxx}，如flag{www.abc.com} 或 flag{16.122.33.44}"></a>3.找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式：flag{xxxx}，如flag{<a target="_blank" rel="noopener" href="http://www.abc.com}/">www.abc.com}</a> 或 flag{16.122.33.44}</h3><blockquote>
+<p>netstat -ano 查看网络信息</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217195633640.png" alt="image-20241217195633640"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;202.115.89.103&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-请写出木马进程执行的本体文件的名称，结果提交形式：flag-xxxxx-，仅写文件名不加路径"><a href="#4-请写出木马进程执行的本体文件的名称，结果提交形式：flag-xxxxx-，仅写文件名不加路径" class="headerlink" title="4.请写出木马进程执行的本体文件的名称，结果提交形式：flag{xxxxx}，仅写文件名不加路径"></a>4.请写出木马进程执行的本体文件的名称，结果提交形式：flag{xxxxx}，仅写文件名不加路径</h3><blockquote>
+<p><code>ps</code>查看进程</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217195913680.png" alt="image-20241217195913680"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">发现进程运行隐藏文件 .nginx </span><br><span class="line">flag&#123;.nginx&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式：flag-xxxx"><a href="#5-请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式：flag-xxxx" class="headerlink" title="5.请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式：flag{xxxx}"></a>5.请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式：flag{xxxx}</h3><blockquote>
+<p>使用wget获取<code>cat /tmp/.nginx</code>页面</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217201258624.png" alt="image-20241217201258624"><br>是一个elf执行文件<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217201512209.png" alt="image-20241217201512209"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">存在外联IP后面 可能就为加密密钥</span><br><span class="line">flag&#123;11223344qweasdzxc&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式：flag-xxxx-，如flag-a-b-c"><a href="#6-请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式：flag-xxxx-，如flag-a-b-c" class="headerlink" title="6.请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式：flag{xxxx}，如flag{&#x2F;a&#x2F;b&#x2F;c}"></a>6.请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式：flag{xxxx}，如flag{&#x2F;a&#x2F;b&#x2F;c}</h3><blockquote>
+<p><code>grep -nr &#39;.nginx&#39; /var</code> 在&#x2F;var目录下检索所有文件内容 内容中是否包含.nginx</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20241217202004448.png" alt="image-20241217202004448"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;/var/register/system/startup/scripts/nat/File&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">背景信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2"><span class="toc-number">2.</span> <span class="toc-text">环境部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">3.</span> <span class="toc-text">题目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%8C%85%E4%B8%AD%E6%89%BE%E5%87%BA%E6%94%BB%E5%87%BB%E8%80%85%E5%88%A9%E7%94%A8%E6%BC%8F%E6%B4%9E%E5%BC%80%E5%B1%95%E6%94%BB%E5%87%BB%E7%9A%84%E4%BC%9A%E8%AF%9D%EF%BC%88%E6%94%BB%E5%87%BB%E8%80%85%E6%89%A7%E8%A1%8C%E4%BA%86%E4%B8%80%E6%9D%A1%E5%91%BD%E4%BB%A4%EF%BC%89%EF%BC%8C%E5%86%99%E5%87%BA%E8%AF%A5%E4%BC%9A%E8%AF%9D%E4%B8%AD%E8%AE%BE%E7%BD%AE%E7%9A%84flag-%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxxxxxxx"><span class="toc-number">3.1.</span> <span class="toc-text">1.从数据包中找出攻击者利用漏洞开展攻击的会话（攻击者执行了一条命令），写出该会话中设置的flag, 结果提交形式：flag{xxxxxxxxx}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%80%9A%E8%BF%87%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E8%8E%B7%E5%8F%96%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6%E6%9D%83%E9%99%90%EF%BC%8C%E7%84%B6%E5%90%8E%E6%9F%A5%E6%89%BE%E8%AE%BE%E5%A4%87%E4%B8%8A%E7%9A%84flag%E6%96%87%E4%BB%B6%EF%BC%8C%E6%8F%90%E5%8F%96flag%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxxxxxxxx"><span class="toc-number">3.2.</span> <span class="toc-text">2.通过漏洞利用获取设备控制权限，然后查找设备上的flag文件，提取flag文件内容，结果提交形式：flag{xxxxxxxxxx}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%89%BE%E5%87%BA%E5%8F%97%E6%8E%A7%E6%9C%BA%E9%98%B2%E7%81%AB%E5%A2%99%E8%AE%BE%E5%A4%87%E4%B8%AD%E9%A9%BB%E7%95%99%E6%9C%A8%E9%A9%AC%E7%9A%84%E5%A4%96%E8%81%94%E5%9F%9F%E5%90%8D%E6%88%96IP%E5%9C%B0%E5%9D%80%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxx-%EF%BC%8C%E5%A6%82flag-www-abc-com-%E6%88%96-flag-16-122-33-44"><span class="toc-number">3.3.</span> <span class="toc-text">3.找出受控机防火墙设备中驻留木马的外联域名或IP地址，结果提交形式：flag{xxxx}，如flag{www.abc.com} 或 flag{16.122.33.44}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%AF%B7%E5%86%99%E5%87%BA%E6%9C%A8%E9%A9%AC%E8%BF%9B%E7%A8%8B%E6%89%A7%E8%A1%8C%E7%9A%84%E6%9C%AC%E4%BD%93%E6%96%87%E4%BB%B6%E7%9A%84%E5%90%8D%E7%A7%B0%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxxx-%EF%BC%8C%E4%BB%85%E5%86%99%E6%96%87%E4%BB%B6%E5%90%8D%E4%B8%8D%E5%8A%A0%E8%B7%AF%E5%BE%84"><span class="toc-number">3.4.</span> <span class="toc-text">4.请写出木马进程执行的本体文件的名称，结果提交形式：flag{xxxxx}，仅写文件名不加路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%AF%B7%E6%8F%90%E5%8F%96%E9%A9%BB%E7%95%99%E7%9A%84%E6%9C%A8%E9%A9%AC%E6%9C%AC%E4%BD%93%E6%96%87%E4%BB%B6%EF%BC%8C%E9%80%9A%E8%BF%87%E9%80%86%E5%90%91%E5%88%86%E6%9E%90%E6%89%BE%E5%87%BA%E6%9C%A8%E9%A9%AC%E6%A0%B7%E6%9C%AC%E9%80%9A%E4%BF%A1%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8A%A0%E5%AF%86%E5%AF%86%E9%92%A5%EF%BC%8C%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxx"><span class="toc-number">3.5.</span> <span class="toc-text">5.请提取驻留的木马本体文件，通过逆向分析找出木马样本通信使用的加密密钥，结果提交形式：flag{xxxx}</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%AF%B7%E5%86%99%E5%87%BA%E9%A9%BB%E7%95%99%E6%9C%A8%E9%A9%AC%E7%9A%84%E5%90%AF%E5%8A%A8%E9%A1%B9%EF%BC%8C%E6%B3%A8%E6%84%8F%E5%86%99%E5%87%BA%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E7%9A%84%E5%AE%8C%E6%95%B4%E8%B7%AF%E5%BE%84%E3%80%82%E7%BB%93%E6%9E%9C%E6%8F%90%E4%BA%A4%E5%BD%A2%E5%BC%8F%EF%BC%9Aflag-xxxx-%EF%BC%8C%E5%A6%82flag-a-b-c"><span class="toc-number">3.6.</span> <span class="toc-text">6.请写出驻留木马的启动项，注意写出启动文件的完整路径。结果提交形式：flag{xxxx}，如flag{&#x2F;a&#x2F;b&#x2F;c}</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&text=威胁检测与网络流量分析_zeroshell"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&title=威胁检测与网络流量分析_zeroshell"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&is_video=false&description=威胁检测与网络流量分析_zeroshell"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=威胁检测与网络流量分析_zeroshell&body=Check out this article: https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&title=威胁检测与网络流量分析_zeroshell"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&title=威胁检测与网络流量分析_zeroshell"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&title=威胁检测与网络流量分析_zeroshell"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&title=威胁检测与网络流量分析_zeroshell"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&name=威胁检测与网络流量分析_zeroshell&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/&t=威胁检测与网络流量分析_zeroshell"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

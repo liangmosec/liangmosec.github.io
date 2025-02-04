@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="背景信息1某天，小明正在某网站进行学习。突然，一位蛤客盯上了他，并向他发送了一封钓鱼邮件。由于小明刚接触网络安全，对钓鱼邮件并不熟悉，他不小心下载并点击了邮件中的附件。当他后来学习到钓鱼邮件的相关知识时，已经为时晚矣。于是，他请求你帮助找出蛤客的痕迹。请你针对附件镜像进行一次应急响应，查找以下flag值。压缩包附件的解压密码为：90382728-ca22-48e7-8413-61f6438f1b9">
+<meta property="og:type" content="article">
+<meta property="og:title" content="启航杯网络安全挑战赛-Win取证">
+<meta property="og:url" content="https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="背景信息1某天，小明正在某网站进行学习。突然，一位蛤客盯上了他，并向他发送了一封钓鱼邮件。由于小明刚接触网络安全，对钓鱼邮件并不熟悉，他不小心下载并点击了邮件中的附件。当他后来学习到钓鱼邮件的相关知识时，已经为时晚矣。于是，他请求你帮助找出蛤客的痕迹。请你针对附件镜像进行一次应急响应，查找以下flag值。压缩包附件的解压密码为：90382728-ca22-48e7-8413-61f6438f1b9">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190001740.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190040548.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126185913440.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190803348.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190942348.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126191109519.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190819932.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126194447202.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126194812945.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126194746553.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126194851453.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126194928424.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126195101585.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126195156304.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126195430813.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126195532955.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126195748848.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126211051798.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126212025905.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126191309965.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126202952563.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126235404813.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126203827121.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126203607426.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126203942409.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126200304206.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126210314098.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126210445603.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126210508893.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126210616459.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126200003571.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126200219074.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126231746593.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126232927886.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126233113621.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126233238499.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126211051798.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250127224635052.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250127224952739.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250127225245700.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250127225310518.png">
+<meta property="article:published_time" content="2025-01-26T15:30:00.000Z">
+<meta property="article:modified_time" content="2025-01-27T14:55:23.259Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190001740.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>启航杯网络安全挑战赛-Win取证</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/12/16/%E5%A8%81%E8%83%81%E6%A3%80%E6%B5%8B%E4%B8%8E%E7%BD%91%E7%BB%9C%E6%B5%81%E9%87%8F%E5%88%86%E6%9E%90-zeroshell/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&text=启航杯网络安全挑战赛-Win取证"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&title=启航杯网络安全挑战赛-Win取证"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&is_video=false&description=启航杯网络安全挑战赛-Win取证"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=启航杯网络安全挑战赛-Win取证&body=Check out this article: https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&title=启航杯网络安全挑战赛-Win取证"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&title=启航杯网络安全挑战赛-Win取证"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&title=启航杯网络安全挑战赛-Win取证"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&title=启航杯网络安全挑战赛-Win取证"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&name=启航杯网络安全挑战赛-Win取证&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&t=启航杯网络安全挑战赛-Win取证"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">背景信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E4%BB%BF%E7%9C%9F"><span class="toc-number">2.</span> <span class="toc-text">环境仿真</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">3.</span> <span class="toc-text">题目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%89%BE%E5%87%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E8%9B%A4%E5%AE%A2%E7%9A%84ip%E5%9C%B0%E5%9D%80%E5%8F%8A%E7%AB%AF%E5%8F%A3"><span class="toc-number">3.1.</span> <span class="toc-text">1.找出系统中蛤客的ip地址及端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%9B%A4%E5%AE%A2%E5%9C%A8%E6%8E%A7%E5%88%B6%E5%B0%8F%E6%98%8E%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%90%8E%EF%BC%8C%E5%88%9B%E5%BB%BA%E4%BA%86%E4%B8%80%E4%B8%AA%E6%9C%80%E9%AB%98%E6%9D%83%E9%99%90%E7%9A%84%E5%90%8E%E9%97%A8%E8%B4%A6%E6%88%B7%EF%BC%8C%E8%AF%B7%E4%BD%A0%E6%89%BE%E5%87%BA%E8%AF%A5%E8%B4%A6%E6%88%B7%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E5%8F%8A%E5%AF%86%E7%A0%81"><span class="toc-number">3.2.</span> <span class="toc-text">2.蛤客在控制小明的系统后，创建了一个最高权限的后门账户，请你找出该账户的用户名及密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%9B%A4%E5%AE%A2%E5%9C%A8home%E7%9B%AE%E5%BD%95%E4%B8%AD%E5%AD%98%E6%94%BE%E4%BA%86%E4%B8%80%E4%B8%AA%E6%81%B6%E6%84%8F%E7%A8%8B%E5%BA%8F%EF%BC%8C%E8%AF%B7%E4%BD%A0%E5%88%86%E6%9E%90%E8%AF%A5%E7%A8%8B%E5%BA%8F%EF%BC%8C%E5%B9%B6%E6%89%BE%E5%88%B0%E5%85%B6%E4%B8%AD%E7%9A%84flag%E5%80%BC"><span class="toc-number">3.3.</span> <span class="toc-text">3.蛤客在home目录中存放了一个恶意程序，请你分析该程序，并找到其中的flag值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%9B%A4%E5%AE%A2%E5%9C%A8%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E8%97%8F%E4%BA%86%E4%B8%80%E4%BA%9B%E4%B8%9C%E8%A5%BF%EF%BC%8C%E8%AF%B7%E4%BD%A0%E6%89%BE%E5%87%BA%E5%85%B6%E4%B8%AD%E7%9A%84flag%E5%80%BC"><span class="toc-number">3.4.</span> <span class="toc-text">4.蛤客在系统数据库中藏了一些东西，请你找出其中的flag值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%B0%8F%E6%98%8E%E5%9C%A8%E6%89%BE%E4%BD%A0%E5%B8%AE%E5%BF%99%E4%B9%8B%E5%89%8D%EF%BC%8C%E5%96%8A%E4%BA%86%E4%BB%96%E7%9A%84%E4%B8%80%E4%BD%8D%E5%A5%BD%E5%8F%8B%E5%B8%AE%E4%BB%96%E5%85%88%E8%A1%8C%E5%8F%96%E8%AF%81%EF%BC%8C%E8%AF%B7%E4%BD%A0%E6%89%BE%E5%87%BA%E4%BB%96%E5%A5%BD%E5%8F%8B%E8%BF%9C%E7%A8%8B%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84%E8%BD%AF%E4%BB%B6%EF%BC%8C%E5%B9%B6%E6%89%BE%E5%87%BA%E6%8E%A7%E5%88%B6%E4%BA%86%E5%A4%9A%E5%B0%91%E7%A7%92%EF%BC%8Cip%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">3.5.</span> <span class="toc-text">5.小明在找你帮忙之前，喊了他的一位好友帮他先行取证，请你找出他好友远程所使用的软件，并找出控制了多少秒，ip是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%AF%B7%E4%BD%A0%E6%89%BE%E5%87%BA%E8%9B%A4%E5%AE%A2%E5%9C%A8%E5%90%AF%E5%8A%A8%E9%A1%B9%E4%B8%AD%E8%97%8F%E7%9A%84flag"><span class="toc-number">3.6.</span> <span class="toc-text">6.请你找出蛤客在启动项中藏的flag</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        启航杯网络安全挑战赛-Win取证
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-01-26T15:30:00.000Z" class="dt-published" itemprop="datePublished">2025-01-26</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/">应急响应</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="背景信息"><a href="#背景信息" class="headerlink" title="背景信息"></a>背景信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">某天，小明正在某网站进行学习。突然，一位蛤客盯上了他，并向他发送了一封钓鱼邮件。由于小明刚接触网络安全，对钓鱼邮件并不熟悉，他不小心下载并点击了邮件中的附件。当他后来学习到钓鱼邮件的相关知识时，已经为时晚矣。于是，他请求你帮助找出蛤客的痕迹。请你针对附件镜像进行一次应急响应，查找以下flag值。压缩包附件的解压密码为：90382728-ca22-48e7-8413-61f6438f1b90。</span><br></pre></td></tr></table></figure>
+
+<h2 id="环境仿真"><a href="#环境仿真" class="headerlink" title="环境仿真"></a>环境仿真</h2><p>FTK挂载Windows.E01，导出C:\Windows\System32\config文件夹下的SAM、SYSTEM、SECURITY文件<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190001740.png" alt="image-20250126190001740"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190040548.png" alt="image-20250126190040548"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126185913440.png" alt="image-20250126185913440"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190803348.png" alt="image-20250126190803348"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190942348.png" alt="image-20250126190819932"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126191109519.png" alt="image-20250126191109519"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">得到两个用户</span><br><span class="line">admin:123456</span><br><span class="line">HackY$:123456</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考链接</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/NDASH/article/details/109295885">【电子取证：FTK Imager 篇】DD、E01系统镜像动态仿真_accessdata ftk imager教程</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41315957/article/details/120914608">Vmware安装虚拟机出现attempting to start up from？</a></p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126190819932.png" alt="image-20250126190819932"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126194447202.png" alt="image-20250126194447202"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126194812945.png" alt="image-20250126194812945"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126194746553.png" alt="image-20250126194746553"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126194851453.png" alt="image-20250126194851453"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126194928424.png" alt="image-20250126194928424"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126195101585.png" alt="image-20250126195101585"></p>
+<p>出现以下报错：<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126195156304.png" alt="image-20250126195156304"><br>关闭虚拟机修改此虚拟机配置文件</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126195430813.png" alt="image-20250126195430813"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126195532955.png" alt="image-20250126195532955"><br>将此行删掉再重新启动虚拟机，<br>使用Admin:123456登陆<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126195748848.png" alt="image-20250126195748848"></p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><h3 id="1-找出系统中蛤客的ip地址及端口"><a href="#1-找出系统中蛤客的ip地址及端口" class="headerlink" title="1.找出系统中蛤客的ip地址及端口"></a>1.找出系统中蛤客的ip地址及端口</h3><p>做最后一题找启动项中藏的flag时<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126211051798.png" alt="image-20250126211051798"><br>查HackY$用户 发现了可执行程序<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126212025905.png" alt="image-20250126212025905"></p>
+<h3 id="2-蛤客在控制小明的系统后，创建了一个最高权限的后门账户，请你找出该账户的用户名及密码"><a href="#2-蛤客在控制小明的系统后，创建了一个最高权限的后门账户，请你找出该账户的用户名及密码" class="headerlink" title="2.蛤客在控制小明的系统后，创建了一个最高权限的后门账户，请你找出该账户的用户名及密码"></a>2.蛤客在控制小明的系统后，创建了一个最高权限的后门账户，请你找出该账户的用户名及密码</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126191309965.png" alt="image-20250126191309965"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">RID  : 000003eb (1003)</span><br><span class="line">User : HackY$</span><br><span class="line">  Hash NTLM: 32ed87bdb5fdc5e9cba88547376818d4</span><br><span class="line">用户名为HackY$</span><br><span class="line">密码为123456</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-蛤客在home目录中存放了一个恶意程序，请你分析该程序，并找到其中的flag值"><a href="#3-蛤客在home目录中存放了一个恶意程序，请你分析该程序，并找到其中的flag值" class="headerlink" title="3.蛤客在home目录中存放了一个恶意程序，请你分析该程序，并找到其中的flag值"></a>3.蛤客在home目录中存放了一个恶意程序，请你分析该程序，并找到其中的flag值</h3><p>在Admin桌面下存在Hacker_.exe<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126202952563.png" alt="image-20250126202952563"><br>是个python打包的exe<br>pyinstxtractor逆向<br><code>python pyinstxtractor.py Hacker_.exe</code><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126235404813.png" alt="image-20250126235404813"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126203827121.png" alt="image-20250126203827121"><br>添加magic number<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126203607426.png" alt="image-20250126203607426"><br>Pycdc反编译或者<a target="_blank" rel="noopener" href="https://pylingual.io/">在线网站转pyc</a></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126203942409.png" alt="image-20250126203942409">源代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Decompiled with PyLingual (https://pylingual.io)</span></span><br><span class="line"><span class="comment"># Internal filename: 1.py</span></span><br><span class="line"><span class="comment"># Bytecode version: 3.11a7e (3495)</span></span><br><span class="line"><span class="comment"># Source timestamp: 1970-01-01 00:00:00 UTC (0)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.Padding <span class="keyword">import</span> pad</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">xor_encrypt</span>(<span class="params">data, key</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">bytes</span>([data[i][key, i, <span class="built_in">len</span>(key)] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data))])</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">aes_encrypt</span>(<span class="params">key, data</span>):</span><br><span class="line">    cipher = AES.new(key, AES.MODE_ECB)</span><br><span class="line">    encrypted_data = cipher.encrypt(pad(data.encode(<span class="string">&#x27;utf-8&#x27;</span>), AES.block_size))</span><br><span class="line">    <span class="keyword">return</span> encrypted_data</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">encrypt_message</span>(<span class="params">aes_key, message</span>):</span><br><span class="line">    aes_encrypted = aes_encrypt(aes_key, message)</span><br><span class="line">    base64_encoded = base64.b64encode(aes_encrypted)</span><br><span class="line">    xor_key = <span class="string">b&#x27;qihangcup&#x27;</span></span><br><span class="line">    xor_encrypted = xor_encrypt(base64_encoded, xor_key)</span><br><span class="line">    final_encrypted = base64.b64encode(xor_encrypted).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> final_encrypted</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    aes_key = <span class="string">b&#x27;acf8bafa15f8cb03&#x27;</span></span><br><span class="line">    message = <span class="string">&#x27;QHCTF&#123;xxxxxxxxxx&#125;&#x27;</span></span><br><span class="line">    encrypt_message1 = <span class="string">&#x27;HgIlNCQUF0MZRA0FMhwODBsTNjM4OQ8RMA81SCImFhQeVkQdCUJfMBs0Mx0fGVowIyoTJ0cdHCwKVwxIOQQCRA==&#x27;</span></span><br><span class="line">    encrypted_message = encrypt_message(aes_key, message)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;加密结果:&#x27;</span>, encrypted_message)</span><br></pre></td></tr></table></figure>
+
+<p>解密脚本（用了网上一位师傅的脚本）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">解密：逻辑</span><br><span class="line">将密文enc进行Base64解码。</span><br><span class="line">使用 XOR 密钥进行解密。</span><br><span class="line">再次进行 Base64 解码。</span><br><span class="line">使用 AES 密钥进行 AES-ECB 模式解密</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.Padding <span class="keyword">import</span> pad, unpad</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">xor_encrypt</span>(<span class="params">data, key</span>):</span><br><span class="line">    a = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(data)):</span><br><span class="line">        a += <span class="built_in">chr</span>(data[i] ^ key[i % <span class="built_in">len</span>(key)])</span><br><span class="line">    <span class="keyword">return</span> a.encode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">enc = <span class="string">&quot;HgIlNCQUF0MZRA0FMhwODBsTNjM4OQ8RMA81SCImFhQeVkQdCUJfMBs0Mx0fGVowIyoTJ0cdHCwKVwxIOQQCRA==&quot;</span></span><br><span class="line">data = base64.b64decode(enc)</span><br><span class="line"></span><br><span class="line">xor_key = <span class="string">b&#x27;qihangcup&#x27;</span></span><br><span class="line">xor_encrypted = xor_encrypt(data, xor_key)</span><br><span class="line"></span><br><span class="line">data = base64.b64decode(xor_encrypted)</span><br><span class="line"></span><br><span class="line">aes_key = <span class="string">b&#x27;acf8bafa15f8cb03&#x27;</span></span><br><span class="line">cipher = AES.new(aes_key, AES.MODE_ECB)</span><br><span class="line">decrData = unpad(cipher.decrypt(data), AES.block_size)</span><br><span class="line"><span class="built_in">print</span>(decrData)</span><br><span class="line"><span class="comment"># b&#x27;QHCTF&#123;8b0c14a8-5823-46fd-a547-0dcdc404a7ed&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126200304206.png" alt="image-20250126200304206"><br>存在flag.zip<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126210314098.png" alt="image-20250126210314098"><br>提示我们去查环境变量<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126210445603.png" alt="image-20250126210445603"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126210508893.png" alt="image-20250126210508893"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126210616459.png" alt="image-20250126210616459"></p>
+<h3 id="4-蛤客在系统数据库中藏了一些东西，请你找出其中的flag值"><a href="#4-蛤客在系统数据库中藏了一些东西，请你找出其中的flag值" class="headerlink" title="4.蛤客在系统数据库中藏了一些东西，请你找出其中的flag值"></a>4.蛤客在系统数据库中藏了一些东西，请你找出其中的flag值</h3><p>仿真后，Win+R打开运行框 发现历史记录regedit<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126200003571.png" alt="image-20250126200003571"><br>电脑桌面存在111.reg文件，里面也有此flag</p>
+<h3 id="5-小明在找你帮忙之前，喊了他的一位好友帮他先行取证，请你找出他好友远程所使用的软件，并找出控制了多少秒，ip是什么"><a href="#5-小明在找你帮忙之前，喊了他的一位好友帮他先行取证，请你找出他好友远程所使用的软件，并找出控制了多少秒，ip是什么" class="headerlink" title="5.小明在找你帮忙之前，喊了他的一位好友帮他先行取证，请你找出他好友远程所使用的软件，并找出控制了多少秒，ip是什么"></a>5.小明在找你帮忙之前，喊了他的一位好友帮他先行取证，请你找出他好友远程所使用的软件，并找出控制了多少秒，ip是什么</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126200219074.png" alt="image-20250126200219074"><br>打开资源管理器 发现大量日志文件，点击打开文件却消失了，可以使用DiskGenius进行恢复，或者将磁盘重新载入</p>
+<p><code>过滤port=</code> 发现唯有这个最特殊<br>或者查看其他日志  能发现 这段时间在数据传输</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">则就为 223.104.132.99:20000</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126231746593.png" alt="image-20250126231746593"></p>
+<p>排查2024-12-23 14:40:01左右的会话<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126232927886.png" alt="image-20250126232927886"></p>
+<p>定位到2024-12-23 14:39:59 通过35600端口进行收发数据<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126233113621.png" alt="image-20250126233113621"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126233238499.png" alt="image-20250126233238499"><br>在2024-12-23 14:53:00 断开会话，共781s</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Todesk</span><br><span class="line">781</span><br><span class="line">223.104.132.99</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="6-请你找出蛤客在启动项中藏的flag"><a href="#6-请你找出蛤客在启动项中藏的flag" class="headerlink" title="6.请你找出蛤客在启动项中藏的flag"></a>6.请你找出蛤客在启动项中藏的flag</h3><p>win + R输入shell:startup<br>Admin用户中为空</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250126211051798.png" alt="image-20250126211051798"><br>官方说在C∶&#x2F;Windows&#x2F;system32&#x2F;tasks&#x2F;Microsoft&#x2F;start<br>被Windows defender 杀了<br>将H:\ProgramData\Microsoft\Windows Defender\Quarantine文件夹提取<br>（也可仿真进行提取）<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250127224635052.png" alt="image-20250127224635052"></p>
+<p>使用<a target="_blank" rel="noopener" href="https://github.com/CyberGoatherder/WinDefReleaser">CyberGoatherder&#x2F;WinDefReleaser: Python tool to parse and decrypt files quarantined by windows defender</a>进行恢复<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250127224952739.png" alt="image-20250127224952739"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250127225245700.png" alt="image-20250127225245700"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250127225310518.png" alt="image-20250127225310518"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E4%BF%A1%E6%81%AF"><span class="toc-number">1.</span> <span class="toc-text">背景信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E4%BB%BF%E7%9C%9F"><span class="toc-number">2.</span> <span class="toc-text">环境仿真</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE"><span class="toc-number">3.</span> <span class="toc-text">题目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%89%BE%E5%87%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E8%9B%A4%E5%AE%A2%E7%9A%84ip%E5%9C%B0%E5%9D%80%E5%8F%8A%E7%AB%AF%E5%8F%A3"><span class="toc-number">3.1.</span> <span class="toc-text">1.找出系统中蛤客的ip地址及端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%9B%A4%E5%AE%A2%E5%9C%A8%E6%8E%A7%E5%88%B6%E5%B0%8F%E6%98%8E%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%90%8E%EF%BC%8C%E5%88%9B%E5%BB%BA%E4%BA%86%E4%B8%80%E4%B8%AA%E6%9C%80%E9%AB%98%E6%9D%83%E9%99%90%E7%9A%84%E5%90%8E%E9%97%A8%E8%B4%A6%E6%88%B7%EF%BC%8C%E8%AF%B7%E4%BD%A0%E6%89%BE%E5%87%BA%E8%AF%A5%E8%B4%A6%E6%88%B7%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E5%8F%8A%E5%AF%86%E7%A0%81"><span class="toc-number">3.2.</span> <span class="toc-text">2.蛤客在控制小明的系统后，创建了一个最高权限的后门账户，请你找出该账户的用户名及密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%9B%A4%E5%AE%A2%E5%9C%A8home%E7%9B%AE%E5%BD%95%E4%B8%AD%E5%AD%98%E6%94%BE%E4%BA%86%E4%B8%80%E4%B8%AA%E6%81%B6%E6%84%8F%E7%A8%8B%E5%BA%8F%EF%BC%8C%E8%AF%B7%E4%BD%A0%E5%88%86%E6%9E%90%E8%AF%A5%E7%A8%8B%E5%BA%8F%EF%BC%8C%E5%B9%B6%E6%89%BE%E5%88%B0%E5%85%B6%E4%B8%AD%E7%9A%84flag%E5%80%BC"><span class="toc-number">3.3.</span> <span class="toc-text">3.蛤客在home目录中存放了一个恶意程序，请你分析该程序，并找到其中的flag值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%9B%A4%E5%AE%A2%E5%9C%A8%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E8%97%8F%E4%BA%86%E4%B8%80%E4%BA%9B%E4%B8%9C%E8%A5%BF%EF%BC%8C%E8%AF%B7%E4%BD%A0%E6%89%BE%E5%87%BA%E5%85%B6%E4%B8%AD%E7%9A%84flag%E5%80%BC"><span class="toc-number">3.4.</span> <span class="toc-text">4.蛤客在系统数据库中藏了一些东西，请你找出其中的flag值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E5%B0%8F%E6%98%8E%E5%9C%A8%E6%89%BE%E4%BD%A0%E5%B8%AE%E5%BF%99%E4%B9%8B%E5%89%8D%EF%BC%8C%E5%96%8A%E4%BA%86%E4%BB%96%E7%9A%84%E4%B8%80%E4%BD%8D%E5%A5%BD%E5%8F%8B%E5%B8%AE%E4%BB%96%E5%85%88%E8%A1%8C%E5%8F%96%E8%AF%81%EF%BC%8C%E8%AF%B7%E4%BD%A0%E6%89%BE%E5%87%BA%E4%BB%96%E5%A5%BD%E5%8F%8B%E8%BF%9C%E7%A8%8B%E6%89%80%E4%BD%BF%E7%94%A8%E7%9A%84%E8%BD%AF%E4%BB%B6%EF%BC%8C%E5%B9%B6%E6%89%BE%E5%87%BA%E6%8E%A7%E5%88%B6%E4%BA%86%E5%A4%9A%E5%B0%91%E7%A7%92%EF%BC%8Cip%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">3.5.</span> <span class="toc-text">5.小明在找你帮忙之前，喊了他的一位好友帮他先行取证，请你找出他好友远程所使用的软件，并找出控制了多少秒，ip是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%AF%B7%E4%BD%A0%E6%89%BE%E5%87%BA%E8%9B%A4%E5%AE%A2%E5%9C%A8%E5%90%AF%E5%8A%A8%E9%A1%B9%E4%B8%AD%E8%97%8F%E7%9A%84flag"><span class="toc-number">3.6.</span> <span class="toc-text">6.请你找出蛤客在启动项中藏的flag</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&text=启航杯网络安全挑战赛-Win取证"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&title=启航杯网络安全挑战赛-Win取证"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&is_video=false&description=启航杯网络安全挑战赛-Win取证"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=启航杯网络安全挑战赛-Win取证&body=Check out this article: https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&title=启航杯网络安全挑战赛-Win取证"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&title=启航杯网络安全挑战赛-Win取证"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&title=启航杯网络安全挑战赛-Win取证"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&title=启航杯网络安全挑战赛-Win取证"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&name=启航杯网络安全挑战赛-Win取证&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2025/01/26/%E5%90%AF%E8%88%AA%E6%9D%AF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8C%91%E6%88%98%E8%B5%9B-Win%E5%8F%96%E8%AF%81/&t=启航杯网络安全挑战赛-Win取证"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
