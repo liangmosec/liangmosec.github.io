@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="简介1234567891011121314151617by:https:&#x2F;&#x2F;xj.edisec.net&#x2F;challenges&#x2F;140wp参考：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;QmBXMJ9juDKxD19iVlj95g登录账号密码：administrator&#x2F;Zhoudi666某医院系统疑似被攻击，攻击者常规手段获取到了后台账号密码，在此之前攻击者使用多个IP进行扫描，你作为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应急加固-医院脱库应急处理">
+<meta property="og:url" content="https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="简介1234567891011121314151617by:https:&#x2F;&#x2F;xj.edisec.net&#x2F;challenges&#x2F;140wp参考：https:&#x2F;&#x2F;mp.weixin.qq.com&#x2F;s&#x2F;QmBXMJ9juDKxD19iVlj95g登录账号密码：administrator&#x2F;Zhoudi666某医院系统疑似被攻击，攻击者常规手段获取到了后台账号密码，在此之前攻击者使用多个IP进行扫描，你作为">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513001328240.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513002016356.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513004924739.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513005458656.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513005421210.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513005857288.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513010045073.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513011418471.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513011649290.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513004924739.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513012842311.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513014045752.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513013502183.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513015217616.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513015502820.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513030944316.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513020438226.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513023054617.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513022733649.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513024641853.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513023300881.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513023750641.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513023905399.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513025847692.png">
+<meta property="article:published_time" content="2025-05-12T19:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-12T19:11:13.457Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513001328240.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>应急加固-医院脱库应急处理</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/04/24/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-thinkphpRCE%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&text=应急加固-医院脱库应急处理"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&title=应急加固-医院脱库应急处理"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&is_video=false&description=应急加固-医院脱库应急处理"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=应急加固-医院脱库应急处理&body=Check out this article: https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&title=应急加固-医院脱库应急处理"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&title=应急加固-医院脱库应急处理"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&title=应急加固-医院脱库应急处理"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&title=应急加固-医院脱库应急处理"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&name=应急加固-医院脱库应急处理&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&t=应急加固-医院脱库应急处理"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%A6%96%E6%AC%A1%E5%8F%91%E8%B5%B7%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F%E7%9A%84IP%E6%98%AF"><span class="toc-number">1.1.</span> <span class="toc-text">1.首次发起端口扫描的IP是</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%A1%E8%AE%A1%E6%B5%81%E9%87%8F%E5%92%8C%E6%97%A5%E5%BF%97%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D%E6%89%AB%E6%8F%8F%E6%AC%A1%E6%95%B0%E6%9C%80%E5%A4%9A%E7%9A%84IP"><span class="toc-number">1.2.</span> <span class="toc-text">2.审计流量和日志快速定位扫描次数最多的IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%A1%E8%AE%A1%E6%B5%81%E9%87%8F%E5%92%8C%E6%97%A5%E5%BF%97%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D%E6%89%AB%E6%8F%8F%E6%AC%A1%E6%95%B0%E7%AC%AC%E4%BA%8C%E7%9A%84IP"><span class="toc-number">1.3.</span> <span class="toc-text">3.审计流量和日志快速定位扫描次数第二的IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%93%AA%E4%B8%AAIP%E4%BD%BF%E7%94%A8%E4%BA%86AWVS%E6%89%AB%E6%8F%8F%E5%99%A8"><span class="toc-number">1.4.</span> <span class="toc-text">4.哪个IP使用了AWVS扫描器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%BF%98%E6%9C%89%E4%B8%AAIP%E4%B9%9F%E4%BD%BF%E7%94%A8%E4%BA%86%E6%89%AB%E6%8F%8F%E5%99%A8%E8%BF%9B%E8%A1%8C%E4%B8%BB%E6%9C%BA-WEB%E6%89%AB%E6%8F%8F%EF%BC%8C%E6%8F%90%E4%BA%A4%E5%85%B6%E6%89%AB%E6%8F%8F%E6%AC%A1%E6%95%B0-%E4%BB%A5wireshark%E6%95%B0%E9%87%8F%E4%B8%BA%E4%B8%BB"><span class="toc-number">1.5.</span> <span class="toc-text">5.还有个IP也使用了扫描器进行主机+WEB扫描，提交其扫描次数(以wireshark数量为主)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%BF%90%E7%BB%B4%E4%BA%BA%E5%91%98%E5%8F%91%E7%8E%B0%E6%9C%89IP%E8%BF%9B%E8%A1%8C%E4%BA%86WEB%E7%99%BB%E5%BD%95%E7%88%86%E7%A0%B4%EF%BC%8C%E6%8F%90%E4%BA%A4%E5%85%B6IP"><span class="toc-number">1.6.</span> <span class="toc-text">6.运维人员发现有IP进行了WEB登录爆破，提交其IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E8%BF%90%E7%BB%B4%E4%BA%BA%E5%91%98%E5%8F%91%E7%8E%B0%E6%9C%89IP%E8%BF%9B%E8%A1%8C%E4%BA%86WEB%E7%99%BB%E5%BD%95%E7%88%86%E7%A0%B4%EF%BC%8C%E6%8F%90%E4%BA%A4%E5%85%B6%E7%88%86%E7%A0%B4%E6%AC%A1%E6%95%B0"><span class="toc-number">1.7.</span> <span class="toc-text">7.运维人员发现有IP进行了WEB登录爆破，提交其爆破次数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E8%BF%90%E7%BB%B4%E5%8F%91%E7%8E%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E7%96%91%E4%BC%BC%E8%A2%AB%E5%86%99%E5%85%A5%E4%BA%86%E5%9E%83%E5%9C%BE%E7%94%A8%E6%88%B7-%E6%89%B9%E9%87%8F%E6%B3%A8%E5%86%8C-%E8%AF%B7%E6%8F%90%E4%BA%A4%E5%85%B6IP"><span class="toc-number">1.8.</span> <span class="toc-text">8.运维发现数据库疑似被写入了垃圾用户(批量注册)请提交其IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E8%BF%90%E7%BB%B4%E5%8F%91%E7%8E%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E7%96%91%E4%BC%BC%E8%A2%AB%E5%86%99%E5%85%A5%E4%BA%86%E5%9E%83%E5%9C%BE%E7%94%A8%E6%88%B7-%E6%89%B9%E9%87%8F%E6%B3%A8%E5%86%8C-%E8%AF%B7%E6%8F%90%E4%BA%A4%E6%B3%A8%E5%86%8C%E6%88%90%E5%8A%9F%E6%95%B0%E9%87%8F"><span class="toc-number">1.9.</span> <span class="toc-text">9.运维发现数据库疑似被写入了垃圾用户(批量注册)请提交注册成功数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E8%AF%B7%E6%8F%90%E4%BA%A4%E6%94%BB%E5%87%BB%E8%80%85%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9Fadmin%E7%94%A8%E6%88%B7%E7%9A%84IP%E5%8F%8A%E5%AF%86%E7%A0%81%EF%BC%8C%E4%BB%A5-%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.10.</span> <span class="toc-text">10.请提交攻击者登录成功admin用户的IP及密码，以&amp;连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%96%91%E4%BC%BC%E8%A2%AB%E8%84%B1%E5%BA%93%EF%BC%8C%E4%BD%A0%E9%9C%80%E8%A6%81%E6%89%BE%E5%88%B0%E6%BC%8F%E6%B4%9E%E7%82%B9%EF%BC%8C%E5%A6%82%E6%BC%8F%E6%B4%9E%E6%96%87%E4%BB%B6"><span class="toc-number">1.11.</span> <span class="toc-text">11.数据库疑似被脱库，你需要找到漏洞点，如漏洞文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E6%89%BE%E5%88%B0%E6%94%BB%E5%87%BB%E8%80%85%E8%8E%B7%E5%8F%96%E5%8C%BB%E9%99%A2%E6%95%B0%E6%8D%AE-%E6%82%A3%E8%80%85%E8%BA%AB%E4%BB%BD%E4%BF%A1%E6%81%AF%E7%9A%84%E6%95%B0%E9%87%8F"><span class="toc-number">1.12.</span> <span class="toc-text">12.找到攻击者获取医院数据(患者身份信息的数量)</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        应急加固-医院脱库应急处理
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-05-12T19:00:00.000Z" class="dt-published" itemprop="datePublished">2025-05-13</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/">应急响应</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">by:https://xj.edisec.net/challenges/140</span><br><span class="line">wp参考：https://mp.weixin.qq.com/s/QmBXMJ9juDKxD19iVlj95g</span><br><span class="line">登录账号密码：administrator/Zhoudi666</span><br><span class="line">某医院系统疑似被攻击，攻击者常规手段获取到了后台账号密码，在此之前攻击者使用多个IP进行扫描，你作为安全服务工程师需要分析其流量包和日志来快速审计，每个IP的扫描特征并快速归类，并思考在常规渗透中，攻击者是怎么获取到的管理员密码进行登录的后台</span><br><span class="line"></span><br><span class="line">1.首次发起端口扫描的IP是</span><br><span class="line">2.审计流量和日志快速定位扫描次数最多的IP</span><br><span class="line">3.审计流量和日志快速定位扫描次数第二的IP</span><br><span class="line">4.哪个IP使用了AWVS扫描器</span><br><span class="line">5.还有个IP也使用了扫描器进行主机+WEB扫描，提交其扫描次数(以wireshark数量为主)</span><br><span class="line">6.运维人员发现有IP进行了WEB登录爆破，提交其IP</span><br><span class="line">7.运维人员发现有IP进行了WEB登录爆破，提交其爆破次数</span><br><span class="line">8.运维发现数据库疑似被写入了垃圾用户(批量注册)请提交其IP</span><br><span class="line">9.运维发现数据库疑似被写入了垃圾用户(批量注册)请提交注册成功数量</span><br><span class="line">10.请提交攻击者登录成功admin用户的IP及密码，以&amp;连接</span><br><span class="line">11.数据库疑似被脱库，你需要找到漏洞点，如漏洞文件</span><br><span class="line">12.找到攻击者获取医院数据(患者身份信息的数量)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>环境分析</p>
+<p>Windows（小皮面板（nginx+mysql））</p>
+</blockquote>
+<h3 id="1-首次发起端口扫描的IP是"><a href="#1-首次发起端口扫描的IP是" class="headerlink" title="1.首次发起端口扫描的IP是"></a>1.首次发起端口扫描的IP是</h3><p><code>tcp.flags.syn == 1 &amp;&amp; tcp.flags.ack == 0</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513001328240.png" alt="image-20250513001328240"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">可知首次发起端口扫描的IP为192.168.37.3 </span><br><span class="line">网站地址为192.168.37.2</span><br><span class="line">192.168.37.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-审计流量和日志快速定位扫描次数最多的IP"><a href="#2-审计流量和日志快速定位扫描次数最多的IP" class="headerlink" title="2.审计流量和日志快速定位扫描次数最多的IP"></a>2.审计流量和日志快速定位扫描次数最多的IP</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513002016356.png" alt="image-20250513002016356"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">由一得  网站地址为192.168.37.2</span><br><span class="line">然后根据Wireshark 端点统计</span><br><span class="line">能定位192.168.37.3为扫描次数最多的IP</span><br><span class="line">192.168.37.3</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>由参考wp学习了一手对Zui的使用</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">介绍也是来自参考wp中</span><br><span class="line">ZUI，前身叫brim，国内关于它的文章很少，我也是学了几天的，这个工具的优点是当我们导入流量包以后，它会将流量数据拆为五元组，我想很多做安服的师傅都多少熟悉，很多设备上都会有五元组的字眼，将流量转为log后，我们可以快速的聚合和查询，几乎不用等待加载的过程</span><br></pre></td></tr></table></figure>
+
+<p><code>count () by http,status_code, id.orig_h|status_code==404</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">count () by http,status_code, id.orig_h|status_code==404</span><br><span class="line">通过筛选404 对各IP的情况进行计数 </span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513004924739.png" alt="image-20250513004924739"><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513005458656.png" alt="image-20250513005458656"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513005421210.png" alt="image-20250513005421210"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">通过Wireshark结合ZUI辅助定位更加准确</span><br><span class="line">192.168.37.1  共有 28355</span><br><span class="line">192.168.37.3  共有 29137</span><br><span class="line">故次数最多的IP为192.168.37.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-审计流量和日志快速定位扫描次数第二的IP"><a href="#3-审计流量和日志快速定位扫描次数第二的IP" class="headerlink" title="3.审计流量和日志快速定位扫描次数第二的IP"></a>3.审计流量和日志快速定位扫描次数第二的IP</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">由2得</span><br><span class="line">192.168.37.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-哪个IP使用了AWVS扫描器"><a href="#4-哪个IP使用了AWVS扫描器" class="headerlink" title="4.哪个IP使用了AWVS扫描器"></a>4.哪个IP使用了AWVS扫描器</h3><blockquote>
+<p>在正常的AWVS漏洞扫描特征中，除了一些UA的变化还有一个最明显的请求头和路径中有：<strong>acunetix</strong>特征，还有一个域名特征：<strong>bxss.me</strong></p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513005857288.png" alt="image-20250513005857288"><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513010045073.png" alt="image-20250513010045073"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.37.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-还有个IP也使用了扫描器进行主机-WEB扫描，提交其扫描次数-以wireshark数量为主"><a href="#5-还有个IP也使用了扫描器进行主机-WEB扫描，提交其扫描次数-以wireshark数量为主" class="headerlink" title="5.还有个IP也使用了扫描器进行主机+WEB扫描，提交其扫描次数(以wireshark数量为主)"></a>5.还有个IP也使用了扫描器进行主机+WEB扫描，提交其扫描次数(以wireshark数量为主)</h3><p><code>tcp.flags.syn == 1&amp;&amp; tcp.flags.ack == 0 &amp;&amp; ip.addr != 192.168.37.1 &amp;&amp; ip.addr !=192.168.37.3</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513011418471.png" alt="image-20250513011418471"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513011649290.png" alt="image-20250513011649290"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">过滤主机扫描 以及前面出现的IP</span><br><span class="line">定位到192.168.37.100</span><br><span class="line">192.168.37.177</span><br><span class="line">192.168.37.200</span><br><span class="line">192.168.37.87</span><br></pre></td></tr></table></figure>
+
+<p>由题2中<br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513004924739.png" alt="image-20250513004924739"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可确定 192.168.37.100</span><br></pre></td></tr></table></figure>
+
+<p><code>ip.src == 192.168.37.100 &amp;&amp; ip.dst == 192.168.37.2</code><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513012842311.png" alt="image-20250513012842311"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4812</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-运维人员发现有IP进行了WEB登录爆破，提交其IP"><a href="#6-运维人员发现有IP进行了WEB登录爆破，提交其IP" class="headerlink" title="6.运维人员发现有IP进行了WEB登录爆破，提交其IP"></a>6.运维人员发现有IP进行了WEB登录爆破，提交其IP</h3><p><code>http contains &quot;/login.php&quot; &amp;&amp; http.request.method == &quot;POST&quot;</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513014045752.png" alt="image-20250513014045752"></p>
+<p><code>count () by http,id.orig_h,uri,method|uri == &quot;/login.php&quot; | method==&quot;POST&quot; | sort -r count</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513013502183.png" alt="image-20250513013502183"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">通过跟进IP</span><br><span class="line">192.168.37.87、192.168.37.200</span><br><span class="line">存在爆破行为</span><br><span class="line">即ip为</span><br><span class="line">192.168.37.87&amp;192.168.37.200</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-运维人员发现有IP进行了WEB登录爆破，提交其爆破次数"><a href="#7-运维人员发现有IP进行了WEB登录爆破，提交其爆破次数" class="headerlink" title="7.运维人员发现有IP进行了WEB登录爆破，提交其爆破次数"></a>7.运维人员发现有IP进行了WEB登录爆破，提交其爆破次数</h3><p><code>http contains &quot;/login.php&quot; &amp;&amp; http.request.method == &quot;POST&quot; &amp;&amp; (ip.src == 192.168.37.87 ||  ip.src ==192.168.37.200)</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513015217616.png" alt="image-20250513015217616"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">由6得或由过滤流量显示次数为112</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-运维发现数据库疑似被写入了垃圾用户-批量注册-请提交其IP"><a href="#8-运维发现数据库疑似被写入了垃圾用户-批量注册-请提交其IP" class="headerlink" title="8.运维发现数据库疑似被写入了垃圾用户(批量注册)请提交其IP"></a>8.运维发现数据库疑似被写入了垃圾用户(批量注册)请提交其IP</h3><p><code>http contains &quot;/register.php&quot; &amp;&amp; http.request.method == &quot;POST&quot;</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513015502820.png" alt="image-20250513015502820"></p>
+<p><code>count () by http,id.orig_h,uri,method|uri == &quot;/register.php&quot; | method==&quot;POST&quot; | sort -r count</code><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513030944316.png" alt="image-20250513030944316"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">跟进可确定IP为192.168.37.177</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-运维发现数据库疑似被写入了垃圾用户-批量注册-请提交注册成功数量"><a href="#9-运维发现数据库疑似被写入了垃圾用户-批量注册-请提交注册成功数量" class="headerlink" title="9.运维发现数据库疑似被写入了垃圾用户(批量注册)请提交注册成功数量"></a>9.运维发现数据库疑似被写入了垃圾用户(批量注册)请提交注册成功数量</h3><p><code>http contains &quot;/register.php&quot; &amp;&amp; http.request.method == &quot;POST&quot; &amp;&amp; ip.src == 192.168.37.177</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513020438226.png" alt="image-20250513020438226"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">通过流量对比数据库</span><br><span class="line">可知 攻击者写zhangsan0 一直写到 zhangsan57</span><br><span class="line">即数量为58</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-请提交攻击者登录成功admin用户的IP及密码，以-连接"><a href="#10-请提交攻击者登录成功admin用户的IP及密码，以-连接" class="headerlink" title="10.请提交攻击者登录成功admin用户的IP及密码，以&amp;连接"></a>10.请提交攻击者登录成功admin用户的IP及密码，以&amp;连接</h3><p><code>http.request.uri == &quot;/admin/index.php&quot;</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513023054617.png" alt="image-20250513023054617"><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513022733649.png" alt="image-20250513022733649"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">即192.168.37.200&amp;zhoudi123</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-数据库疑似被脱库，你需要找到漏洞点，如漏洞文件"><a href="#11-数据库疑似被脱库，你需要找到漏洞点，如漏洞文件" class="headerlink" title="11.数据库疑似被脱库，你需要找到漏洞点，如漏洞文件"></a>11.数据库疑似被脱库，你需要找到漏洞点，如漏洞文件</h3><p><code>count () by http,status_code,id.orig_h,uri|status_code != 404 | id.orig_h==192.168.37.200 | sort -r count</code></p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513024641853.png" alt="image-20250513024641853"><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513023300881.png" alt="image-20250513023300881"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">大量请求settings.php流量</span><br><span class="line">即/admin/settings.php存在SQL注入</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-找到攻击者获取医院数据-患者身份信息的数量"><a href="#12-找到攻击者获取医院数据-患者身份信息的数量" class="headerlink" title="12.找到攻击者获取医院数据(患者身份信息的数量)"></a>12.找到攻击者获取医院数据(患者身份信息的数量)</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513023750641.png" alt="image-20250513023750641"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513023905399.png" alt="image-20250513023905399"><br><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250513025847692.png" alt="image-20250513025847692"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sql注入 报错注入</span><br><span class="line">计数为11997</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%A6%96%E6%AC%A1%E5%8F%91%E8%B5%B7%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F%E7%9A%84IP%E6%98%AF"><span class="toc-number">1.1.</span> <span class="toc-text">1.首次发起端口扫描的IP是</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%A1%E8%AE%A1%E6%B5%81%E9%87%8F%E5%92%8C%E6%97%A5%E5%BF%97%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D%E6%89%AB%E6%8F%8F%E6%AC%A1%E6%95%B0%E6%9C%80%E5%A4%9A%E7%9A%84IP"><span class="toc-number">1.2.</span> <span class="toc-text">2.审计流量和日志快速定位扫描次数最多的IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%A1%E8%AE%A1%E6%B5%81%E9%87%8F%E5%92%8C%E6%97%A5%E5%BF%97%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D%E6%89%AB%E6%8F%8F%E6%AC%A1%E6%95%B0%E7%AC%AC%E4%BA%8C%E7%9A%84IP"><span class="toc-number">1.3.</span> <span class="toc-text">3.审计流量和日志快速定位扫描次数第二的IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%93%AA%E4%B8%AAIP%E4%BD%BF%E7%94%A8%E4%BA%86AWVS%E6%89%AB%E6%8F%8F%E5%99%A8"><span class="toc-number">1.4.</span> <span class="toc-text">4.哪个IP使用了AWVS扫描器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%BF%98%E6%9C%89%E4%B8%AAIP%E4%B9%9F%E4%BD%BF%E7%94%A8%E4%BA%86%E6%89%AB%E6%8F%8F%E5%99%A8%E8%BF%9B%E8%A1%8C%E4%B8%BB%E6%9C%BA-WEB%E6%89%AB%E6%8F%8F%EF%BC%8C%E6%8F%90%E4%BA%A4%E5%85%B6%E6%89%AB%E6%8F%8F%E6%AC%A1%E6%95%B0-%E4%BB%A5wireshark%E6%95%B0%E9%87%8F%E4%B8%BA%E4%B8%BB"><span class="toc-number">1.5.</span> <span class="toc-text">5.还有个IP也使用了扫描器进行主机+WEB扫描，提交其扫描次数(以wireshark数量为主)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E8%BF%90%E7%BB%B4%E4%BA%BA%E5%91%98%E5%8F%91%E7%8E%B0%E6%9C%89IP%E8%BF%9B%E8%A1%8C%E4%BA%86WEB%E7%99%BB%E5%BD%95%E7%88%86%E7%A0%B4%EF%BC%8C%E6%8F%90%E4%BA%A4%E5%85%B6IP"><span class="toc-number">1.6.</span> <span class="toc-text">6.运维人员发现有IP进行了WEB登录爆破，提交其IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E8%BF%90%E7%BB%B4%E4%BA%BA%E5%91%98%E5%8F%91%E7%8E%B0%E6%9C%89IP%E8%BF%9B%E8%A1%8C%E4%BA%86WEB%E7%99%BB%E5%BD%95%E7%88%86%E7%A0%B4%EF%BC%8C%E6%8F%90%E4%BA%A4%E5%85%B6%E7%88%86%E7%A0%B4%E6%AC%A1%E6%95%B0"><span class="toc-number">1.7.</span> <span class="toc-text">7.运维人员发现有IP进行了WEB登录爆破，提交其爆破次数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E8%BF%90%E7%BB%B4%E5%8F%91%E7%8E%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E7%96%91%E4%BC%BC%E8%A2%AB%E5%86%99%E5%85%A5%E4%BA%86%E5%9E%83%E5%9C%BE%E7%94%A8%E6%88%B7-%E6%89%B9%E9%87%8F%E6%B3%A8%E5%86%8C-%E8%AF%B7%E6%8F%90%E4%BA%A4%E5%85%B6IP"><span class="toc-number">1.8.</span> <span class="toc-text">8.运维发现数据库疑似被写入了垃圾用户(批量注册)请提交其IP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E8%BF%90%E7%BB%B4%E5%8F%91%E7%8E%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E7%96%91%E4%BC%BC%E8%A2%AB%E5%86%99%E5%85%A5%E4%BA%86%E5%9E%83%E5%9C%BE%E7%94%A8%E6%88%B7-%E6%89%B9%E9%87%8F%E6%B3%A8%E5%86%8C-%E8%AF%B7%E6%8F%90%E4%BA%A4%E6%B3%A8%E5%86%8C%E6%88%90%E5%8A%9F%E6%95%B0%E9%87%8F"><span class="toc-number">1.9.</span> <span class="toc-text">9.运维发现数据库疑似被写入了垃圾用户(批量注册)请提交注册成功数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E8%AF%B7%E6%8F%90%E4%BA%A4%E6%94%BB%E5%87%BB%E8%80%85%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9Fadmin%E7%94%A8%E6%88%B7%E7%9A%84IP%E5%8F%8A%E5%AF%86%E7%A0%81%EF%BC%8C%E4%BB%A5-%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.10.</span> <span class="toc-text">10.请提交攻击者登录成功admin用户的IP及密码，以&amp;连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%96%91%E4%BC%BC%E8%A2%AB%E8%84%B1%E5%BA%93%EF%BC%8C%E4%BD%A0%E9%9C%80%E8%A6%81%E6%89%BE%E5%88%B0%E6%BC%8F%E6%B4%9E%E7%82%B9%EF%BC%8C%E5%A6%82%E6%BC%8F%E6%B4%9E%E6%96%87%E4%BB%B6"><span class="toc-number">1.11.</span> <span class="toc-text">11.数据库疑似被脱库，你需要找到漏洞点，如漏洞文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E6%89%BE%E5%88%B0%E6%94%BB%E5%87%BB%E8%80%85%E8%8E%B7%E5%8F%96%E5%8C%BB%E9%99%A2%E6%95%B0%E6%8D%AE-%E6%82%A3%E8%80%85%E8%BA%AB%E4%BB%BD%E4%BF%A1%E6%81%AF%E7%9A%84%E6%95%B0%E9%87%8F"><span class="toc-number">1.12.</span> <span class="toc-text">12.找到攻击者获取医院数据(患者身份信息的数量)</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&text=应急加固-医院脱库应急处理"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&title=应急加固-医院脱库应急处理"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&is_video=false&description=应急加固-医院脱库应急处理"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=应急加固-医院脱库应急处理&body=Check out this article: https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&title=应急加固-医院脱库应急处理"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&title=应急加固-医院脱库应急处理"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&title=应急加固-医院脱库应急处理"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&title=应急加固-医院脱库应急处理"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&name=应急加固-医院脱库应急处理&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/&t=应急加固-医院脱库应急处理"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
